@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="web spider center">
+    <meta name="author" content="wuyadong">
+    <title>Web spider center</title>
+    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://www.tigerknows.com">tigerknows</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="homepage.html">Home</a></li>
+                    <li><a href="schedule.html">schedule</a></li>
+                    <li><a href="spider.html">spider</a></li>
+                    <li class="active"><a href="worker.html">worker</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<div class="container theme-showcase">
+    <br/>
+    <br/>
+    <h2>statistic</h2>
+    <div class="panel-success">
+        <div class="panel-heading">worker的统计信息如下：</div>
+        <div class="panel-body">
+        <div class="panel-danger">
+            <div class="panel-heading">start_time</div>
+            <div class="panel-body">{{statistic.start_time}}</div>
+        </div>
+        <div class="panel-danger">
+            <div class="panel-heading">end_time</div>
+            <div class="panel-body">{{statistic.end_time}}</div>
+        </div>
+        <div class="panel-danger">
+            <div class="panel-heading">spider success</div>
+            <div class="panel-body">
+                  <table class="table">
+                      <thead><tr><th>name</th><th>number</th></tr></thead>
+                      <tbody>
+                      {%for key, value in statistic.parser2success.items()%}
+                      <tr><td>{{key}}</td><td>{{value}}</td></tr>
+                      {%end%}
+                      </tbody>
+                  </table>
+            </div>
+        </div>
+        <div class="panel-danger">
+            <div class="panel-heading">spider retry</div>
+            <div class="panel-body">
+                  <table class="table">
+                      <thead><tr><th>name</th><th>reason</th><th>number</th></tr></thead>
+                      <tbody>
+                      {%for key, value in statistic.parser2retry.items()%}
+                      {%for reason, count in value.items()%}
+                      <tr><td>{{key}}</td><td>{{reason}}</td><td>{{count}}</td></tr>
+                      {%end%}
+                      {%end%}
+                      </tbody>
+                  </table>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

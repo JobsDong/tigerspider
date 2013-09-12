@@ -1,0 +1,5247 @@
+----------------------------------2013-08-22 13:40:38.366000----------------------------------------
+crawl start time: 2013-08-22 13:23:16.538000
+
+
+crawl end time: 2013-08-22 13:40:38.366000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+----------------------------------2013-08-22 14:08:38.320000----------------------------------------
+crawl start time: 2013-08-22 14:02:27.820000
+
+
+crawl end time: 2013-08-22 14:08:38.320000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+DealParser: 2
+WebParser: 5018
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 error:HTTP 599: Operation timed out after 4649 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 5040 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 4930 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 4743 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Connection timed out after 2009 milliseconds: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 4696 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 4962 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 4837 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 4602 milliseconds with 0 out of -1 bytes received: 1
+fetch error, code:599 error:HTTP 599: Operation timed out after 4008 milliseconds with 0 out of -1 bytes received: 1
+
+
+
+spider fetch interval:
+----------------------------------2013-08-22 14:16:32.304000----------------------------------------
+crawl start time: 2013-08-22 14:14:39.413000
+
+
+crawl end time: 2013-08-22 14:16:32.304000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+DealParser: 2
+WebParser: 2120
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 13
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-22 14:14:39.460000: 0:00:11.828000
+
+spider name: WebParser
+2013-08-22 14:14:56.366000: 0:00:00.582134
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-22 14:14:51.288000: 0:00:04.985000
+
+spider name:WebParser
+2013-08-22 14:14:56.788000: 0:00:00.043431
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-23 09:42:25.390000----------------------------------------
+crawl start time: 2013-08-23 09:42:03.234000
+
+
+crawl end time: 2013-08-23 09:42:25.375000
+
+
+worker name: worker-0
+
+
+spider name: ProxySpider
+
+
+spider success count:
+ItmopHostParser: 2
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: ItmopHostParser
+2013-08-23 09:42:04.281000: 0:00:00.875000
+
+
+
+spider extract interval:
+spider name:ItmopHostParser
+2013-08-23 09:42:05.156000: 0:00:00.031000
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-23 10:11:57.343000----------------------------------------
+crawl start time: 2013-08-23 10:11:34.281000
+
+
+crawl end time: 2013-08-23 10:11:57.343000
+
+
+worker name: worker-0
+
+
+spider name: ProxySpider
+
+
+spider success count:
+ItmopParser: 2
+ItmopHostParser: 2
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: ItmopParser
+2013-08-23 10:11:36.328000: 0:00:00.047000
+
+spider name: ItmopHostParser
+2013-08-23 10:11:35.312000: 0:00:00.969000
+
+
+
+spider extract interval:
+spider name:ItmopParser
+2013-08-23 10:11:36.375000: 0:00:00
+
+spider name:ItmopHostParser
+2013-08-23 10:11:36.281000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-27 17:39:35.453000----------------------------------------
+crawl start time: 2013-08-27 17:37:18.500000
+
+
+crawl end time: 2013-08-27 17:39:35.453000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+DealParser: 2
+PictureParser: 2178
+WebParser: 2178
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-27 17:37:18.546000: 0:00:11.532000
+
+spider name: PictureParser
+2013-08-27 17:37:37.984000: 0:00:00.403230
+
+spider name: WebParser
+2013-08-27 17:37:37.859000: 0:00:00.421753
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-27 17:37:30.093000: 0:00:07.766000
+
+spider name:PictureParser
+2013-08-27 17:37:38.093000: 0:00:00.000003
+
+spider name:WebParser
+2013-08-27 17:37:38.265000: 0:00:00.018154
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-28 10:43:52.625000----------------------------------------
+crawl start time: 2013-08-28 10:40:45.171000
+
+
+crawl end time: 2013-08-28 10:43:52.625000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 1097
+DealItem: 1097
+DealParser: 2
+WebParser: 2194
+PictureItem: 1097
+PictureParser: 2194
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-28 10:40:45.218000: 0:00:11.938000
+
+spider name: PictureParser
+2013-08-28 10:41:02.453000: 0:00:00.285162
+
+spider name: WebParser
+2013-08-28 10:41:02.421000: 0:00:00.485501
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-28 10:40:57.156000: 0:00:05.265000
+
+spider name:PictureParser
+2013-08-28 10:41:02.500000: 0:00:00.003194
+
+spider name:WebParser
+2013-08-28 10:41:02.812000: 0:00:00.075579
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 16:00:37.143000----------------------------------------
+crawl start time: 2013-08-29 15:59:45.143000
+
+
+crawl end time: 2013-08-29 16:00:37.143000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 189
+DealItem: 1101
+DealParser: 2
+WebParser: 378
+PictureItem: 188
+PictureParser: 376
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 15:59:45.299000: 0:00:11.594000
+
+spider name: PictureParser
+2013-08-29 16:00:03.002000: 0:00:00.339374
+
+spider name: WebParser
+2013-08-29 16:00:02.971000: 0:00:00.524413
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 15:59:56.893000: 0:00:06.078000
+
+spider name:PictureParser
+2013-08-29 16:00:03.096000: 0:00:00.019448
+
+spider name:WebParser
+2013-08-29 16:00:03.252000: 0:00:00.080222
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 16:00:03.096000: 0:00:00.019114
+
+handle item name:WebItem
+2013-08-29 16:00:03.315000: 0:00:00.062675
+
+handle item name:DealItem
+2013-08-29 15:59:57.283000: 0:00:00.000910
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 16:18:58.424000----------------------------------------
+crawl start time: 2013-08-29 16:18:19.643000
+
+
+crawl end time: 2013-08-29 16:18:58.424000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 157
+DealItem: 1101
+DealParser: 2
+WebParser: 314
+PictureItem: 158
+PictureParser: 316
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 16:18:19.705000: 0:00:12.406000
+
+spider name: PictureParser
+2013-08-29 16:18:38.658000: 0:00:00.283478
+
+spider name: WebParser
+2013-08-29 16:18:38.518000: 0:00:00.557144
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 16:18:32.111000: 0:00:06.407000
+
+spider name:PictureParser
+2013-08-29 16:18:38.705000: 0:00:00.002448
+
+spider name:WebParser
+2013-08-29 16:18:38.877000: 0:00:00.029409
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 16:18:38.705000: 0:00:00.002348
+
+handle item name:WebItem
+2013-08-29 16:18:38.893000: 0:00:00.013438
+
+handle item name:DealItem
+2013-08-29 16:18:32.502000: 0:00:00.000907
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 16:33:06.627000----------------------------------------
+crawl start time: 2013-08-29 16:32:09.049000
+
+
+crawl end time: 2013-08-29 16:33:06.627000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 200
+DealItem: 1100
+DealParser: 2
+WebParser: 400
+PictureItem: 198
+PictureParser: 396
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 16:32:09.096000: 0:00:11.984000
+
+spider name: PictureParser
+2013-08-29 16:32:29.315000: 0:00:00.368980
+
+spider name: WebParser
+2013-08-29 16:32:29.018000: 0:00:00.923994
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 16:32:21.080000: 0:00:07.938000
+
+spider name:PictureParser
+2013-08-29 16:32:29.377000: 0:00:00.008520
+
+spider name:WebParser
+2013-08-29 16:32:29.580000: 0:00:00.048740
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 16:32:29.377000: 0:00:00.008359
+
+handle item name:WebItem
+2013-08-29 16:32:29.596000: 0:00:00.030478
+
+handle item name:DealItem
+2013-08-29 16:32:21.424000: 0:00:00.001017
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 16:36:02.705000----------------------------------------
+crawl start time: 2013-08-29 16:35:52.049000
+
+
+crawl end time: 2013-08-29 16:36:02.705000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+
+
+spider retry count:
+
+
+spider fetch interval:
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 16:37:01.971000----------------------------------------
+crawl start time: 2013-08-29 16:36:43.205000
+
+
+crawl end time: 2013-08-29 16:37:01.971000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+PictureItem: 1
+DealParser: 2
+PictureParser: 2
+DealItem: 1100
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 16:36:43.236000: 0:00:11.532000
+
+spider name: PictureParser
+2013-08-29 16:37:01.768000: 0:00:00.156000
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 16:36:54.768000: 0:00:06.968000
+
+spider name:PictureParser
+2013-08-29 16:37:01.940000: 0:00:00.015000
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 16:37:01.940000: 0:00:00.015000
+
+handle item name:DealItem
+2013-08-29 16:36:55.283000: 0:00:00.000999
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 16:59:59.971000----------------------------------------
+crawl start time: 2013-08-29 16:58:43.236000
+
+
+crawl end time: 2013-08-29 16:59:59.971000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+PictureItem: 506
+DealParser: 2
+PictureParser: 1012
+WebParser: 1022
+DealItem: 1100
+
+
+spider retry count:
+WebItem: 
+Unsupported: 511
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 16:58:43.283000: 0:00:12.063000
+
+spider name: PictureParser
+2013-08-29 16:59:01.518000: 0:00:00.314777
+
+spider name: WebParser
+2013-08-29 16:59:01.377000: 0:00:00.466210
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 16:58:55.346000: 0:00:06.015000
+
+spider name:PictureParser
+2013-08-29 16:59:01.611000: 0:00:00.004057
+
+spider name:WebParser
+2013-08-29 16:59:01.705000: 0:00:00.020175
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 16:59:01.611000: 0:00:00.004057
+
+handle item name:DealItem
+2013-08-29 16:58:55.674000: 0:00:00.000810
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 17:07:13.299000----------------------------------------
+crawl start time: 2013-08-29 17:06:10.174000
+
+
+crawl end time: 2013-08-29 17:07:13.299000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 357
+DealItem: 1100
+DealParser: 2
+WebParser: 714
+PictureItem: 358
+PictureParser: 716
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 17:06:10.205000: 0:00:11.891000
+
+spider name: PictureParser
+2013-08-29 17:06:27.924000: 0:00:00.290327
+
+spider name: WebParser
+2013-08-29 17:06:27.893000: 0:00:00.480659
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 17:06:22.096000: 0:00:05.797000
+
+spider name:PictureParser
+2013-08-29 17:06:28.002000: 0:00:00.004314
+
+spider name:WebParser
+2013-08-29 17:06:28.377000: 0:00:00.038887
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 17:06:28.002000: 0:00:00.004181
+
+handle item name:WebItem
+2013-08-29 17:06:28.393000: 0:00:00.023251
+
+handle item name:DealItem
+2013-08-29 17:06:22.424000: 0:00:00.000708
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 17:13:07.627000----------------------------------------
+crawl start time: 2013-08-29 17:12:26.799000
+
+
+crawl end time: 2013-08-29 17:13:07.627000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 200
+DealItem: 1100
+DealParser: 2
+WebParser: 400
+PictureItem: 199
+PictureParser: 398
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 17:12:26.924000: 0:00:12.250000
+
+spider name: PictureParser
+2013-08-29 17:12:45.940000: 0:00:00.174842
+
+spider name: WebParser
+2013-08-29 17:12:45.877000: 0:00:00.445588
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 17:12:39.174000: 0:00:06.641000
+
+spider name:PictureParser
+2013-08-29 17:12:45.986000: 0:00:00.002386
+
+spider name:WebParser
+2013-08-29 17:12:46.377000: 0:00:00.029877
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 17:12:45.986000: 0:00:00.002239
+
+handle item name:WebItem
+2013-08-29 17:12:46.393000: 0:00:00.013144
+
+handle item name:DealItem
+2013-08-29 17:12:39.502000: 0:00:00.000988
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 17:22:30.393000----------------------------------------
+crawl start time: 2013-08-29 17:21:30.143000
+
+
+crawl end time: 2013-08-29 17:22:30.393000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 345
+DealItem: 1100
+DealParser: 2
+WebParser: 690
+PictureItem: 338
+PictureParser: 676
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 5
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 17:21:30.174000: 0:00:12.172000
+
+spider name: WebParser
+2013-08-29 17:21:48.049000: 0:00:00.470939
+
+spider name: PictureParser
+2013-08-29 17:21:48.236000: 0:00:00.438747
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 17:21:42.346000: 0:00:05.703000
+
+spider name:WebParser
+2013-08-29 17:21:48.283000: 0:00:00.033532
+
+spider name:PictureParser
+2013-08-29 17:21:48.346000: 0:00:00.002976
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-08-29 17:21:48.283000: 0:00:00.017856
+
+handle item name:PictureItem
+2013-08-29 17:21:48.346000: 0:00:00.002792
+
+handle item name:DealItem
+2013-08-29 17:21:42.690000: 0:00:00.000886
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-29 17:34:32.861000----------------------------------------
+crawl start time: 2013-08-29 17:33:31.955000
+
+
+crawl end time: 2013-08-29 17:34:32.861000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 373
+DealItem: 1100
+DealParser: 2
+WebParser: 746
+PictureItem: 375
+PictureParser: 750
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-29 17:33:31.986000: 0:00:11.563000
+
+spider name: PictureParser
+2013-08-29 17:33:50.643000: 0:00:00.208449
+
+spider name: WebParser
+2013-08-29 17:33:50.580000: 0:00:00.409618
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-29 17:33:43.549000: 0:00:07.031000
+
+spider name:PictureParser
+2013-08-29 17:33:50.721000: 0:00:00.002934
+
+spider name:WebParser
+2013-08-29 17:33:50.861000: 0:00:00.035454
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-29 17:33:50.721000: 0:00:00.002551
+
+handle item name:WebItem
+2013-08-29 17:33:50.877000: 0:00:00.019218
+
+handle item name:DealItem
+2013-08-29 17:33:43.908000: 0:00:00.001085
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-30 10:29:34.281000----------------------------------------
+crawl start time: 2013-08-30 10:27:29.015000
+
+
+crawl end time: 2013-08-30 10:29:34.250000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 553
+DealItem: 1111
+DealParser: 2
+WebParser: 1106
+PictureItem: 555
+PictureParser: 1110
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-30 10:27:29.140000: 0:00:11.938000
+
+spider name: PictureParser
+2013-08-30 10:27:46.765000: 0:00:00.653713
+
+spider name: WebParser
+2013-08-30 10:27:46.796000: 0:00:00.875961
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-30 10:27:41.078000: 0:00:05.625000
+
+spider name:PictureParser
+2013-08-30 10:27:46.953000: 0:00:00.012055
+
+spider name:WebParser
+2013-08-30 10:27:46.968000: 0:00:00.017542
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-30 10:27:46.953000: 0:00:00.011772
+
+handle item name:WebItem
+2013-08-30 10:27:46.984000: 0:00:00.000776
+
+handle item name:DealItem
+2013-08-30 10:27:41.468000: 0:00:00.000851
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-30 10:30:02.531000----------------------------------------
+crawl start time: 2013-08-30 10:27:51.453000
+
+
+crawl end time: 2013-08-30 10:30:02.531000
+
+
+worker name: worker-1
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 727
+DealItem: 1111
+DealParser: 2
+WebParser: 1454
+PictureItem: 730
+PictureParser: 1460
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-30 10:27:51.531000: 0:00:11.750000
+
+spider name: PictureParser
+2013-08-30 10:28:09.265000: 0:00:00.464506
+
+spider name: WebParser
+2013-08-30 10:28:09.171000: 0:00:00.714119
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-30 10:28:03.281000: 0:00:05.875000
+
+spider name:PictureParser
+2013-08-30 10:28:09.281000: 0:00:00.004211
+
+spider name:WebParser
+2013-08-30 10:28:09.453000: 0:00:00.017625
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-30 10:28:09.281000: 0:00:00.004123
+
+handle item name:WebItem
+2013-08-30 10:28:09.468000: 0:00:00.000664
+
+handle item name:DealItem
+2013-08-30 10:28:03.953000: 0:00:00.000771
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-30 11:14:39.203000----------------------------------------
+crawl start time: 2013-08-30 11:13:20.421000
+
+
+crawl end time: 2013-08-30 11:14:39.203000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 420
+DealItem: 1111
+DealParser: 2
+WebParser: 840
+PictureItem: 420
+PictureParser: 840
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-30 11:13:20.484000: 0:00:12.094000
+
+spider name: PictureParser
+2013-08-30 11:13:38.609000: 0:00:00.374106
+
+spider name: WebParser
+2013-08-30 11:13:38.578000: 0:00:00.464452
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-30 11:13:32.578000: 0:00:06
+
+spider name:PictureParser
+2013-08-30 11:13:38.671000: 0:00:00.001272
+
+spider name:WebParser
+2013-08-30 11:13:38.796000: 0:00:00.042536
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-30 11:13:38.671000: 0:00:00.001129
+
+handle item name:WebItem
+2013-08-30 11:13:38.812000: 0:00:00.026713
+
+handle item name:DealItem
+2013-08-30 11:13:32.906000: 0:00:00.000987
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-08-30 11:14:48.781000----------------------------------------
+crawl start time: 2013-08-30 11:14:04.187000
+
+
+crawl end time: 2013-08-30 11:14:48.781000
+
+
+worker name: worker-1
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 186
+DealItem: 1111
+DealParser: 2
+WebParser: 372
+PictureItem: 184
+PictureParser: 368
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-08-30 11:14:04.234000: 0:00:12.234000
+
+spider name: PictureParser
+2013-08-30 11:14:22.953000: 0:00:00.342834
+
+spider name: WebParser
+2013-08-30 11:14:22.718000: 0:00:00.530572
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-08-30 11:14:16.468000: 0:00:06.235000
+
+spider name:PictureParser
+2013-08-30 11:14:23: 0:00:00.001740
+
+spider name:WebParser
+2013-08-30 11:14:23.203000: 0:00:00.030059
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-08-30 11:14:23: 0:00:00.001407
+
+handle item name:WebItem
+2013-08-30 11:14:23.218000: 0:00:00.013018
+
+handle item name:DealItem
+2013-08-30 11:14:17.140000: 0:00:00.000987
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-03 15:57:26.093000----------------------------------------
+crawl start time: 2013-09-03 15:54:00.468000
+
+
+crawl end time: 2013-09-03 15:57:26.093000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 1091
+DealParser: 2
+WebParser: 2182
+DealItem: 1102
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 2
+fetch error, code:403 : 1100
+
+WebParser: 
+fetch error, code:599 : 11
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-03 15:54:00.531000: 0:00:12.094000
+
+spider name: PictureParser
+2013-09-03 15:54:18.468000: 0:00:00.188817
+
+spider name: WebParser
+2013-09-03 15:54:18.421000: 0:00:00.802803
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-03 15:54:12.625000: 0:00:05.781000
+
+spider name:WebParser
+2013-09-03 15:54:18.875000: 0:00:00.035991
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-03 15:54:18.875000: 0:00:00.020832
+
+handle item name:DealItem
+2013-09-03 15:54:13: 0:00:00.000745
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-03 16:53:21.281000----------------------------------------
+crawl start time: 2013-09-03 16:50:33.453000
+
+
+crawl end time: 2013-09-03 16:53:21.281000
+
+
+worker name: worker-0
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 1102
+DealItem: 1102
+DealParser: 2
+WebParser: 2204
+PictureItem: 1101
+PictureParser: 2202
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-03 16:50:33.500000: 0:00:12.078000
+
+spider name: PictureParser
+2013-09-03 16:50:51.375000: 0:00:00.239000
+
+spider name: WebParser
+2013-09-03 16:50:51.328000: 0:00:00.716217
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-03 16:50:45.578000: 0:00:05.750000
+
+spider name:PictureParser
+2013-09-03 16:50:52.296000: 0:00:00.007300
+
+spider name:WebParser
+2013-09-03 16:50:52.312000: 0:00:00.030637
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-03 16:50:52.296000: 0:00:00.007182
+
+handle item name:WebItem
+2013-09-03 16:50:52.328000: 0:00:00.014621
+
+handle item name:DealItem
+2013-09-03 16:50:45.906000: 0:00:00.000649
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-05 10:23:33.156000----------------------------------------
+crawl start time: 2013-09-05 10:20:32.296000
+
+
+crawl end time: 2013-09-05 10:23:33.140000
+
+
+worker name: worker-133524369618116262649467866919655892916
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem: 1134
+WebParser-extract: 1134
+WebParser-fetch: 1134
+DealItem: 1134
+PictureParser-fetch: 1133
+DealParser-fetch: 1
+DealParser-extract: 1
+PictureParser-extract: 1133
+PictureItem: 1133
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-05 10:20:32.375000: 0:00:11.968000
+
+spider name: PictureParser
+2013-09-05 10:20:50.984000: 0:00:00.389347
+
+spider name: WebParser
+2013-09-05 10:20:51.171000: 0:00:00.659673
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-05 10:20:44.343000: 0:00:06.563000
+
+spider name:PictureParser
+2013-09-05 10:20:51.031000: 0:00:00.008847
+
+spider name:WebParser
+2013-09-05 10:20:54.343000: 0:00:00.037664
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-05 10:20:51.031000: 0:00:00.008779
+
+handle item name:WebItem
+2013-09-05 10:20:54.359000: 0:00:00.021852
+
+handle item name:DealItem
+2013-09-05 10:20:44.703000: 0:00:00.000932
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-05 14:18:18.984000----------------------------------------
+crawl start time: 2013-09-05 14:18:05.062000
+
+
+crawl end time: 2013-09-05 14:18:18.984000
+
+
+worker name: worker-59860151476634154455910102071167882780
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+DealParser-fetch: 1
+
+
+spider retry count:
+DealParser: 
+extract error: 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-05 14:18:05.125000: 0:00:12.859000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-05 14:21:58.515000----------------------------------------
+crawl start time: 2013-09-05 14:21:39.468000
+
+
+crawl end time: 2013-09-05 14:21:58.515000
+
+
+worker name: worker-198267112906021638681476515009268114627
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+DealParser-fetch: 1
+
+
+spider retry count:
+DealParser: 
+extract error: 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-05 14:21:39.531000: 0:00:17.969000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-05 14:54:37.375000----------------------------------------
+crawl start time: 2013-09-05 14:51:58.890000
+
+
+crawl end time: 2013-09-05 14:54:37.375000
+
+
+worker name: worker-276233528110670342979531221284320892608
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem-handle: 1133
+DealItem-handle: 1134
+WebParser-fetch: 1133
+PictureParser-fetch: 1134
+PictureItem-handle: 1134
+DealParser-extract: 1
+PictureParser-extract: 1134
+DealParser-fetch: 1
+WebParser-extract: 1133
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-05 14:51:58.937000: 0:00:11.906000
+
+spider name: PictureParser
+2013-09-05 14:52:17.031000: 0:00:00.186397
+
+spider name: WebParser
+2013-09-05 14:52:16.796000: 0:00:00.558169
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-05 14:52:10.843000: 0:00:05.953000
+
+spider name:PictureParser
+2013-09-05 14:52:17.093000: 0:00:00
+
+spider name:WebParser
+2013-09-05 14:52:17.218000: 0:00:00.026574
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-05 14:52:17.093000: 0:00:00
+
+handle item name:WebItem
+2013-09-05 14:52:17.234000: 0:00:00.011199
+
+handle item name:DealItem
+2013-09-05 14:52:11.187000: 0:00:00.000845
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-05 15:07:03.171000----------------------------------------
+crawl start time: 2013-09-05 15:04:08.171000
+
+
+crawl end time: 2013-09-05 15:07:03.171000
+
+
+worker name: worker-122327164095831076130614492151613303115
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem-handle: 1080
+PictureParser-extract: 1081
+WebParser-fetch: 1080
+PictureParser-fetch: 1081
+PictureItem-handle: 1081
+WebParser-extract: 1080
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: PictureParser
+2013-09-05 15:04:08.296000: 0:00:00.352194
+
+spider name: WebParser
+2013-09-05 15:04:08.906000: 0:00:01.147074
+
+
+
+spider extract interval:
+spider name:PictureParser
+2013-09-05 15:04:08.375000: 0:00:00
+
+spider name:WebParser
+2013-09-05 15:04:12.062000: 0:00:00.029409
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-05 15:04:08.375000: 0:00:00
+
+handle item name:WebItem
+2013-09-05 15:04:12.078000: 0:00:00.014052
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-05 15:09:35.375000----------------------------------------
+crawl start time: 2013-09-05 15:06:29.390000
+
+
+crawl end time: 2013-09-05 15:09:35.375000
+
+
+worker name: worker-190791754827494880899434448617664420122
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem-handle: 1133
+DealItem-handle: 1134
+WebParser-fetch: 1133
+PictureParser-fetch: 1134
+PictureItem-handle: 1134
+DealParser-extract: 1
+PictureParser-extract: 1134
+DealParser-fetch: 1
+WebParser-extract: 1133
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-05 15:06:29.484000: 0:00:12.719000
+
+spider name: PictureParser
+2013-09-05 15:06:49.078000: 0:00:00.352584
+
+spider name: WebParser
+2013-09-05 15:06:48.500000: 0:00:01.110675
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-05 15:06:42.203000: 0:00:06.265000
+
+spider name:PictureParser
+2013-09-05 15:06:49.171000: 0:00:00
+
+spider name:WebParser
+2013-09-05 15:06:50.125000: 0:00:00.027950
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-05 15:06:49.171000: 0:00:00
+
+handle item name:WebItem
+2013-09-05 15:06:50.140000: 0:00:00.011993
+
+handle item name:DealItem
+2013-09-05 15:06:42.609000: 0:00:00.000859
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 11:32:31.281000----------------------------------------
+crawl start time: 2013-09-06 11:32:30.140000
+
+
+crawl end time: 2013-09-06 11:32:31.281000
+
+
+worker name: worker-288539211410539103630554846361110885534
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+
+
+spider retry count:
+CityParser: 
+fetch error, code:404 : 1
+
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-06 11:32:30.203000: 0:00:00.047000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 11:36:14.046000----------------------------------------
+crawl start time: 2013-09-06 11:36:12.859000
+
+
+crawl end time: 2013-09-06 11:36:14.031000
+
+
+worker name: worker-125163032545863920035821659659899789168
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+
+
+spider retry count:
+CityParser: 
+fetch error, code:404 : 1
+
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-06 11:36:12.921000: 0:00:00.047000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 11:36:44.546000----------------------------------------
+crawl start time: 2013-09-06 11:36:43.484000
+
+
+crawl end time: 2013-09-06 11:36:44.546000
+
+
+worker name: worker-89697835344170118442830367454578879504
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+
+
+spider retry count:
+CityParser: 
+fetch error, code:404 : 1
+
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-06 11:36:43.531000: 0:00:00.031000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 11:36:57.937000----------------------------------------
+crawl start time: 2013-09-06 11:36:56.859000
+
+
+crawl end time: 2013-09-06 11:36:57.937000
+
+
+worker name: worker-216172401791986101052072735501618377299
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+
+
+spider retry count:
+CityParser: 
+fetch error, code:404 : 1
+
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-06 11:36:56.921000: 0:00:00.016000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 11:37:16.140000----------------------------------------
+crawl start time: 2013-09-06 11:37:14.984000
+
+
+crawl end time: 2013-09-06 11:37:16.140000
+
+
+worker name: worker-194747638440499898407685038231098031538
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+
+
+spider retry count:
+CityParser: 
+fetch error, code:404 : 1
+
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-06 11:37:15.062000: 0:00:00.063000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 14:00:14.046000----------------------------------------
+crawl start time: 2013-09-06 14:00:11.031000
+
+
+crawl end time: 2013-09-06 14:00:14.046000
+
+
+worker name: worker-101335681509458351903281555785208142993
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+
+
+spider retry count:
+DealParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 14:00:11.093000: 0:00:02
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 14:10:37.609000----------------------------------------
+crawl start time: 2013-09-06 14:08:56.203000
+
+
+crawl end time: 2013-09-06 14:10:37.609000
+
+
+worker name: worker-1707503766164163785805140735993284898
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+DealItem-handle: 904
+WebParser-fetch: 894
+PictureParser-fetch: 904
+PictureItem-handle: 904
+DealParser-extract: 1
+PictureParser-extract: 904
+DealParser-fetch: 1
+WebParser-extract: 894
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 14:08:56.250000: 0:00:00.265000
+
+spider name: PictureParser
+2013-09-06 14:09:00.531000: 0:00:00.108586
+
+spider name: WebParser
+2013-09-06 14:09:00.468000: 0:00:00.202242
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 14:08:56.515000: 0:00:03.953000
+
+spider name:PictureParser
+2013-09-06 14:09:00.609000: 0:00:00.005026
+
+spider name:WebParser
+2013-09-06 14:09:00.640000: 0:00:00.012410
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 14:09:00.609000: 0:00:00.004874
+
+handle item name:DealItem
+2013-09-06 14:08:56.671000: 0:00:00.000783
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 14:17:13.046000----------------------------------------
+crawl start time: 2013-09-06 14:14:34.609000
+
+
+crawl end time: 2013-09-06 14:17:13.046000
+
+
+worker name: worker-103412007025623553917254075399422999750
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem-handle: 1135
+DealItem-handle: 1136
+WebParser-fetch: 1135
+PictureParser-fetch: 1136
+PictureItem-handle: 1136
+DealParser-extract: 1
+PictureParser-extract: 1136
+DealParser-fetch: 1
+WebParser-extract: 1135
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 14:14:34.656000: 0:00:12.109000
+
+spider name: PictureParser
+2013-09-06 14:14:53.312000: 0:00:00.263613
+
+spider name: WebParser
+2013-09-06 14:14:53.265000: 0:00:00.299287
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 14:14:46.765000: 0:00:06.406000
+
+spider name:PictureParser
+2013-09-06 14:14:53.359000: 0:00:00.003243
+
+spider name:WebParser
+2013-09-06 14:14:53.812000: 0:00:00.025785
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 14:14:53.359000: 0:00:00.003153
+
+handle item name:WebItem
+2013-09-06 14:14:53.828000: 0:00:00.010117
+
+handle item name:DealItem
+2013-09-06 14:14:47.109000: 0:00:00.000935
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 14:26:36.328000----------------------------------------
+crawl start time: 2013-09-06 14:25:55.406000
+
+
+crawl end time: 2013-09-06 14:26:36.328000
+
+
+worker name: worker-53024516219657531968303503171036978909
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+DealItem-handle: 904
+WebParser-fetch: 346
+PictureParser-fetch: 347
+PictureItem-handle: 347
+DealParser-extract: 1
+PictureParser-extract: 347
+DealParser-fetch: 1
+
+
+spider retry count:
+WebParser: 
+extract error: 346
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 14:25:55.468000: 0:00:00.438000
+
+spider name: PictureParser
+2013-09-06 14:26:00.046000: 0:00:00.085818
+
+spider name: WebParser
+2013-09-06 14:25:59.984000: 0:00:00.182252
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 14:25:55.906000: 0:00:04.078000
+
+spider name:PictureParser
+2013-09-06 14:26:00.140000: 0:00:00.000194
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 14:26:00.140000: 0:00:00
+
+handle item name:DealItem
+2013-09-06 14:25:56.281000: 0:00:00.000741
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 14:28:56.015000----------------------------------------
+crawl start time: 2013-09-06 14:26:33.187000
+
+
+crawl end time: 2013-09-06 14:28:56
+
+
+worker name: worker-217530901123780997629110832549897499753
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem-handle: 831
+DealItem-handle: 1136
+WebParser-fetch: 831
+PictureParser-fetch: 836
+PictureItem-handle: 836
+DealParser-extract: 1
+PictureParser-extract: 836
+DealParser-fetch: 1
+WebParser-extract: 831
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 1
+
+WebParser: 
+fetch error, code:599 : 3
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 14:26:33.250000: 0:00:12.781000
+
+spider name: PictureParser
+2013-09-06 14:26:55.015000: 0:00:00.323326
+
+spider name: WebParser
+2013-09-06 14:26:55.093000: 0:00:00.590789
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 14:26:46.031000: 0:00:08.937000
+
+spider name:PictureParser
+2013-09-06 14:26:55.156000: 0:00:00.000020
+
+spider name:WebParser
+2013-09-06 14:26:55.312000: 0:00:00.027179
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 14:26:55.156000: 0:00:00.000020
+
+handle item name:WebItem
+2013-09-06 14:26:55.328000: 0:00:00.011331
+
+handle item name:DealItem
+2013-09-06 14:26:46.921000: 0:00:00.001118
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 14:34:07.906000----------------------------------------
+crawl start time: 2013-09-06 14:32:37.328000
+
+
+crawl end time: 2013-09-06 14:34:07.906000
+
+
+worker name: worker-82118583939111306164480586229812592728
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+WebItem-handle: 511
+DealItem-handle: 1136
+WebParser-fetch: 512
+PictureParser-fetch: 514
+PictureItem-handle: 514
+DealParser-extract: 1
+PictureParser-extract: 514
+DealParser-fetch: 1
+WebParser-extract: 512
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 14:32:37.390000: 0:00:12.110000
+
+spider name: PictureParser
+2013-09-06 14:32:58.312000: 0:00:00.217496
+
+spider name: WebParser
+2013-09-06 14:32:58.171000: 0:00:00.381869
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 14:32:49.500000: 0:00:08.671000
+
+spider name:PictureParser
+2013-09-06 14:32:58.593000: 0:00:00.000189
+
+spider name:WebParser
+2013-09-06 14:32:58.656000: 0:00:00.028473
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 14:32:58.593000: 0:00:00.000110
+
+handle item name:WebItem
+2013-09-06 14:32:58.671000: 0:00:00.012897
+
+handle item name:DealItem
+2013-09-06 14:32:49.843000: 0:00:00.001184
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 14:38:29.328000----------------------------------------
+crawl start time: 2013-09-06 14:36:18.937000
+
+
+crawl end time: 2013-09-06 14:38:29.328000
+
+
+worker name: worker-255445075158363485973654491133765346244
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+DealItem-handle: 904
+WebParser-fetch: 894
+PictureParser-fetch: 900
+PictureItem-handle: 900
+DealParser-extract: 1
+PictureParser-extract: 900
+DealParser-fetch: 1
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+extract error: 894
+
+PictureParser: 
+fetch error, code:599 : 4
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 14:36:19: 0:00:00.250000
+
+spider name: PictureParser
+2013-09-06 14:36:26.093000: 0:00:00.613736
+
+spider name: WebParser
+2013-09-06 14:36:26.140000: 0:00:00.717943
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 14:36:19.250000: 0:00:06.703000
+
+spider name:PictureParser
+2013-09-06 14:36:26.171000: 0:00:00.000008
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 14:36:26.171000: 0:00:00
+
+handle item name:DealItem
+2013-09-06 14:36:19.421000: 0:00:00.001778
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 15:45:35.843000----------------------------------------
+crawl start time: 2013-09-06 15:42:31.703000
+
+
+crawl end time: 2013-09-06 15:45:35.843000
+
+
+worker name: worker-84785676047352118392239896324743313895
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 727
+DealItem-handle: 904
+WebParser-fetch: 891
+PictureParser-fetch: 901
+PictureItem-handle: 901
+DealParser-extract: 1
+PictureParser-extract: 901
+DealParser-fetch: 1
+WebParser-extract: 853
+
+
+spider retry count:
+WebItem: 
+Unsupported: 126
+
+WebParser: 
+fetch error, code:599 : 3
+fetch error, code:404 : 10
+extract error: 38
+
+PictureParser: 
+fetch error, code:599 : 3
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 15:42:31.765000: 0:00:08.688000
+
+spider name: PictureParser
+2013-09-06 15:42:45.765000: 0:00:00.728666
+
+spider name: WebParser
+2013-09-06 15:42:45.718000: 0:00:01.606079
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 15:42:40.468000: 0:00:05.250000
+
+spider name:PictureParser
+2013-09-06 15:42:45.859000: 0:00:00
+
+spider name:WebParser
+2013-09-06 15:42:45.906000: 0:00:00.040715
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 15:42:45.859000: 0:00:00
+
+handle item name:WebItem
+2013-09-06 15:42:45.937000: 0:00:00.019938
+
+handle item name:DealItem
+2013-09-06 15:42:40.765000: 0:00:00.001046
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 15:55:48.015000----------------------------------------
+crawl start time: 2013-09-06 15:52:37.406000
+
+
+crawl end time: 2013-09-06 15:55:48.015000
+
+
+worker name: worker-234197267210046431476966628107565864285
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 724
+DealItem-handle: 904
+WebParser-fetch: 890
+PictureParser-fetch: 901
+PictureItem-handle: 901
+DealParser-extract: 1
+PictureParser-extract: 901
+DealParser-fetch: 1
+WebParser-extract: 851
+
+
+spider retry count:
+WebItem: 
+Unsupported: 127
+
+WebParser: 
+fetch error, code:599 : 4
+fetch error, code:404 : 10
+extract error: 39
+
+PictureParser: 
+fetch error, code:599 : 3
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 15:52:37.468000: 0:00:08.516000
+
+spider name: PictureParser
+2013-09-06 15:52:50.187000: 0:00:00.797583
+
+spider name: WebParser
+2013-09-06 15:52:50.328000: 0:00:01.723970
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 15:52:46.015000: 0:00:04.125000
+
+spider name:PictureParser
+2013-09-06 15:52:50.265000: 0:00:00.001442
+
+spider name:WebParser
+2013-09-06 15:52:50.484000: 0:00:00.044214
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 15:52:50.265000: 0:00:00.001345
+
+handle item name:WebItem
+2013-09-06 15:52:50.531000: 0:00:00.023639
+
+handle item name:DealItem
+2013-09-06 15:52:46.265000: 0:00:00.000589
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 16:58:13.531000----------------------------------------
+crawl start time: 2013-09-06 16:55:55.718000
+
+
+crawl end time: 2013-09-06 16:58:13.531000
+
+
+worker name: worker-185209429544814276029777803901549450086
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 853
+DealItem-handle: 905
+WebParser-fetch: 892
+PictureParser-fetch: 902
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 853
+PictureItem-handle: 902
+PictureParser-extract: 902
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 3
+fetch error, code:404 : 10
+extract error: 39
+
+PictureParser: 
+fetch error, code:599 : 3
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 16:55:55.781000: 0:00:00.265000
+
+spider name: WebParser
+2013-09-06 16:56:02.171000: 0:00:00.981304
+
+spider name: PictureParser
+2013-09-06 16:56:02.218000: 0:00:00.405111
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 16:55:56.046000: 0:00:06.125000
+
+spider name:WebParser
+2013-09-06 16:56:02.281000: 0:00:00.036038
+
+spider name:PictureParser
+2013-09-06 16:56:02.375000: 0:00:00
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-06 16:56:02.296000: 0:00:00.012506
+
+handle item name:PictureItem
+2013-09-06 16:56:02.375000: 0:00:00
+
+handle item name:DealItem
+2013-09-06 16:55:56.234000: 0:00:00.001208
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 17:16:26.859000----------------------------------------
+crawl start time: 2013-09-06 17:14:29.843000
+
+
+crawl end time: 2013-09-06 17:16:26.859000
+
+
+worker name: worker-71022585596810165667726901131211688208
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 855
+DealItem-handle: 905
+WebParser-fetch: 895
+PictureParser-fetch: 904
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 855
+PictureItem-handle: 904
+PictureParser-extract: 904
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+extract error: 40
+
+PictureParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 17:14:29.906000: 0:00:00.344000
+
+spider name: WebParser
+2013-09-06 17:14:34.359000: 0:00:00.204069
+
+spider name: PictureParser
+2013-09-06 17:14:34.406000: 0:00:00.146293
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 17:14:30.250000: 0:00:04.109000
+
+spider name:WebParser
+2013-09-06 17:14:34.484000: 0:00:00.040811
+
+spider name:PictureParser
+2013-09-06 17:14:34.562000: 0:00:00.000074
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-06 17:14:34.500000: 0:00:00.016478
+
+handle item name:PictureItem
+2013-09-06 17:14:34.562000: 0:00:00.000016
+
+handle item name:DealItem
+2013-09-06 17:14:30.406000: 0:00:00.000577
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 17:36:58.312000----------------------------------------
+crawl start time: 2013-09-06 17:34:53.468000
+
+
+crawl end time: 2013-09-06 17:36:58.312000
+
+
+worker name: worker-36045789548303570783042644861786991846
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 894
+DealItem-handle: 905
+WebParser-fetch: 894
+PictureParser-fetch: 905
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 894
+PictureItem-handle: 905
+PictureParser-extract: 905
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+fetch error, code:404 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 17:34:53.531000: 0:00:00.250000
+
+spider name: WebParser
+2013-09-06 17:35:02.328000: 0:00:00.872548
+
+spider name: PictureParser
+2013-09-06 17:35:02.375000: 0:00:00.338674
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 17:34:53.781000: 0:00:08.547000
+
+spider name:WebParser
+2013-09-06 17:35:02.421000: 0:00:00.036340
+
+spider name:PictureParser
+2013-09-06 17:35:02.781000: 0:00:00
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-06 17:35:02.437000: 0:00:00.013252
+
+handle item name:PictureItem
+2013-09-06 17:35:02.781000: 0:00:00
+
+handle item name:DealItem
+2013-09-06 17:34:53.953000: 0:00:00.001520
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 17:41:38.218000----------------------------------------
+crawl start time: 2013-09-06 17:39:36.093000
+
+
+crawl end time: 2013-09-06 17:41:38.218000
+
+
+worker name: worker-315882578641965908105082410169457810098
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 894
+DealItem-handle: 905
+WebParser-fetch: 894
+PictureParser-fetch: 905
+PictureItem-handle: 905
+DealParser-extract: 1
+PictureParser-extract: 905
+DealParser-fetch: 1
+WebParser-extract: 894
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+fetch error, code:404 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 17:39:36.171000: 0:00:00.297000
+
+spider name: PictureParser
+2013-09-06 17:39:40.625000: 0:00:00.303735
+
+spider name: WebParser
+2013-09-06 17:39:40.687000: 0:00:00.803442
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 17:39:36.468000: 0:00:04.094000
+
+spider name:PictureParser
+2013-09-06 17:39:40.765000: 0:00:00.003798
+
+spider name:WebParser
+2013-09-06 17:39:40.796000: 0:00:00.037130
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-06 17:39:40.765000: 0:00:00.003689
+
+handle item name:WebItem
+2013-09-06 17:39:40.843000: 0:00:00.013857
+
+handle item name:DealItem
+2013-09-06 17:39:36.640000: 0:00:00.000673
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-06 18:33:05.250000----------------------------------------
+crawl start time: 2013-09-06 18:31:10.078000
+
+
+crawl end time: 2013-09-06 18:33:05.250000
+
+
+worker name: worker-276091968105029491570774528908299239252
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 855
+DealItem-handle: 905
+WebParser-fetch: 895
+PictureParser-fetch: 903
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 855
+PictureItem-handle: 903
+PictureParser-extract: 903
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+extract error: 40
+
+PictureParser: 
+fetch error, code:599 : 2
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-06 18:31:10.140000: 0:00:00.313000
+
+spider name: WebParser
+2013-09-06 18:31:15.093000: 0:00:00.223308
+
+spider name: PictureParser
+2013-09-06 18:31:15.140000: 0:00:00.365507
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-06 18:31:10.453000: 0:00:04.640000
+
+spider name:WebParser
+2013-09-06 18:31:15.187000: 0:00:00.041820
+
+spider name:PictureParser
+2013-09-06 18:31:15.375000: 0:00:00
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-06 18:31:15.218000: 0:00:00.017984
+
+handle item name:PictureItem
+2013-09-06 18:31:15.375000: 0:00:00
+
+handle item name:DealItem
+2013-09-06 18:31:10.609000: 0:00:00.000848
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-07 18:24:00.921000----------------------------------------
+crawl start time: 2013-09-07 18:21:49.468000
+
+
+crawl end time: 2013-09-07 18:24:00.921000
+
+
+worker name: worker-170943042851333243135867573847190198851
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 852
+DealItem-handle: 898
+WebParser-fetch: 887
+PictureParser-fetch: 888
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 852
+PictureItem-handle: 888
+PictureParser-extract: 888
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+fetch error, code:404 : 10
+extract error: 35
+
+PictureParser: 
+fetch error, code:599 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-07 18:21:49.609000: 0:00:00.297000
+
+spider name: WebParser
+2013-09-07 18:21:56.140000: 0:00:00.197215
+
+spider name: PictureParser
+2013-09-07 18:21:56.187000: 0:00:00.231530
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-07 18:21:49.906000: 0:00:06.234000
+
+spider name:WebParser
+2013-09-07 18:21:56.281000: 0:00:00.060205
+
+spider name:PictureParser
+2013-09-07 18:21:59.093000: 0:00:00.010412
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-07 18:21:56.312000: 0:00:00.033862
+
+handle item name:PictureItem
+2013-09-07 18:21:59.093000: 0:00:00.010310
+
+handle item name:DealItem
+2013-09-07 18:21:50.234000: 0:00:00.001188
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-07 19:01:17.968000----------------------------------------
+crawl start time: 2013-09-07 18:59:30.250000
+
+
+crawl end time: 2013-09-07 19:01:17.968000
+
+
+worker name: worker-87614828113058921503388537851361773940
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 888
+DealItem-handle: 898
+WebParser-fetch: 888
+PictureParser-fetch: 898
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 888
+PictureItem-handle: 898
+PictureParser-extract: 898
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-07 18:59:30.312000: 0:00:00.359000
+
+spider name: WebParser
+2013-09-07 18:59:34.609000: 0:00:00.238572
+
+spider name: PictureParser
+2013-09-07 18:59:34.656000: 0:00:00.093176
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-07 18:59:30.671000: 0:00:03.938000
+
+spider name:WebParser
+2013-09-07 18:59:34.718000: 0:00:00.039162
+
+spider name:PictureParser
+2013-09-07 18:59:34.796000: 0:00:00.000028
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-07 18:59:34.750000: 0:00:00.016125
+
+handle item name:PictureItem
+2013-09-07 18:59:34.796000: 0:00:00.000028
+
+handle item name:DealItem
+2013-09-07 18:59:30.828000: 0:00:00.000563
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-07 19:15:08.953000----------------------------------------
+crawl start time: 2013-09-07 19:13:18.406000
+
+
+crawl end time: 2013-09-07 19:15:08.953000
+
+
+worker name: worker-63650174299572379757021060440788925259
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 888
+DealItem-handle: 898
+WebParser-fetch: 888
+PictureParser-fetch: 898
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 888
+PictureItem-handle: 898
+PictureParser-extract: 898
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-07 19:13:18.468000: 0:00:00.328000
+
+spider name: WebParser
+2013-09-07 19:13:25.828000: 0:00:00.118419
+
+spider name: PictureParser
+2013-09-07 19:13:25.875000: 0:00:00.299276
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-07 19:13:18.796000: 0:00:07.016000
+
+spider name:WebParser
+2013-09-07 19:13:25.968000: 0:00:00.037760
+
+spider name:PictureParser
+2013-09-07 19:13:26.156000: 0:00:00
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-07 19:13:25.984000: 0:00:00.013810
+
+handle item name:PictureItem
+2013-09-07 19:13:26.156000: 0:00:00
+
+handle item name:DealItem
+2013-09-07 19:13:18.984000: 0:00:00.001170
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-07 19:36:29.343000----------------------------------------
+crawl start time: 2013-09-07 19:34:38.843000
+
+
+crawl end time: 2013-09-07 19:36:29.343000
+
+
+worker name: worker-57959916332809109811425005449210947078
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 867
+DealItem-handle: 898
+WebParser-fetch: 888
+PictureParser-fetch: 897
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 867
+PictureItem-handle: 897
+PictureParser-extract: 897
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+extract error: 21
+
+PictureParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-07 19:34:38.921000: 0:00:00.391000
+
+spider name: WebParser
+2013-09-07 19:34:43.328000: 0:00:00.154896
+
+spider name: PictureParser
+2013-09-07 19:34:43.375000: 0:00:00.197524
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-07 19:34:39.312000: 0:00:04.016000
+
+spider name:WebParser
+2013-09-07 19:34:43.484000: 0:00:00.040197
+
+spider name:PictureParser
+2013-09-07 19:34:43.640000: 0:00:00.003928
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-07 19:34:43.515000: 0:00:00.015737
+
+handle item name:PictureItem
+2013-09-07 19:34:43.640000: 0:00:00.003838
+
+handle item name:DealItem
+2013-09-07 19:34:39.484000: 0:00:00.000552
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-07 19:55:32.953000----------------------------------------
+crawl start time: 2013-09-07 19:53:37.265000
+
+
+crawl end time: 2013-09-07 19:55:32.953000
+
+
+worker name: worker-110006565030450239276849063644264400337
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 888
+DealItem-handle: 898
+WebParser-fetch: 888
+PictureParser-fetch: 898
+DealParser-fetch: 1
+DealParser-extract: 1
+WebParser-extract: 888
+PictureItem-handle: 898
+PictureParser-extract: 898
+
+
+spider retry count:
+WebParser: 
+fetch error, code:404 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-07 19:53:37.328000: 0:00:00.515000
+
+spider name: WebParser
+2013-09-07 19:53:41.875000: 0:00:00.187426
+
+spider name: PictureParser
+2013-09-07 19:53:41.921000: 0:00:00.241195
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-07 19:53:37.843000: 0:00:04.032000
+
+spider name:WebParser
+2013-09-07 19:53:42: 0:00:00.045485
+
+spider name:PictureParser
+2013-09-07 19:53:42.328000: 0:00:00.001782
+
+
+
+spider handle item interval:
+handle item name:WebItem
+2013-09-07 19:53:42.015000: 0:00:00.019558
+
+handle item name:PictureItem
+2013-09-07 19:53:42.328000: 0:00:00.001638
+
+handle item name:DealItem
+2013-09-07 19:53:38.015000: 0:00:00.000616
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 15:08:36.953000----------------------------------------
+crawl start time: 2013-09-09 15:08:08.265000
+
+
+crawl end time: 2013-09-09 15:08:36.953000
+
+
+worker name: worker-90565070634476229651961456304407834138
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 228
+DealItem-handle: 885
+WebParser-fetch: 228
+PictureParser-fetch: 229
+PictureItem-handle: 229
+DealParser-extract: 1
+PictureParser-extract: 229
+DealParser-fetch: 1
+WebParser-extract: 228
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 15:08:08.328000: 0:00:00.265000
+
+spider name: PictureParser
+2013-09-09 15:08:12.265000: 0:00:00.085019
+
+spider name: WebParser
+2013-09-09 15:08:12.218000: 0:00:00.235641
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-09 15:08:08.593000: 0:00:03.625000
+
+spider name:PictureParser
+2013-09-09 15:08:12.375000: 0:00:00.000088
+
+spider name:WebParser
+2013-09-09 15:08:12.390000: 0:00:00.036401
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-09 15:08:12.375000: 0:00:00.000001
+
+handle item name:WebItem
+2013-09-09 15:08:12.406000: 0:00:00.011404
+
+handle item name:DealItem
+2013-09-09 15:08:08.765000: 0:00:00.000410
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 15:20:40.129000----------------------------------------
+crawl start time: 2013-09-09 15:18:25.250000
+
+
+crawl end time: 2013-09-09 15:20:40.129000
+
+
+worker name: worker-73982223095661795003462577216798671721
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebItem-handle: 874
+DealItem-handle: 885
+WebParser-fetch: 874
+PictureParser-fetch: 885
+PictureItem-handle: 885
+DealParser-extract: 1
+PictureParser-extract: 885
+DealParser-fetch: 1
+WebParser-extract: 874
+
+
+spider retry count:
+WebParser: 
+fetch error, code:599 : 1
+fetch error, code:404 : 10
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 15:18:25.328000: 0:00:00.265000
+
+spider name: PictureParser
+2013-09-09 15:18:29.812000: 0:00:00.293213
+
+spider name: WebParser
+2013-09-09 15:18:29.765000: 0:00:00.712749
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-09 15:18:25.593000: 0:00:04.172000
+
+spider name:PictureParser
+2013-09-09 15:18:29.906000: 0:00:00.000013
+
+spider name:WebParser
+2013-09-09 15:18:29.906000: 0:00:00.027898
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-09 15:18:29.906000: 0:00:00
+
+handle item name:WebItem
+2013-09-09 15:18:29.937000: 0:00:00.001843
+
+handle item name:DealItem
+2013-09-09 15:18:25.750000: 0:00:00.000776
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 19:48:42.692000----------------------------------------
+crawl start time: 2013-09-09 19:48:39.489000
+
+
+crawl end time: 2013-09-09 19:48:42.692000
+
+
+worker name: worker-57413162921605314458469697630707189043
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+fetch error, code:429 : 41
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 19:48:39.832000: 0:00:00.012965
+
+spider name: CityParser
+2013-09-09 19:48:39.614000: 0:00:00.140000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-09 19:48:39.754000: 0:00:00.078000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 19:48:39.770000: 0:00:00.000384
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 19:53:00.551000----------------------------------------
+crawl start time: 2013-09-09 19:52:57.410000
+
+
+crawl end time: 2013-09-09 19:53:00.535000
+
+
+worker name: worker-289100882655855191947733662531979887160
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+fetch error, code:429 : 41
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 19:52:57.614000: 0:00:00.014916
+
+spider name: CityParser
+2013-09-09 19:52:57.473000: 0:00:00.047000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-09 19:52:57.520000: 0:00:00.078000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 19:52:57.520000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 19:53:21.926000----------------------------------------
+crawl start time: 2013-09-09 19:53:18.895000
+
+
+crawl end time: 2013-09-09 19:53:21.926000
+
+
+worker name: worker-65417748395242216138252290773998259001
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+fetch error, code:429 : 41
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 19:53:19.051000: 0:00:00.014086
+
+spider name: CityParser
+2013-09-09 19:53:18.957000: 0:00:00.032000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-09 19:53:18.989000: 0:00:00.062000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 19:53:18.989000: 0:00:00.000357
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 19:56:17.051000----------------------------------------
+crawl start time: 2013-09-09 19:55:33.426000
+
+
+crawl end time: 2013-09-09 19:56:17.051000
+
+
+worker name: worker-51764523714690351537575224476195788614
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+DealItem-handle: 8498
+CityParser-fetch: 1
+CityParser-extract: 1
+DealParser-fetch: 20
+DealParser-extract: 20
+CityItem-handle: 42
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 19:55:33.801000: 0:00:15.902246
+
+spider name: CityParser
+2013-09-09 19:55:33.489000: 0:00:00.062000
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-09 19:55:34.051000: 0:00:02.093746
+
+spider name:CityParser
+2013-09-09 19:55:33.567000: 0:00:00.093000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 19:55:33.567000: 0:00:00
+
+handle item name:DealItem
+2013-09-09 19:55:34.129000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 20:19:04.770000----------------------------------------
+crawl start time: 2013-09-09 20:19:01.707000
+
+
+crawl end time: 2013-09-09 20:19:04.770000
+
+
+worker name: worker-294383249307712457246180031909863029059
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+fetch error, code:429 : 41
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 20:19:01.910000: 0:00:00.012577
+
+spider name: CityParser
+2013-09-09 20:19:01.770000: 0:00:00.062000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-09 20:19:01.848000: 0:00:00.062000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 20:19:01.848000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 20:20:25.957000----------------------------------------
+crawl start time: 2013-09-09 20:20:22.879000
+
+
+crawl end time: 2013-09-09 20:20:25.957000
+
+
+worker name: worker-60822688742417809304046027164432726680
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+fetch error, code:429 : 41
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 20:20:23.082000: 0:00:00.012601
+
+spider name: CityParser
+2013-09-09 20:20:22.942000: 0:00:00.047000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-09 20:20:22.989000: 0:00:00.078000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 20:20:22.989000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 20:22:05.285000----------------------------------------
+crawl start time: 2013-09-09 20:22:02.145000
+
+
+crawl end time: 2013-09-09 20:22:05.285000
+
+
+worker name: worker-206021259721230998250582978995643364393
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+fetch error, code:429 : 41
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 20:22:02.301000: 0:00:00.014086
+
+spider name: CityParser
+2013-09-09 20:22:02.207000: 0:00:00.032000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-09 20:22:02.239000: 0:00:00.062000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 20:22:02.239000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 20:28:20.582000----------------------------------------
+crawl start time: 2013-09-09 20:28:17.442000
+
+
+crawl end time: 2013-09-09 20:28:20.582000
+
+
+worker name: worker-224157223760407852072777877311951673047
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+fetch error, code:429 : 41
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 20:28:17.645000: 0:00:00.012916
+
+spider name: CityParser
+2013-09-09 20:28:17.504000: 0:00:00.047000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-09 20:28:17.551000: 0:00:00.078000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 20:28:17.551000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-09 20:44:08.426000----------------------------------------
+crawl start time: 2013-09-09 20:40:22.535000
+
+
+crawl end time: 2013-09-09 20:44:08.426000
+
+
+worker name: worker-315985741221044732389417551361117767964
+
+
+spider name: MeituanSpider
+
+
+spider success count:
+DealItem-handle: 26302
+CityParser-fetch: 1
+CityParser-extract: 1
+DealParser-fetch: 8
+DealParser-extract: 8
+CityItem-handle: 41
+
+
+spider retry count:
+DealParser: 
+fetch error, code:599 : 9
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-09 20:40:23.051000: 0:01:49.630350
+
+spider name: CityParser
+2013-09-09 20:40:22.598000: 0:00:00.062000
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-09 20:40:42.114000: 0:00:21.888873
+
+spider name:CityParser
+2013-09-09 20:40:22.660000: 0:00:00.110000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-09 20:40:22.660000: 0:00:00
+
+handle item name:DealItem
+2013-09-09 20:40:42.754000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-10 15:08:16.687000----------------------------------------
+crawl start time: 2013-09-10 15:08:04.343000
+
+
+crawl end time: 2013-09-10 15:08:16.687000
+
+
+worker name: worker-184437011202011253099337739160479128173
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+DealParser-fetch: 42
+CityParser-fetch: 1
+CityItem-handle: 42
+DealParser-extract: 42
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-10 15:08:05.031000: 0:00:01.881276
+
+spider name: CityParser
+2013-09-10 15:08:04.421000: 0:00:00.079000
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-10 15:08:05.187000: 0:00:00.217729
+
+spider name:CityParser
+2013-09-10 15:08:04.500000: 0:00:00.109000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-10 15:08:04.531000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-10 15:42:53.968000----------------------------------------
+crawl start time: 2013-09-10 15:28:01.015000
+
+
+crawl end time: 2013-09-10 15:42:53.968000
+
+
+worker name: worker-146000348141515765624939306541931707495
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebParser-fetch: 5521
+DealItem-handle: 36847
+CityParser-fetch: 1
+CityParser-extract: 1
+PictureParser-fetch: 5521
+DealParser-fetch: 39
+DealParser-extract: 39
+PictureParser-extract: 5521
+CityItem-handle: 42
+PictureItem-handle: 5521
+
+
+spider retry count:
+DealParser: 
+fetch error, code:599 : 3
+
+WebParser: 
+fetch error, code:599 : 2
+extract error: 5521
+
+PictureParser: 
+fetch error, code:599 : 3
+fetch error, code:404 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-10 15:28:01.500000: 0:00:23.093014
+
+spider name: CityParser
+2013-09-10 15:28:01.078000: 0:00:00.140000
+
+spider name: PictureParser
+2013-09-10 15:40:26.468000: 0:00:00.148232
+2013-09-10 15:30:26.437000: 0:00:00.183196
+
+spider name: WebParser
+2013-09-10 15:40:29.859000: 0:00:00.269278
+2013-09-10 15:30:29.687000: 0:00:00.296010
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-10 15:28:02.062000: 0:00:03.746016
+
+spider name:CityParser
+2013-09-10 15:28:01.218000: 0:00:00.094000
+
+spider name:PictureParser
+2013-09-10 15:40:30.015000: 0:00:00.014426
+2013-09-10 15:30:29.906000: 0:00:00.006774
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-10 15:28:01.218000: 0:00:00
+
+handle item name:PictureItem
+2013-09-10 15:40:30.015000: 0:00:00.014333
+2013-09-10 15:30:29.906000: 0:00:00.006670
+
+handle item name:DealItem
+2013-09-10 15:28:02.140000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-10 16:08:20.531000----------------------------------------
+crawl start time: 2013-09-10 15:47:54.546000
+
+
+crawl end time: 2013-09-10 16:08:20.515000
+
+
+worker name: worker-75012077593285650342512609396290940607
+
+
+spider name: Tuan55Spider
+
+
+spider success count:
+WebParser-fetch: 7912
+WebItem-handle: 7912
+DealItem-handle: 40904
+CityParser-fetch: 1
+CityParser-extract: 1
+PictureParser-fetch: 7940
+DealParser-fetch: 41
+DealParser-extract: 41
+PictureParser-extract: 7940
+WebParser-extract: 7912
+CityItem-handle: 42
+PictureItem-handle: 7940
+
+
+spider retry count:
+DealParser: 
+fetch error, code:599 : 1
+
+WebParser: 
+fetch error, code:599 : 14
+fetch error, code:404 : 16
+
+PictureParser: 
+fetch error, code:599 : 3
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-10 15:47:54.890000: 0:00:22.321013
+
+spider name: CityParser
+2013-09-10 15:47:54.609000: 0:00:00.047000
+
+spider name: PictureParser
+2013-09-10 15:50:36.250000: 0:00:00.122064
+2013-09-10 16:00:36.296000: 0:00:00.227659
+
+spider name: WebParser
+2013-09-10 15:50:40.265000: 0:00:00.249949
+2013-09-10 16:00:40.328000: 0:00:00.562977
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-10 15:47:55.218000: 0:00:03.983697
+
+spider name:CityParser
+2013-09-10 15:47:54.656000: 0:00:00.078000
+
+spider name:PictureParser
+2013-09-10 16:00:40.437000: 0:00:00.003656
+2013-09-10 15:50:40.375000: 0:00:00.004885
+
+spider name:WebParser
+2013-09-10 15:50:40.656000: 0:00:00.024354
+2013-09-10 16:00:40.750000: 0:00:00.026147
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-10 15:47:54.656000: 0:00:00
+
+handle item name:PictureItem
+2013-09-10 16:00:40.437000: 0:00:00.003548
+2013-09-10 15:50:40.375000: 0:00:00.004793
+
+handle item name:WebItem
+2013-09-10 16:00:40.765000: 0:00:00.000943
+2013-09-10 15:50:40.687000: 0:00:00.000206
+
+handle item name:DealItem
+2013-09-10 15:47:55.281000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 10:51:02.140000----------------------------------------
+crawl start time: 2013-09-11 10:50:32.812000
+
+
+crawl end time: 2013-09-11 10:51:02.140000
+
+
+worker name: worker-242393993808829370930333913431290201523
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+
+
+spider retry count:
+CityParser: 
+extract error: 1
+
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 10:51:01.078000: 0:00:00.062000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 10:54:45.031000----------------------------------------
+crawl start time: 2013-09-11 10:54:43.890000
+
+
+crawl end time: 2013-09-11 10:54:45.031000
+
+
+worker name: worker-237611476725677336303773915367043058255
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 10:54:43.953000: 0:00:00.062000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 10:54:44.015000: 0:00:00.016000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 10:55:20.312000----------------------------------------
+crawl start time: 2013-09-11 10:55:19.171000
+
+
+crawl end time: 2013-09-11 10:55:20.312000
+
+
+worker name: worker-252495243935837553749612219614665586475
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 10:55:19.234000: 0:00:00.062000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 10:55:19.296000: 0:00:00.016000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:07:08.250000----------------------------------------
+crawl start time: 2013-09-11 11:07:07.046000
+
+
+crawl end time: 2013-09-11 11:07:08.250000
+
+
+worker name: worker-276522326397907393790075882730624051286
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+
+
+spider retry count:
+CityParser: 
+extract error: 1
+
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 11:07:07.109000: 0:00:00.109000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:07:55.484000----------------------------------------
+crawl start time: 2013-09-11 11:07:54.328000
+
+
+crawl end time: 2013-09-11 11:07:55.484000
+
+
+worker name: worker-227791439987764491721627168311250786185
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 11:07:54.390000: 0:00:00.063000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 11:07:54.453000: 0:00:00.031000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:09:24.265000----------------------------------------
+crawl start time: 2013-09-11 11:09:23.109000
+
+
+crawl end time: 2013-09-11 11:09:24.265000
+
+
+worker name: worker-115467561053323552773830634322979582412
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 11:09:23.187000: 0:00:00.078000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 11:09:23.265000: 0:00:00.031000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:09:45.390000----------------------------------------
+crawl start time: 2013-09-11 11:09:44.218000
+
+
+crawl end time: 2013-09-11 11:09:45.390000
+
+
+worker name: worker-139387058212652296796834666466019870445
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 11:09:44.281000: 0:00:00.062000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 11:09:44.343000: 0:00:00.016000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:10:15.687000----------------------------------------
+crawl start time: 2013-09-11 11:10:14.546000
+
+
+crawl end time: 2013-09-11 11:10:15.687000
+
+
+worker name: worker-260480476737293724257469367732860441023
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 11:10:14.609000: 0:00:00.062000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 11:10:14.671000: 0:00:00.047000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:11:22.937000----------------------------------------
+crawl start time: 2013-09-11 11:11:21.796000
+
+
+crawl end time: 2013-09-11 11:11:22.937000
+
+
+worker name: worker-193825698076441772256041013773318948262
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 11:11:21.859000: 0:00:00.078000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 11:11:21.937000: 0:00:00.031000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:12:03.093000----------------------------------------
+crawl start time: 2013-09-11 11:12:01.953000
+
+
+crawl end time: 2013-09-11 11:12:03.093000
+
+
+worker name: worker-296546580654495350092846918723678336885
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 11:12:02.015000: 0:00:00.063000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 11:12:02.078000: 0:00:00.031000
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:18:09.593000----------------------------------------
+crawl start time: 2013-09-11 11:14:37
+
+
+crawl end time: 2013-09-11 11:18:09.593000
+
+
+worker name: worker-250866513652114136447193740121274219721
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+DealParser-fetch: 11
+CityParser-fetch: 1
+CityItem-handle: 41
+CityParser-extract: 1
+
+
+spider retry count:
+DealParser: 
+extract error: 11
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-11 11:14:37.562000: 0:01:50.880635
+
+spider name: CityParser
+2013-09-11 11:14:37.062000: 0:00:00.047000
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 11:14:37.109000: 0:00:00.094000
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-11 11:14:37.125000: 0:00:00
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:30:01.187000----------------------------------------
+crawl start time: 2013-09-11 11:27:51.015000
+
+
+crawl end time: 2013-09-11 11:30:01.187000
+
+
+worker name: worker-297866846524544335114708721114791295546
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+DealItem-handle: 737
+PictureParser-fetch: 735
+PictureItem-handle: 735
+DealParser-extract: 1
+PictureParser-extract: 735
+DealParser-fetch: 1
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 2
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-11 11:27:51.062000: 0:00:00.844000
+
+spider name: PictureParser
+2013-09-11 11:28:11.437000: 0:00:01.923234
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-11 11:27:51.906000: 0:00:19.531000
+
+spider name:PictureParser
+2013-09-11 11:28:12.093000: 0:00:00.003651
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-11 11:28:12.093000: 0:00:00.003540
+
+handle item name:DealItem
+2013-09-11 11:27:52.031000: 0:00:00.015426
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:39:48.796000----------------------------------------
+crawl start time: 2013-09-11 11:39:46.625000
+
+
+crawl end time: 2013-09-11 11:39:48.796000
+
+
+worker name: worker-163186801183963732960881902390188875501
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+DealParser-fetch: 1
+
+
+spider retry count:
+DealParser: 
+extract error: 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-11 11:39:46.687000: 0:00:01.016000
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:41:36.890000----------------------------------------
+crawl start time: 2013-09-11 11:41:34.640000
+
+
+crawl end time: 2013-09-11 11:41:36.781000
+
+
+worker name: worker-186930257512818313963643626252741746351
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+DealParser-fetch: 1
+
+
+spider retry count:
+DealParser: 
+extract error: 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-11 11:41:34.703000: 0:00:01
+
+
+
+spider extract interval:
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 11:46:50.781000----------------------------------------
+crawl start time: 2013-09-11 11:44:14.218000
+
+
+crawl end time: 2013-09-11 11:46:50.781000
+
+
+worker name: worker-18105157679820720390595536030516514808
+
+
+spider name: NuomiSpider
+
+
+spider success count:
+DealItem-handle: 737
+PictureParser-fetch: 736
+PictureItem-handle: 736
+DealParser-extract: 1
+PictureParser-extract: 736
+DealParser-fetch: 1
+
+
+spider retry count:
+PictureParser: 
+fetch error, code:599 : 1
+
+
+
+spider fetch interval:
+spider name: DealParser
+2013-09-11 11:44:14.265000: 0:00:06.656000
+
+spider name: PictureParser
+2013-09-11 11:44:31.468000: 0:00:02.094876
+
+
+
+spider extract interval:
+spider name:DealParser
+2013-09-11 11:44:20.921000: 0:00:10.547000
+
+spider name:PictureParser
+2013-09-11 11:44:35.812000: 0:00:00
+
+
+
+spider handle item interval:
+handle item name:PictureItem
+2013-09-11 11:44:35.812000: 0:00:00
+
+handle item name:DealItem
+2013-09-11 11:44:21.015000: 0:00:00.010138
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-11 20:05:58.893280----------------------------------------
+crawl start time: 2013-09-11 20:05:57.421935
+
+
+crawl end time: 2013-09-11 20:05:58.892586
+
+
+worker name: worker-128226213975637313490951669600262847126
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-11 20:05:57.927637: 0:00:00.099712
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-11 20:05:58.028163: 0:00:00.051916
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:39:23.710709----------------------------------------
+crawl start time: 2013-09-12 09:39:22.368911
+
+
+crawl end time: 2013-09-12 09:39:23.710072
+
+
+worker name: worker-72131712248026474222954032595811517829
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:39:22.775798: 0:00:00.072920
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:39:22.849587: 0:00:00.004465
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:40:31.276575----------------------------------------
+crawl start time: 2013-09-12 09:40:30.297588
+
+
+crawl end time: 2013-09-12 09:40:31.275957
+
+
+worker name: worker-312452913418074843506101518114810482249
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:40:30.342771: 0:00:00.094251
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:40:30.437826: 0:00:00.004460
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:41:45.718505----------------------------------------
+crawl start time: 2013-09-12 09:41:44.573094
+
+
+crawl end time: 2013-09-12 09:41:45.717403
+
+
+worker name: worker-81354570697098191693202889672657834680
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:41:44.618132: 0:00:00.228356
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:41:44.847409: 0:00:00.004546
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:46:56.107314----------------------------------------
+crawl start time: 2013-09-12 09:46:55.128372
+
+
+crawl end time: 2013-09-12 09:46:56.106684
+
+
+worker name: worker-181262895734162699565793156794583646221
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:46:55.174298: 0:00:00.080882
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:46:55.255961: 0:00:00.003485
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:49:49.868133----------------------------------------
+crawl start time: 2013-09-12 09:49:48.889891
+
+
+crawl end time: 2013-09-12 09:49:49.867507
+
+
+worker name: worker-196261827285574763468631730891148243859
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:49:48.934661: 0:00:00.092598
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:49:49.027868: 0:00:00.002184
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:50:49.724665----------------------------------------
+crawl start time: 2013-09-12 09:50:47.860839
+
+
+crawl end time: 2013-09-12 09:50:49.724056
+
+
+worker name: worker-39173616556089189089081914870967822670
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:50:47.905875: 0:00:00.953105
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:50:48.859933: 0:00:00.004049
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:51:47.491247----------------------------------------
+crawl start time: 2013-09-12 09:51:46.512393
+
+
+crawl end time: 2013-09-12 09:51:47.490490
+
+
+worker name: worker-74904375077906278966495780248253658199
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:51:46.558151: 0:00:00.080021
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:51:46.639032: 0:00:00.030976
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:53:27.973988----------------------------------------
+crawl start time: 2013-09-12 09:53:26.997896
+
+
+crawl end time: 2013-09-12 09:53:27.973359
+
+
+worker name: worker-120443467883606188686937747926380389208
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:53:27.041517: 0:00:00.085502
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:53:27.127676: 0:00:00.029810
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 09:59:06.912266----------------------------------------
+crawl start time: 2013-09-12 09:59:05.934252
+
+
+crawl end time: 2013-09-12 09:59:06.911610
+
+
+worker name: worker-204664512028191921626448003127998831174
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 09:59:05.978868: 0:00:00.086210
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 09:59:06.066241: 0:00:00.002890
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 09:59:06.068811: 0:00:00.000030
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 10:00:45.830485----------------------------------------
+crawl start time: 2013-09-12 10:00:44.849333
+
+
+crawl end time: 2013-09-12 10:00:45.829835
+
+
+worker name: worker-254421503364194089978269926735926024305
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 10:00:44.893949: 0:00:00.086839
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 10:00:44.981612: 0:00:00.005024
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 10:00:44.985089: 0:00:00.000185
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 10:01:48.306548----------------------------------------
+crawl start time: 2013-09-12 10:01:46.992415
+
+
+crawl end time: 2013-09-12 10:01:48.306164
+
+
+worker name: worker-106721770621785569555893018618358261755
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 297
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 10:01:47.037848: 0:00:00.375590
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 10:01:47.414357: 0:00:00.017083
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 10:01:47.418327: 0:00:00.000007
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 10:24:12.845541----------------------------------------
+crawl start time: 2013-09-12 10:24:11.863571
+
+
+crawl end time: 2013-09-12 10:24:12.844938
+
+
+worker name: worker-72088011459447303772274603244171340437
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 344
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 10:24:11.912406: 0:00:00.077277
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 10:24:11.990425: 0:00:00.012788
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 10:24:11.992847: 0:00:00.000008
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 10:26:38.894989----------------------------------------
+crawl start time: 2013-09-12 10:26:37.916936
+
+
+crawl end time: 2013-09-12 10:26:38.894158
+
+
+worker name: worker-189386754357800586189746034051211343152
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 345
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 10:26:37.961544: 0:00:00.066530
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 10:26:38.028738: 0:00:00.009064
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 10:26:38.030794: 0:00:00.000004
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 10:41:09.991035----------------------------------------
+crawl start time: 2013-09-12 10:41:09.009930
+
+
+crawl end time: 2013-09-12 10:41:09.990399
+
+
+worker name: worker-282215340772701022539566768255651353497
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 1
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 10:41:09.055996: 0:00:00.112867
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 10:41:09.169909: 0:00:00.004247
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 10:41:09.173415: 0:00:00.000066
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 10:41:36.350506----------------------------------------
+crawl start time: 2013-09-12 10:41:35.288134
+
+
+crawl end time: 2013-09-12 10:41:36.350034
+
+
+worker name: worker-69115828778339806257114941909586161542
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityItem-handle: 345
+CityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CityParser
+2013-09-12 10:41:35.333608: 0:00:00.141572
+
+
+
+spider extract interval:
+spider name:CityParser
+2013-09-12 10:41:35.475945: 0:00:00.024177
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 10:41:35.479854: 0:00:00.000009
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 11:12:59.415325----------------------------------------
+crawl start time: 2013-09-12 11:11:49.470398
+
+
+crawl end time: 2013-09-12 11:12:59.414530
+
+
+worker name: worker-306062420803566020146091717891849747289
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CommunityParser-fetch: 345
+CityParser-fetch: 1
+CityItem-handle: 345
+CommunityParser-extract: 325
+CityParser-extract: 1
+
+
+spider retry count:
+CommunityParser: 
+extract error: 20
+
+
+
+spider fetch interval:
+spider name: CommunityParser
+2013-09-12 11:11:49.837979: 0:00:00.925356
+
+spider name: CityParser
+2013-09-12 11:11:49.514735: 0:00:00.061072
+
+
+
+spider extract interval:
+spider name:CommunityParser
+2013-09-12 11:11:51.453593: 0:00:00.001054
+
+spider name:CityParser
+2013-09-12 11:11:49.576424: 0:00:00.260280
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 11:11:49.579570: 0:00:00.000009
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 11:14:38.021737----------------------------------------
+crawl start time: 2013-09-12 11:13:33.703687
+
+
+crawl end time: 2013-09-12 11:14:38.020963
+
+
+worker name: worker-169456336761928648456015577254132404192
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CityParser-fetch: 1
+CityParser-extract: 1
+CommunityItem-handle: 716
+CommunityParser-fetch: 379
+CityItem-handle: 345
+CommunityParser-extract: 379
+
+
+spider retry count:
+CommunityParser: 
+fetch error, code:502 : 1
+
+
+
+spider fetch interval:
+spider name: CommunityParser
+2013-09-12 11:13:34.158812: 0:00:00.900044
+
+spider name: CityParser
+2013-09-12 11:13:33.749838: 0:00:00.110319
+
+
+
+spider extract interval:
+spider name:CommunityParser
+2013-09-12 11:13:35.447207: 0:00:00.002276
+
+spider name:CityParser
+2013-09-12 11:13:33.860874: 0:00:00.296791
+
+
+
+spider handle item interval:
+handle item name:CityItem
+2013-09-12 11:13:33.863483: 0:00:00.000017
+
+handle item name:CommunityItem
+2013-09-12 11:13:40.148527: 0:00:00.000021
+
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 11:38:34.728619----------------------------------------
+crawl start time: 2013-09-12 11:38:12.705502
+
+
+crawl end time: 2013-09-12 11:38:34.727080
+
+
+worker name: worker-127240241707237823317110592143882090563
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CommunityParser-fetch: 1
+CommunityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CommunityParser
+2013-09-12 11:38:13.712462: 0:00:00.189622
+
+
+
+spider extract interval:
+spider name:CommunityParser
+2013-09-12 11:38:13.904698: 0:00:00.001184
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 11:40:06.230447----------------------------------------
+crawl start time: 2013-09-12 11:39:44.204845
+
+
+crawl end time: 2013-09-12 11:40:06.229597
+
+
+worker name: worker-183698888090140216120573599904252003745
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CommunityParser-fetch: 1
+CommunityParser-extract: 1
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CommunityParser
+2013-09-12 11:39:45.210984: 0:00:00.198581
+
+
+
+spider extract interval:
+spider name:CommunityParser
+2013-09-12 11:39:45.410311: 0:00:00.001089
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------
+----------------------------------2013-09-12 11:46:46.911639----------------------------------------
+crawl start time: 2013-09-12 11:45:37.798044
+
+
+crawl end time: 2013-09-12 11:46:46.910821
+
+
+worker name: worker-8783116188793082992039968363902751184
+
+
+spider name: GanjiSpider
+
+
+spider success count:
+CommunityItem-handle: 900
+CommunityParser-fetch: 46
+CommunityParser-extract: 46
+
+
+spider retry count:
+
+
+spider fetch interval:
+spider name: CommunityParser
+2013-09-12 11:45:38.803832: 0:00:00.256611
+
+
+
+spider extract interval:
+spider name:CommunityParser
+2013-09-12 11:45:39.213320: 0:00:00.037335
+
+
+
+spider handle item interval:
+handle item name:CommunityItem
+2013-09-12 11:45:39.251503: 0:00:00.000030
+
+
+
+---------------------------------------------------------------------------------------
