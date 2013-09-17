@@ -14,7 +14,8 @@ spiders = [
     'spiders.meituan.spider.MeituanSpider',
     'spiders.tuan55.spider.Tuan55Spider',
     'spiders.nuomi.spider.NuomiSpider',
-    'spiders.ganji.spider.GanjiSpider'
+    'spiders.ganji.spider.GanjiSpider',
+    'spiders.baiduoffset.spider.BaiduoffsetSpider'
 ]
 
 schedules = [

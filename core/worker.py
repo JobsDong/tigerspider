@@ -167,7 +167,7 @@ class Worker(object):
             task.callback, fetch_start_time,fetch_time)
 
         if resp.code is 200 and resp.error is None:
-            self.logger.debug("fetch success")
+            #self.logger.debug("fetch success")
             self.worker_statistic.add_spider_success(task.callback + "-fetch")
             self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
             self.extract(task, resp)
