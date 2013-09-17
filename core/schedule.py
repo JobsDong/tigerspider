@@ -16,6 +16,7 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import inspect
 
 from core.util import logging
+import logging
 
 UUID_INDEPENDENT = 1
 UUID_SHARE = 2
@@ -88,6 +89,23 @@ class BaseSchedule(object):
 
         """
         raise NotImplementedError
+
+    def fail_task_size(self):
+        """get fail task size
+            Returns:
+                size: int, fail task size
+        """
+        raise NotImplementedError
+
+
+    def dumps_all_fail_task(self):
+        """dumps all fail task
+
+            Yields:
+                task:Task, fail task
+        """
+        raise NotImplementedError
+
 
     def clear_all(self):
         """清空所有的状态

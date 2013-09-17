@@ -105,7 +105,10 @@ class DealParser(BaseParser):
             item_short_desc = data_element.findtext("short_desc").strip()
             item_content_pic = u""
             item_content_text = self._extract_content_text(data_element)
+<<<<<<< HEAD
             print item_content_text, "++++++++++++"
+=======
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             item_purchased_number = data_element.findtext("purchased_number").strip()
             item_m_url = data_element.findtext("m_url").strip()
             item_appointment = ""
@@ -159,7 +162,14 @@ class DealParser(BaseParser):
                 content_text: str, 已处理的str
         """
         content_text = data_element.findtext("content_text")
+<<<<<<< HEAD
         content_text = content_text.replace("<br />", "N_Line")
+=======
+        content_text = content_text.replace("-", "")\
+            .replace("<br />", "N_Line-")\
+            .replace("<br/>", "N_Line-")
+
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         tree = etree.HTML(content_text)
         temp_texts = []
         for text in tree.itertext():
@@ -167,6 +177,18 @@ class DealParser(BaseParser):
             if len(stripped_text) > 0:
                 temp_texts.append(stripped_text)
 
+<<<<<<< HEAD
+=======
+        if len(temp_texts) > 0:
+            last_text = temp_texts.pop()
+            if last_text.endswith("N_Line-") and len(last_text) > 7:
+                temp_texts.append(last_text[:-7])
+            else:
+                temp_texts.append(last_text)
+        if len(temp_texts) > 0:
+            temp_texts.append("-")
+
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         return "".join(temp_texts)
 
     def _extract_place(self, data_element):

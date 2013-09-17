@@ -12,7 +12,11 @@ from core.spider.pipeline import BasePipeline
 
 from spiders.ganji.items import CommunityItem
 
+<<<<<<< HEAD
 DEFAULT_COMMUNITY_DIR = u"/home/iceout/ganji/"
+=======
+DEFAULT_COMMUNITY_DIR = u"/opt/community/"
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
 
 
 class CommunityItemPipeline(BasePipeline):
@@ -22,7 +26,10 @@ class CommunityItemPipeline(BasePipeline):
     def process_item(self, item, kwargs):
         """将item存储在文件中
         """
+<<<<<<< HEAD
         print 'pipeline:', item
+=======
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         if isinstance(item, CommunityItem):
             if item.city and item.community:
                 self._store_item(item)
@@ -33,6 +40,7 @@ class CommunityItemPipeline(BasePipeline):
                 item:Item
         """
         path = DEFAULT_COMMUNITY_DIR + item.city + ".csv"
+<<<<<<< HEAD
         print path
         if not os.path.exists(path):
             self._check_and_create(path)
@@ -41,6 +49,15 @@ class CommunityItemPipeline(BasePipeline):
                 line = u'"%s","%s"' % (item.community, item.address)
                 out_file.write(line.encode("utf-8"))
                 out_file.write("\n")
+=======
+        if not os.path.exists(path):
+            self._check_and_create(path)
+
+        with open(path, "ab") as out_file:
+            line = u'"%s","%s"' % (item.community, item.address)
+            out_file.write(line.encode("utf-8"))
+            out_file.write("\n")
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
 
     def _check_and_create(self, path):
         """检查path所在的目录是否存在，如果不存在就创建

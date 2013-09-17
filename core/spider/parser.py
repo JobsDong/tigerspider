@@ -10,6 +10,12 @@
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from core.util import logging
+import logging
+
+class ParserError(Exception):
+    """解析错误
+    """
+
 
 class BaseParser(object):
     """用于描述解析的基类

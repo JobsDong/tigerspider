@@ -99,7 +99,11 @@ class WebItemPipeline(BasePipeline):
 
     def __init__(self, namespace, temp_host="localhost", temp_port=6379,
                  temp_db=0, db_host="192.168.11.195", db_port=5432, db_user="postgres",
+<<<<<<< HEAD
                  db_password="titps4gg", db_base="swift"):
+=======
+                 db_password="titps4gg", db_base="test"):
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         """初始化WebItemPipeline
             主要是连接redis，postgres
         """
@@ -207,4 +211,8 @@ class PictureItemPipeline(BasePipeline):
                 os.makedirs(directory)
 
     def clear_all(self):
+<<<<<<< HEAD
         pass
+=======
+        pass
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055

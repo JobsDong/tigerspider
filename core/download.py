@@ -10,11 +10,13 @@
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import socket
+import logging
 
 from tornado import gen, httpclient
 from tornado.httpclient import HTTPRequest
 
 from core.util import logging, coroutine_wrap
+from core.util import coroutine_wrap
 from core.datastruct import Task
 from core.resolver import DNSResolver, ResolveError
 
@@ -22,10 +24,16 @@ httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClien
 
 client = httpclient.AsyncHTTPClient()
 
-_host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=1; abt=1378729480.0%7CBDF; rvct=1; rvd=8190998; rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0; __utma=1.580685477.1378729555.1378729555.1378729555.1; __utmb=1.5.9.1378729597349; __utmc=1; __utmz=1.1378729555.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=1.|1=city=beijing=1; __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall",
-        'http://www.ganji.com/index.htm': 'statistics_clientid=me; crawler_uuid=137895721922936942593918; GANJISESSID=5f33f15af4316dbf0b686ef5f38e10d4; _gl_tracker=%7B%22sid%22%3A42026149077%7D; __utma=32156897.818140789.1378957226.1378957226.1378957226.1; __utmb=32156897.1.10.1378957226; __utmc=32156897; __utmz=32156897.1378957226.1.1.utmcsr=bj.ganji.com|utmccn=(referral)|utmcmd=referral|utmcct=/sorry/confirm.php; ganji_uuid=7274627530966247710931'}
-_cookie_used_counts = {"http://www.meituan.com": 0,
-                       'http://www.ganji.com/index.htm': 0}
+_host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=1; "
+                r"abt=1378729480.0%7CBDF; rvct=1; rvd=8190998;"
+                r" rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0;"
+                r" __utma=1.580685477.1378729555.1378729555.1378729555.1;"
+                r" __utmb=1.5.9.1378729597349; __utmc=1;"
+                r" __utmz=1.1378729555.1.1.utmcsr=(direct)|"
+                r"utmccn=(direct)|utmcmd=(none);"
+                r" __utmv=1.|1=city=beijing=1;"
+                r" __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall"}
+_cookie_used_counts = {"http://www.meituan.com": 0}
 _cookie_is_buildings = set()
 
 logger = logging.getLogger(__name__)

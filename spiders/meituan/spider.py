@@ -33,11 +33,19 @@ class MeituanSpider(BaseSpider):
     }
 
     start_tasks = [
+<<<<<<< HEAD
         # Task(HTTPRequest(url='http://www.meituan.com/api/v2/nanchang/deals',
         #                  connect_timeout=3, request_timeout=99), callback='DealParser',
         #      kwargs={'citycode':"360100"}),
         Task(HTTPRequest(url='http://api.union.meituan.com/data/citylist',
         connect_timeout=3, request_timeout=5), callback='CityParser', kwargs={}),
+=======
+        Task(HTTPRequest(url='http://www.meituan.com/api/v2/nanchang/deals',
+                         connect_timeout=3, request_timeout=99), callback='DealParser',
+             kwargs={'citycode':"360100"}),
+        # Task(HTTPRequest(url='http://api.union.meituan.com/data/citylist',
+        # connect_timeout=10, request_timeout=60), callback='CityParser', kwargs={}),
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
     ]
 
 

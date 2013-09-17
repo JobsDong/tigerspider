@@ -176,4 +176,8 @@ class PictureItemPipeline(BasePipeline):
                 os.makedirs(directory)
 
     def clear_all(self):
+<<<<<<< HEAD
         pass
+=======
+        pass
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055

@@ -13,7 +13,13 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
 
+import logging
+from core.datastruct import Task
+
 WORKER_STATISTIC_PATH = "data/worker_statistic.dat"
+WORKER_FAIL_PATH = "data/fails/"
+
+logger = logging.getLogger("statistic")
 
 class WorkerStatistic(object):
     """用于统计worker的信息的类
@@ -261,7 +267,7 @@ def output_statistic_dict(worker_statistic):
     for parser_name, value in worker_statistic.get_average_fetch_interval().items():
         temp_dict = {}
         for start_time, interval in value.items():
-            temp_dict[start_time.strftime("%Y-%m-%d %H:%M:%S")] = interval.total_seconds()
+            temp_dict[start_time.strftime("%Y-%m-%d %H:%M:%S")] = str(interval)
         temp_fetch_interval_dict[parser_name] = temp_dict
     statistic_dict['fetch_interval'] = temp_fetch_interval_dict
 
@@ -269,7 +275,7 @@ def output_statistic_dict(worker_statistic):
     for parser_name, value in worker_statistic.get_average_extract_interval().items():
         temp_dict = {}
         for start_time, interval in value.items():
-            temp_dict[start_time.strftime("%Y-%m-%d %H:%M:%S")] = interval.total_seconds()
+            temp_dict[start_time.strftime("%Y-%m-%d %H:%M:%S")] = str(interval)
         temp_extract_interval_dict[parser_name] = temp_dict
     statistic_dict['extract_interval'] = temp_extract_interval_dict
 
@@ -277,8 +283,25 @@ def output_statistic_dict(worker_statistic):
     for item_name, value in worker_statistic.get_average_handle_interval().items():
         temp_dict = {}
         for start_time, interval in value.items():
-            temp_dict[start_time.strftime("%Y-%m-%d %H:%M:%S")] = interval.total_seconds()
+            temp_dict[start_time.strftime("%Y-%m-%d %H:%M:%S")] = str(interval)
         temp_handle_interval_dict[item_name] = temp_dict
     statistic_dict['item_interval'] = temp_handle_interval_dict
 
     return statistic_dict
+
+
+def output_fail_task_file(file_path, schedule):
+    """output all fail task to file
+
+        notice:N_Line
+
+        Args:
+            file_path: str, file path to store fail task
+            schedule: Schedule, schedule for spider
+    """
+    import core.util
+    with open(core.util.get_project_path() + file_path, "w") as out_file:
+        for task in schedule.dumps_all_fail_task():
+            line = '"%s" "%s"\n' % (task.callback, task.request.url)
+            out_file.write(line)
+>>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
