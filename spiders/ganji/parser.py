@@ -53,7 +53,7 @@ class CityParser(BaseParser):
                                     cookie_host='http://www.ganji.com/index.htm',
                                     cookie_count=15,
                                     kwargs={'cityname': city_item.city_code})
-                    print city_element.attrib['href']
+                    #print city_element.attrib['href']
                     yield new_task
                 else:
                     self.logger.warn("this item's property is none(chinese:%s,"
@@ -88,7 +88,8 @@ class CommunityParser(BaseParser):
             response:HTTPResponse, 下载的结果
         """
         tree = etree.HTML(response.body)
-        print response.body
+        if '下面的验证码' in response.body:
+            print '遇到验证码了'
         elems = tree.xpath("//div[@class='listBox']//dl[@class='list-xq']")
         print 'CommunityParser', len(elems)
         for elem in elems:
@@ -98,7 +99,7 @@ class CommunityParser(BaseParser):
             address = elem.xpath("dd[@class='xq-detail']/p[@class='xiaoqu-street']/text()")
             address = address[0] if len(address) > 0 else ""
             address = remove_white(address.replace(u"地址:", ""))
-            print city_name, community_name, address
+            #print city_name, community_name, address
             yield CommunityItem(city_name, community_name, address)
 
         next_url_path = tree.xpath("//div[@class='pageBox']//a[@class='next']/@href")

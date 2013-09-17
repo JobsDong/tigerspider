@@ -23,7 +23,8 @@ httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClien
 client = httpclient.AsyncHTTPClient()
 
 _host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=1; abt=1378729480.0%7CBDF; rvct=1; rvd=8190998; rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0; __utma=1.580685477.1378729555.1378729555.1378729555.1; __utmb=1.5.9.1378729597349; __utmc=1; __utmz=1.1378729555.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=1.|1=city=beijing=1; __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall",
-        'http://www.ganji.com/index.htm': 'statistics_clientid=me; crawler_uuid=137895721922936942593918; GANJISESSID=5f33f15af4316dbf0b686ef5f38e10d4; _gl_tracker=%7B%22sid%22%3A42026149077%7D; __utma=32156897.818140789.1378957226.1378957226.1378957226.1; __utmb=32156897.1.10.1378957226; __utmc=32156897; __utmz=32156897.1378957226.1.1.utmcsr=bj.ganji.com|utmccn=(referral)|utmcmd=referral|utmcct=/sorry/confirm.php; ganji_uuid=7274627530966247710931'}
+        'http://www.ganji.com/index.htm': '__utma=32156897.1041073212.1378882787.1378960293.1378970361.9; __utmz=32156897.1378956175.7.5.utmcsr=bj.ganji.com|utmccn=(referral)|utmcmd=referral|utmcct=/sorry/confirm.php; ganji_uuid=5753795486305081974319; citydomain=baoding; statistics_clientid=me; __utmc=32156897; _gl_tracker=%7B%22sid%22%3A45095396177%7D; __utmb=32156897.2.10.1378970361; crawler_uuid=137897043247203328377670; GANJISESSID=f06fddc2b533560a52620917b4944034',
+        }
 _cookie_used_counts = {"http://www.meituan.com": 0,
                        'http://www.ganji.com/index.htm': 0}
 _cookie_is_buildings = set()

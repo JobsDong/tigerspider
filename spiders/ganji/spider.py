@@ -31,13 +31,13 @@ class GanjiSpider(BaseSpider):
         #                  connect_timeout=3, request_timeout=99),
         #                  callback='DealParser',
         #                  kwargs={'citycode':"360100"}),
-        #Task(HTTPRequest(url='http://www.ganji.com/index.htm',
-                         #connect_timeout=3, request_timeout=5),
-             #callback='CityParser',
-             #cookie_host='http://www.ganji.com/index.htm',
-             #cookie_count=15, kwargs={}),
+        Task(HTTPRequest(url='http://www.ganji.com/index.htm',
+                         connect_timeout=3, request_timeout=5),
+             callback='CityParser',
+             cookie_host='http://www.ganji.com/index.htm',
+             cookie_count=10, kwargs={}),
 
-        Task(HTTPRequest('http://bj.ganji.com/xiaoqu/', connect_timeout=5, request_timeout=10),
-             callback='CommunityParser', cookie_host='http://www.ganji.com/index.htm', cookie_count=15,
-             kwargs={'cityname': '110000'})
+        #Task(HTTPRequest('http://bj.ganji.com/xiaoqu/', connect_timeout=5, request_timeout=10),
+             #callback='CommunityParser', cookie_host='http://www.ganji.com/index.htm', cookie_count=10,
+             #kwargs={'cityname': '110000'})
     ]
