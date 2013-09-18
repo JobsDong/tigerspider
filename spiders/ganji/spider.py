@@ -36,8 +36,4 @@ class GanjiSpider(BaseSpider):
              callback='CityParser',
              cookie_host='http://www.ganji.com/index.htm',
              cookie_count=10, kwargs={}),
-
-        #Task(HTTPRequest('http://bj.ganji.com/xiaoqu/', connect_timeout=5, request_timeout=10),
-             #callback='CommunityParser', cookie_host='http://www.ganji.com/index.htm', cookie_count=10,
-             #kwargs={'cityname': '110000'})
     ]

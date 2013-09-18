@@ -19,13 +19,15 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
 import uuid
+import logging
 
 from tornado import ioloop, gen
 
-from core.util import logging, coroutine_wrap, get_class_path
+from core.util import coroutine_wrap, get_class_path
 from core.download import fetch
 from core.datastruct import Task, Item
-from core.statistic import WorkerStatistic, output_statistic_file, WORKER_STATISTIC_PATH
+from core.statistic import (WorkerStatistic, output_statistic_file, WORKER_STATISTIC_PATH,
+                            output_fail_task_file, WORKER_FAIL_PATH)
 from core.record import record, RecorderManager
 
 MAX_EMPTY_TASK_COUNT = 10  # worker最大能够获取的空Task个数
@@ -109,7 +111,7 @@ class Worker(object):
             self.logger.info("start worker")
 
     def stop(self):
-        """关闭这个worker，并保存统计信息
+        """关闭这个worker，并保存统计信息, store fail task
             关闭的时候，会清空所有schedule中的队列以及pipeline中的中间数据
             不会重复关闭
         """
@@ -118,9 +120,25 @@ class Worker(object):
         else:
             self.is_started = False
             self.worker_statistic.end_time = datetime.datetime.now()
-            RecorderManager.instance().record_done(self._worker_name)
-            output_statistic_file(WORKER_STATISTIC_PATH, self.worker_statistic,
+            fail_task_file_name = self.spider.__class__.__name__ + "-" + \
+                self.worker_statistic.start_time.strftime("%Y-%m-%d %H:%M:%S")
+            try:
+                output_fail_task_file(WORKER_FAIL_PATH + fail_task_file_name + ".csv",
+                                  self.spider.crawl_schedule)
+            except Exception, e:
+                self.logger.error("output fail task failed error:%s" % e)
+
+            try:
+                RecorderManager.instance().record_done(self._worker_name)
+            except Exception, e:
+                self.logger.error("record done failed error:%s" % e)
+
+            try:
+                output_statistic_file(WORKER_STATISTIC_PATH, self.worker_statistic,
                                       self._worker_name, self.spider.__class__.__name__)
+            except Exception, e:
+                self.logger.error("output statistic failed error:%s" % e)
+
             self.spider.clear_all()
             self.logger.info("stop worker")
 
@@ -164,10 +182,10 @@ class Worker(object):
         resp = yield fetch(task)
         fetch_time = datetime.datetime.now() - fetch_start_time
         self.worker_statistic.count_average_fetch_time(
-            task.callback, fetch_start_time,fetch_time)
+            task.callback, fetch_start_time, fetch_time)
 
         if resp.code is 200 and resp.error is None:
-            #self.logger.debug("fetch success")
+            self.logger.debug("fetch success")
             self.worker_statistic.add_spider_success(task.callback + "-fetch")
             self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
             self.extract(task, resp)
@@ -212,7 +230,7 @@ class Worker(object):
                                 task.reason = "handle error"
                                 self.spider.crawl_schedule.handle_fail_task(task)
                                 self.worker_statistic.add_spider_retry(
-                                    item_or_task.__class__.__name__, "Unsupported")
+                                    item_or_task.__class__.__name__, "handle inner error")
                             else:
                                 self.worker_statistic.add_spider_success(
                                     "%s-%s" % (item_or_task.__class__.__name__, "handle"))

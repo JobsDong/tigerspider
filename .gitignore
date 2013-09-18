@@ -34,5 +34,5 @@ nosetests.xml
 .project
 .pydevproject
 
-#data/logs
 data/
+nohup.out

@@ -14,6 +14,7 @@ spiders = [
     'spiders.meituan.spider.MeituanSpider',
     'spiders.tuan55.spider.Tuan55Spider',
     'spiders.nuomi.spider.NuomiSpider',
+    'spiders.mtime.spider.MtimeSpider',
     'spiders.ganji.spider.GanjiSpider',
     'spiders.baiduoffset.spider.BaiduoffsetSpider'
 ]

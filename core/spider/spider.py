@@ -16,7 +16,7 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import uuid
 
 from core.util import logging
-
+import logging
 
 class SpiderError(Exception):
     """spider内部的错误
@@ -50,17 +50,17 @@ class BaseSpider(object):
         self._clone_pipelines = {}
 
         for parser_name, parser_claz in self.parsers.iteritems():
-            parser_kwargs =  {arg_name[len(parser_name) + 1:]: arg_value
+            parser_kwargs =  dict([(arg_name[len(parser_name) + 1:], arg_value)
                               for arg_name, arg_value
                               in kwargs.iteritems()
-                              if arg_name.startswith(parser_name + "_")}
+                              if arg_name.startswith(parser_name + "_")])
 
             self._clone_parsers[parser_name] = parser_claz(self._namespace, **parser_kwargs)
         for pipeline_name, pipeline_claz in self.pipelines.iteritems():
-            pipeline_kwargs =  {arg_name[len(pipeline_name) + 1:]: arg_value
+            pipeline_kwargs =  dict([(arg_name[len(pipeline_name) + 1:], arg_value)
                               for arg_name, arg_value
                               in kwargs.iteritems()
-                              if arg_name.startswith(pipeline_name + "_")}
+                              if arg_name.startswith(pipeline_name + "_")])
             self._clone_pipelines[pipeline_name] = pipeline_claz(self._namespace, **pipeline_kwargs)
 
     @property

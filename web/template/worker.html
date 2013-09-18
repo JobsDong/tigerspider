@@ -1,3 +1,83 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="web spider center">
+    <meta name="author" content="wuyadong">
+    <title>Web spider center</title>
+    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://www.tigerknows.com">tigerknows</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="homepage.html">Home</a></li>
+                    <li><a href="schedule.html">schedule</a></li>
+                    <li><a href="spider.html">spider</a></li>
+                    <li class="active"><a href="worker.html">worker</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<div class="container theme-showcase">
+    <br/>
+    <br/>
+    <h2>Worker</h2>
+    <div class="panel-danger">
+        <p><div class="page-header"><strong>worker</strong>是描述实际执行抓取的组件，用户可以通过参数，动态创建worker</div></p>
+    </div>
+
+    <div class="panel-success">
+        <div class="panel-heading">正在执行的worker如下：</div>
+        <div class="panel-body">
+            <table class="table">
+                   <thead><tr><th>worker_name</th><th>status</th><th>spider_name</th><th>schedule_name</th><th>start_time</th><th>operate</th></tr></thead>
+                   <tbody>
+                   {%for worker in workers%}
+                   <tr><td><a href="/web/statistic.html?worker_name={{worker.get('name')}}">{{worker.get('name')}}</a></td><td>{{worker.get('status')}}</td><td>{{worker.get('spider_name')}}</td><td>{{worker.get('schedule_name')}}</td><td>{{worker.get('start_time')}}</td>
+                    <td class="dropdown">
+                        <a id="operate" role="button" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
+                        <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/api/suspend_worker?worker_name={{worker.get('name')}}">暂停</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/api/rouse_worker?worker_name={{worker.get('name')}}">恢复</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/api/stop_worker?worker_name={{worker.get('name')}}">关闭</a></li>
+                        </ul>
+                    </td>
+                   </tr>
+                   {%end%}
+                   </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel-success">
+        <div class="panel-heading">以前失效的worker如下：</div>
+        <div class="panel-body">
+            <table class="table">
+                   <thead><tr><th>worker_name</th><th>start_time</th><th>schedule_class</th><th>schedule_kwargs</th><th>spider_class</th><th>spider_kwargs</th></tr></thead>
+                   <tbody>
+                   {%for fail_worker in fail_workers%}
+                   <tr><td><a href="/web/statistic.html?worker_name={{worker.get('name')}}">{{fail_worker.get('worker_name')}}</a></td><td>{{worker.get('start_time')}}</td><td>{{worker.get('schedule_class')}}</td><td>{{worker.get('schedule_kwargs')}}</td><td>{{worker.get('spider_class_name')}}</td><td>{{fail_worker.get('spider_kwargs')}}</td>
+                   </tr>
+                   {%end%}
+                   </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
 <!DOCTYPE html>
 <html>
 <head>

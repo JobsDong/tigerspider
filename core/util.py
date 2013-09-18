@@ -10,7 +10,6 @@ import os
 import sys
 import re
 import logging
-import logging.config
 import cPickle as pickle
 import json
 from tornado import gen
@@ -30,7 +29,6 @@ def get_project_path():
     abs_path = os.path.dirname(abs_path)
     return abs_path + os.sep
 
-logging.config.fileConfig(get_project_path() + "logging.conf")
 
 def remove_white(sentence):
     """去除一个句子的空白字符(whitespace不包括)
@@ -42,6 +40,7 @@ def remove_white(sentence):
     stripped_sentence = sentence.strip()
     new_sentence = re.sub(u'[\r\n\t]', '', stripped_sentence)
     return new_sentence
+
 
 def unicode2str_for_dict(dictionary):
     """将字典中的unicode类型的字符串换成str

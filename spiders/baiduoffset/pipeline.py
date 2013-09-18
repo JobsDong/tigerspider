@@ -12,7 +12,7 @@ from core.spider.pipeline import BasePipeline
 
 from spiders.baiduoffset.items import CoordItem
 
-DEFAULT_COMMUNITY_DIR = u"/home/geocoder/webgeocoding/offset/"
+DEFAULT_COMMUNITY_DIR = u"/home/iceout/work/offset/"
 
 
 class CoordItemPipeline(BasePipeline):
