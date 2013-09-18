@@ -33,14 +33,13 @@ class CommunityItemPipeline(BasePipeline):
                 item:Item
         """
         path = DEFAULT_COMMUNITY_DIR + item.city + ".csv"
-        #print path
         if not os.path.exists(path):
             self._check_and_create(path)
+
         with open(path, "ab") as out_file:
             line = u'"%s","%s"' % (item.community, item.address)
             out_file.write(line.encode("utf-8"))
             out_file.write("\n")
-        print path
 
     def _check_and_create(self, path):
         """检查path所在的目录是否存在，如果不存在就创建

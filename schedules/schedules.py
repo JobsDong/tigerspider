@@ -19,13 +19,13 @@ from core.util import check_task_integrity
 class RedisSchedule(BaseSchedule):
     u"""RedisSchedule是独享式的基于redis生成的schedule
     """
-    def __init__(self, namespace=None, host="localhost", port=6379, db=0, interval=30, max_number=15, max_fail_count=2):
+    def __init__(self, namespace=None, host="localhost", port=6379, db=0,
+                 interval=30, max_number=15):
         u"""使用redis初始化schedule
             Args:
                 interval: str or int ,抓取间隔
                 max_number: str or int, 最大并发度
                 max_fail_count: str or int, 最多错误次数
-
             Raises:
                 ScheduleError: 当发生错误的时候
         """
@@ -35,8 +35,6 @@ class RedisSchedule(BaseSchedule):
                 interval = int(interval)
             if isinstance(max_number, str):
                 max_number = int(max_number)
-            if isinstance(max_fail_count, str):
-                max_fail_count = int(max_fail_count)
         except ValueError, e:
             self.logger.error("init redis schedule failed :%s" % e)
             raise ScheduleError("params error:%s" % e)
@@ -94,7 +92,9 @@ class RedisSchedule(BaseSchedule):
             return
         try:
             if check_task_integrity(task):
-                if not self._processed_url_set.exist(task.request.url):
+                url = task.request.url if not isinstance(task.request.url, unicode) \
+                    else task.request.url.encode("utf-8")
+                if not self._processed_url_set.exist(url):
                     self._prepare_to_process_queue.push(task)
                 else:
                     self.logger.debug("request haven been done before.")
@@ -114,6 +114,9 @@ class RedisSchedule(BaseSchedule):
         if self._is_stopped:
             return
         try:
+            # convert unicode to str
+            if isinstance(url, unicode):
+                url = url.encode("utf-8")
             self._processed_url_set.add(url)
         except RedisError, e:
             raise ScheduleError("redis error:%s" % e)
@@ -136,7 +139,7 @@ class RedisSchedule(BaseSchedule):
         try:
             #  这样的错误就重试，其他的不
             if task.reason.find("fetch error:") != -1 and task.reason.find("404") == -1:
-                if task.fail_count >= self._max_fail_count:
+                if task.fail_count >= task.max_fail_count:
                     self._fail_queue.push(task)
                 else:
                     task.fail_count += 1
@@ -151,6 +154,29 @@ class RedisSchedule(BaseSchedule):
                 self._fail_queue.push(task)
         except RedisError, e:
             raise ScheduleError("redis error:%s" % e)
+
+    def fail_task_size(self):
+        """get fail task size
+
+            Returns:
+                size: int, fail task size
+        """
+        return self._fail_queue.size()
+
+
+    #TODO opt ability
+    def dumps_all_fail_task(self):
+        """dumps all fail task
+
+            Yields:
+                task:Task, fail task
+        """
+        print "nimabi"
+        while self._fail_queue.size() > 0:
+            fail_task = self._fail_queue.pop()
+            print "wocha"
+            if fail_task:
+                yield fail_task
 
     def clear_all(self):
         """清除所有的队列
