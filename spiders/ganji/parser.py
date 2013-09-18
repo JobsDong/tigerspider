@@ -2,14 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """定义了ganji中的所有解析的類
-<<<<<<< HEAD
-    CityParser: 解析城市列表的類
-    WebParser: 解析網頁的類
-=======
     CityParser: 解析城市入口地址的类
     CommunityParser: 解析小区信息的类
     replace_url_path: url合并函数
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
 """
 
 import urlparse
@@ -30,29 +25,21 @@ class CityParser(BaseParser):
     """
 
     def __init__(self, namespace):
-<<<<<<< HEAD
-        BaseParser.__init__(self, namespace)
-        self.logger.debug("init ganji.CityParser")
-=======
         """构造函数
             Args:
                 namespace: str, 这是上层传递的名字空间
         """
         BaseParser.__init__(self, namespace)
         self.logger.debug("init ganji CityParser")
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
 
     def parse(self, task, response):
         """用於解析城市的html
             Args:
                 task: Task, 任務描述
                 response: HttpResponse, 網頁結果
-<<<<<<< HEAD
-=======
             Yields:
                 city_item: CityItem， 保存城市信息的类
                 task: Task: 新的任务
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         """
         self.logger.debug("CityParser start")
         try:
@@ -64,7 +51,6 @@ class CityParser(BaseParser):
                                      get_city_code(city_element.text))
                 if city_item.chinese_name and city_item.city_code:
                     yield city_item
-<<<<<<< HEAD
                     #print city_element.attrib['href']
 
                     http_request = HTTPRequest(url=build_url(
@@ -76,7 +62,6 @@ class CityParser(BaseParser):
                                     cookie_count=15,
                                     kwargs={'cityname': city_item.city_code})
                     print city_element.attrib['href']
-=======
 
                     http_request = HTTPRequest(url=build_url(
                                                city_element.attrib['href']),
@@ -86,7 +71,6 @@ class CityParser(BaseParser):
                                     cookie_host=city_element.attrib['href'],
                                     cookie_count=15,
                                     kwargs={'citycode': city_item.city_code})
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
                     yield new_task
                 else:
                     self.logger.warn("this item's property is none(chinese:%s,"
@@ -94,11 +78,6 @@ class CityParser(BaseParser):
                                      (city_item.chinese_name,
                                       city_item.city_code))
 
-<<<<<<< HEAD
-        except Exception, e:
-            self.logger.error("city parse extract error:%s " % e)
-=======
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         finally:
             self.logger.debug("city parse end to parse")
 
@@ -124,19 +103,6 @@ class CommunityParser(BaseParser):
             response:HTTPResponse, 下载的结果
         """
         tree = etree.HTML(response.body)
-<<<<<<< HEAD
-        print response.body
-        elems = tree.xpath("//div[@class='listBox']//dl[@class='list-xq']")
-        print 'CommunityParser', len(elems)
-        for elem in elems:
-            community_name = elem.xpath("dd[@class='xq-detail']/p[1]/a/text()")
-            community_name = remove_white(community_name[0]) if len(community_name) > 0 else ""
-            city_name = task.kwargs['cityname']
-            address = elem.xpath("dd[@class='xq-detail']/p[@class='xiaoqu-street']/text()")
-            address = address[0] if len(address) > 0 else ""
-            address = remove_white(address.replace(u"地址:", ""))
-            print city_name, community_name, address
-=======
         elems = tree.xpath("//div[@class='listBox']//dl[@class='list-xq']")
         for elem in elems:
             community_name = elem.xpath("dd[@class='xq-detail']/p[1]/a/text()")
@@ -147,7 +113,6 @@ class CommunityParser(BaseParser):
                                  "/p[@class='xiaoqu-street']/text()")
             address = address[0] if len(address) > 0 else ""
             address = remove_white(address.replace(u"地址:", ""))
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             yield CommunityItem(city_name, community_name, address)
 
         next_url_path = tree.xpath("//div[@class='pageBox']//a[@class='next']/@href")
@@ -156,11 +121,4 @@ class CommunityParser(BaseParser):
             host = replace_url_path(task.request.url, next_url_path)
             http_request = HTTPRequest(host, connect_timeout=5, request_timeout=10)
             next_task = Task(http_request, callback="CommunityParser",
-<<<<<<< HEAD
-                             cookie_host="http://www.ganji.com", cookie_count=15,
-                             kwargs={'cityname': task.kwargs['cityname']})
-=======
-                             cookie_host=task.cookie_host, cookie_count=task.cookie_count,
-                             kwargs={'citycode': task.kwargs['citycode']})
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             yield next_task

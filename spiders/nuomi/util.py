@@ -124,19 +124,11 @@ def item2dict(item):
     """
     clone_dict = {}
     for key, value in item.__dict__.items():
-<<<<<<< HEAD
-        if key is "pictures":
-            clone_dict['pictures'] = [child_value if not isinstance(child_value, unicode)
-                                    else child_value.encode("utf-8")
-                                    for child_value in value]
-        elif key is "place":
-=======
         if key == "pictures":
             clone_dict['pictures'] = [child_value if not isinstance(child_value, unicode)
                                     else child_value.encode("utf-8")
                                     for child_value in value]
         elif key == "place":
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             temp_value = []
             for place_value in value:
                 temp_dict = {}

@@ -586,18 +586,6 @@ def item2dict(item):
     """
     clone_dict = {}
     for key, value in item.__dict__.items():
-<<<<<<< HEAD
-        if key is "start_time":
-            clone_dict['start_time'] = datetime.datetime.fromtimestamp(
-                float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key is "end_time":
-            clone_dict['end_time'] = datetime.datetime.fromtimestamp(
-                float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key is "deadline":
-            clone_dict['deadline'] = datetime.datetime.fromtimestamp(
-                float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key is "pictures":
-=======
         if key == "start_time":
             clone_dict['start_time'] = datetime.datetime.fromtimestamp(
                 float(value)).strftime("%Y-%m-%d %H:%M:%S")
@@ -608,16 +596,11 @@ def item2dict(item):
             clone_dict['deadline'] = datetime.datetime.fromtimestamp(
                 float(value)).strftime("%Y-%m-%d %H:%M:%S")
         elif key == "pictures":
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             clone_dict['pictures'] = [child_value
                                       if not isinstance(child_value, unicode)
                                       else child_value.encode("utf-8")
                                       for child_value in value]
-<<<<<<< HEAD
         elif key is "place":
-=======
-        elif key == "place":
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             temp_value = []
             for place_value in value:
                 temp_dict = {}

@@ -146,17 +146,10 @@ def api_start_worker(params):
         try:
             schedule_path = params.pop('schedule_path')
             spider_path = params.pop('spider_path')
-<<<<<<< HEAD
-            schedule_params = {key[9:]: value for key, value in params.items()
-                               if key.startswith('schedule_')}
-            spider_params = {key[8:]: value for key, value in params.items()
-                             if key.startswith('spider_')}
-=======
             schedule_params = dict([(key[9:], value) for key, value in params.items()
                                if key.startswith('schedule_')])
             spider_params = dict([(key[8:], value) for key, value in params.items()
                              if key.startswith('spider_')])
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             schedule = get_schedule_class(schedule_path)(**schedule_params)
             spider = get_spider_class(spider_path)(schedule, **spider_params)
             start_worker(spider)
@@ -355,8 +348,4 @@ def api_remove_fail_worker(params):
             except Exception, e:
                 return result(500, "unsupported exception", result=str(e))
             else:
-<<<<<<< HEAD
                 return result(200, "success", "remove success")
-=======
-                return result(200, "success", "remove success")
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055

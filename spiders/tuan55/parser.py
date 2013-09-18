@@ -100,11 +100,7 @@ class DealParser(BaseParser):
             item_original_price = date_element.findtext("data/display/value").strip()
             picture_url = date_element.findtext("data/display/image")
             item_description = u""
-<<<<<<< HEAD
-            item_deadline = item_end_time
-=======
             item_deadline = ""
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
             item_short_desc = u""
             item_content_pic = u""
             item_content_text = u""
@@ -188,37 +184,21 @@ class WebParser(BaseParser):
         item_name = remove_white(names[0].replace(">", "")) if names else ""
         saves = tree.xpath("//li[@class='shopprice']/span[6]/text()")
         item_save = remove_white(saves[0].replace(u"¥", "")) if saves else ""
-<<<<<<< HEAD
-        descriptions = tree.xpath("//p[@class='details-p']/text()")
-        item_description = remove_white(descriptions[0]) if descriptions else ""
-=======
         item_description = self._extract_description(tree)
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         item_short_desc = item_description
         item_place = self._extract_place(tree)
         item_refund = self._extract_refund(tree)
         item_noticed = self._extract_noticed(tree)
         item_content_pic = u""
-<<<<<<< HEAD
-        deadlines = tree.xpath(u"(//*[contains(.,'窝窝券有效期：')]/text()[contains(.,'窝窝券有效期：')])")
-        item_deadline = remove_white(deadlines[0]) if deadlines else ""
-        item_content_text = self._extract_content_text(tree)
-        category_text = tree.xpath("//p[@class='Crumbs']/a/text()")
-        category_text = category_text[0] if category_text is not None and len(category_text) > 0 else ""
-        item_discount_type = get_subcate_by_category(category_text)
-=======
         item_deadline = self._extract_deadline(tree, item_noticed)
         item_content_text = self._extract_content_text(tree)
         category_texts = tree.xpath("//p[@class='Crumbs']/a/text()")
         item_discount_type = get_subcate_by_category(category_texts)
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         web_item = WebItem(item_name, item_noticed, item_description, item_short_desc,
                                item_content_text, item_content_pic, item_refund, item_save,
                                item_place, item_deadline, item_discount_type)
         yield web_item
 
-<<<<<<< HEAD
-=======
     def _extract_deadline(self, tree, notice):
         """解析出deadline信息
             Args:
@@ -252,17 +232,12 @@ class WebParser(BaseParser):
             description = remove_white(descriptions[0]) if len(descriptions) > 0 else ""
         return description
 
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
     def _extract_content_text(self, tree):
         """解析出content_text值
             Args:
                 tree:Etree, 树节点
             Returns:
-<<<<<<< HEAD
-
-=======
                 content_text, str, 提取出来的内容
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
         """
         goods_elems = tree.xpath("//div[@id='goodsAll_info_div']//div[@class='xqtext-table']")
         temp_texts = []
@@ -348,24 +323,6 @@ class WebParser(BaseParser):
         return notice_content
 
 def extract_help(elem, text_splits):
-<<<<<<< HEAD
-    if elem.text.rfind(u"小编紧箍咒") != -1 or \
-        elem.text.rfind(u"小编碎碎念") != -1 or \
-        elem.text.rfind(u"窝窝温馨提示") != -1 or \
-        elem.text.rfind(u"窝窝小贴士") != -1 or \
-        elem.text.rfind(u"有话要说") != -1 or \
-        elem.text.rfind(u"窝窝提示") != -1 or \
-        elem.text.rfind(u"小编提示") != -1 or \
-        elem.text.rfind(u"温馨提示") != -1 or \
-        elem.text.rfind(u"小编絮叨ING") != -1 or \
-        elem.text.rfind(u"小编紧箍咒") != -1 :
-        for text in elem.itertext():
-            stripped_text = remove_white(text)
-            if len(stripped_text) > 1 and stripped_text.rfind(u"●") != -1:
-                text_splits.append(" " + stripped_text.replace(u"●", ""))
-                text_splits.append("N_line")
-
-=======
     """解析notice文档
         Args:
             elem, Element, 元素节点
@@ -393,7 +350,6 @@ def extract_help(elem, text_splits):
 
     if is_noticed_text:
         text_splits.extend(temp_texts)
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
 
 class PictureParser(BaseParser):
     """用于处理图片下载请求

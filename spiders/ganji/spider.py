@@ -31,17 +31,6 @@ class GanjiSpider(BaseSpider):
         #                  connect_timeout=3, request_timeout=99),
         #                  callback='DealParser',
         #                  kwargs={'citycode':"360100"}),
-<<<<<<< HEAD
-        #Task(HTTPRequest(url='http://www.ganji.com/index.htm',
-                         #connect_timeout=3, request_timeout=5),
-             #callback='CityParser',
-             #cookie_host='http://www.ganji.com/index.htm',
-             #cookie_count=15, kwargs={}),
-
-        Task(HTTPRequest('http://bj.ganji.com/xiaoqu/', connect_timeout=5, request_timeout=10),
-             callback='CommunityParser', cookie_host='http://www.ganji.com/index.htm', cookie_count=15,
-             kwargs={'cityname': '110000'})
-=======
         Task(HTTPRequest(url='http://www.ganji.com/index.htm',
                          connect_timeout=3, request_timeout=5),
             callback='CityParser'),
@@ -49,5 +38,4 @@ class GanjiSpider(BaseSpider):
         # Task(HTTPRequest('http://bj.ganji.com/xiaoqu/', connect_timeout=5, request_timeout=10),
         #      callback='CommunityParser', cookie_host='http://www.ganji.com/index.htm', cookie_count=15,
         #      kwargs={'citycode': '110000'})
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
     ]

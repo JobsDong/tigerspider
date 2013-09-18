@@ -36,15 +36,6 @@ class Tuan55Spider(BaseSpider):
     }
 
     start_tasks = [
-<<<<<<< HEAD
-        Task(HTTPRequest(url='http://www.55tuan.com/city.xml',
-                         connect_timeout=4, request_timeout=5),
-             dns_need=False, callback='CityParser', kwargs={}),
-        # Task(HTTPRequest(url='http://www.55tuan.com/openAPI.do?city=beijing',
-        #                  connect_timeout=2, request_timeout=99), callback='DealParser',
-        #      kwargs={'citycode':360100})
-    ]
-=======
          Task(HTTPRequest(url='http://www.55tuan.com/city.xml',
                           connect_timeout=4, request_timeout=5),
               dns_need=False, callback='CityParser', kwargs={}),
@@ -54,4 +45,3 @@ class Tuan55Spider(BaseSpider):
         #jTask(HTTPRequest(url='http://www.55tuan.com/goods-967ba93aeaa2208a.html'),
          #    callback='WebParser')
     ]
->>>>>>> 19bc4e3aff7e38d0725c8d8b5b00f3ad36cea055
