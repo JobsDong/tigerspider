@@ -274,20 +274,20 @@ def item2dict(item):
     """
     clone_dict = {}
     for key, value in item.__dict__.items():
-        if key is "start_time":
+        if key == "start_time":
             clone_dict['start_time'] = datetime.datetime.fromtimestamp(
             float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key is "end_time":
+        elif key == "end_time":
             clone_dict['end_time'] = datetime.datetime.fromtimestamp(
             float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key is "deadline":
+        elif key == "deadline":
             clone_dict['deadline'] = datetime.datetime.fromtimestamp(
             float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key is "pictures":
+        elif key == "pictures":
             clone_dict['pictures'] = [child_value if not isinstance(child_value, unicode)
                                     else child_value.encode("utf-8")
                                     for child_value in value]
-        elif key is "place":
+        elif key == "place":
             temp_value = []
             for place_value in value:
                 temp_dict = {}

@@ -8,11 +8,13 @@
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
+import logging.config
 from core.util import walk_settings
 from web.service import WebService
 
-if __name__ == "__main__":
+logging.config.fileConfig("logging.conf")
 
+if __name__ == "__main__":
     walk_settings()
     web_service = WebService()
     web_service.start(1234)

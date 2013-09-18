@@ -12,6 +12,7 @@
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from core.util import logging
+import logging
 
 class BasePipeline(object):
     """处理item的基类

@@ -105,7 +105,6 @@ class DealParser(BaseParser):
             item_short_desc = data_element.findtext("short_desc").strip()
             item_content_pic = u""
             item_content_text = self._extract_content_text(data_element)
-            print item_content_text, "++++++++++++"
             item_purchased_number = data_element.findtext("purchased_number").strip()
             item_m_url = data_element.findtext("m_url").strip()
             item_appointment = ""
@@ -159,13 +158,25 @@ class DealParser(BaseParser):
                 content_text: str, 已处理的str
         """
         content_text = data_element.findtext("content_text")
-        content_text = content_text.replace("<br />", "N_Line")
+        content_text = content_text.replace("-", "")\
+            .replace("<br />", "N_Line-")\
+            .replace("<br/>", "N_Line-")
+
         tree = etree.HTML(content_text)
         temp_texts = []
         for text in tree.itertext():
             stripped_text = remove_white(text)
             if len(stripped_text) > 0:
                 temp_texts.append(stripped_text)
+
+        if len(temp_texts) > 0:
+            last_text = temp_texts.pop()
+            if last_text.endswith("N_Line-") and len(last_text) > 7:
+                temp_texts.append(last_text[:-7])
+            else:
+                temp_texts.append(last_text)
+        if len(temp_texts) > 0:
+            temp_texts.append("-")
 
         return "".join(temp_texts)
 
