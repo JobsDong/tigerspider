@@ -109,15 +109,17 @@ class CoordParser(BaseParser):
             self.logger.error("json loads error xstr %s" % task.kwargs['xstr'])
             self.logger.error("json loads error ystr %s" % task.kwargs['ystr'])
             self.logger.error("json loads error body %s" % response.body)
+        #print 'new task',
         fx = float(orig_x[-1])
         fy = float(orig_y[-1]) + eps
+        print fx, fy
         if fy % 1 != 0.0:
             xstr, ystr = build_xystr(fx, fy)
         else:
             fx += eps
             xstr, ystr = build_xystr(fx, fy-1)
 
-        if fx % 1 != 0.0:
+        if fx-float(city_x) != 1.0:
             http_request = HTTPRequest(url=build_url(xstr, ystr),
                                        connect_timeout=20,
                                        request_timeout=240)

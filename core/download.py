@@ -137,7 +137,7 @@ def _build_cookie_sy(host):
         headers = resp.headers
         if headers and headers.has_key("Set-Cookie"):
             new_cookie = headers["Set-Cookie"]
-            logger.debug("cookie flushed for host:%s" % host)
+            #logger.debug("cookie flushed for host:%s" % host)
         else:
             new_cookie = None
             logger.warn("cookie flushed failed for host:%s" % host)
