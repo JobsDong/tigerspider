@@ -99,7 +99,7 @@ class WebItemPipeline(BasePipeline):
 
     def __init__(self, namespace, temp_host="localhost", temp_port=6379,
                  temp_db=0, db_host="192.168.11.195", db_port=5432, db_user="postgres",
-                 db_password="titps4gg", db_base="swift"):
+                 db_password="titps4gg", db_base="test"):
         """初始化WebItemPipeline
             主要是连接redis，postgres
         """

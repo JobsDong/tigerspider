@@ -253,7 +253,8 @@ class RedisSet(object):
             raise RedisError("encode error:%s" % e)
 
         try:
-            self._db.sismember(self.namespace, encodedvalue)
+            is_exist = self._db.sismember(self.namespace, encodedvalue)
+            return is_exist
         except Exception, e:
             raise RedisError("redis error:%s" % e)
 

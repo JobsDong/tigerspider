@@ -3,7 +3,8 @@
 
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
-__author__ = 'wuyadong'
+
+__authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import json
 import cPickle as pickle
@@ -28,7 +29,6 @@ class Task(object):
         self.reason = reason
         self.cookie_host = cookie_host
         self.cookie_count = cookie_count
-
         self.max_fail_count = max_fail_count
         self.dns_need = dns_need
 

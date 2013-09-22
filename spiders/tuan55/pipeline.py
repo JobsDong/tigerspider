@@ -56,7 +56,7 @@ class WebItemPipeline(BasePipeline):
     """
     def __init__(self, namespace, temp_host="localhost", temp_port=6379,
                  temp_db=0, db_host="192.168.11.195", db_port=5432, db_user="postgres",
-                 db_password="titps4gg", db_base="swift"):
+                 db_password="titps4gg", db_base="test"):
         """初始化WebItemPipeline
             主要是连接redis，postgres
         """
@@ -111,12 +111,15 @@ class WebItemPipeline(BasePipeline):
                             " start_time=%(start_time)s, end_time=%(end_time)s, info=%(info)s," \
                             " source=%(source)s, update_time=%(update_time)s WHERE url=%(url)s"
 
-                self.item_db.execute_update(updatesql, {'city_code': item.city_code,
-                                                        'type': 90002003, 'start_time': datetime.datetime.fromtimestamp(
-                                                        float(item.start_time)),
-                                                        'end_time': datetime.datetime.fromtimestamp(float(item.end_time)),
-                                                        'info': encodestr, 'source': '55tuan',
-                                                        'update_time': datetime.datetime.now(), 'url': item.url})
+                self.item_db.execute_update(updatesql,
+                                            {'city_code': item.city_code,'type': 90002003,
+                                             'start_time': datetime.datetime.fromtimestamp(
+                                                 float(item.start_time)),
+                                            'end_time': datetime.datetime.fromtimestamp(
+                                                 float(item.end_time)),
+                                            'info': encodestr, 'source': '55tuan',
+                                            'update_time': datetime.datetime.now(),
+                                            'url': item.url})
             else:
                 insertsql = "INSERT INTO rt_crawl \
                 (city_code, type, start_time, end_time, \
@@ -126,9 +129,12 @@ class WebItemPipeline(BasePipeline):
 
 
                 self.item_db.execute_update(insertsql, {'city_code': item.city_code,
-                    'type': 90002003, 'start_time': datetime.datetime.fromtimestamp(float(item.start_time)),
-                    'end_time': datetime.datetime.fromtimestamp(float(item.end_time)),'info': encodestr,
-                    'url': item.url, 'source': '55tuan','update_time': datetime.datetime.now(),
+                    'type': 90002003, 'start_time': datetime.datetime.fromtimestamp(
+                                                float(item.start_time)),
+                    'end_time': datetime.datetime.fromtimestamp(
+                                                float(item.end_time)),
+                    'info': encodestr,'url': item.url,
+                    'source': '55tuan','update_time': datetime.datetime.now(),
                     'add_time': datetime.datetime.now()})
 
         except Exception, e:

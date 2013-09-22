@@ -184,7 +184,7 @@ class Worker(object):
         self.worker_statistic.count_average_fetch_time(
             task.callback, fetch_start_time,fetch_time)
 
-        if resp.code is 200 and resp.error is None:
+        if resp.code == 200 and resp.error is None:
             self.logger.debug("fetch success")
             self.worker_statistic.add_spider_success(task.callback + "-fetch")
             self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
@@ -193,8 +193,7 @@ class Worker(object):
             self.logger.error("fetch request failed, code:%s error:%s url:%s" %
                               (resp.code, resp.error, task.request.url))
             task.reason = "fetch error, code:%s " % (resp.code, )
-            self.worker_statistic.add_spider_retry(task.callback, task.reason)
-            self.spider.crawl_schedule.handle_fail_task(task)
+            self.handle_fail_task(task, "fetch-" + task.callback)
 
         self.worker_statistic.decre_processing_number()
 
@@ -213,8 +212,7 @@ class Worker(object):
         except Exception, e:
             self.logger.error("parser error:%s" % e)
             task.reason = "extract error"
-            self.spider.crawl_schedule.handle_fail_task(task)
-            self.worker_statistic.add_spider_retry(task.callback, task.reason)
+            self.handle_fail_task(task, "parse-" + task.callback)
         else:
             try:
                 if hrefs is not None:
@@ -228,9 +226,8 @@ class Worker(object):
                             except Exception, e:
                                 self.logger.error("handle error:%s" % e)
                                 task.reason = "handle error"
-                                self.spider.crawl_schedule.handle_fail_task(task)
-                                self.worker_statistic.add_spider_retry(
-                                    item_or_task.__class__.__name__, "handle inner error")
+                                self.handle_fail_task(task,
+                                  "handle-" + item_or_task.__class__.__name__,)
                             else:
                                 self.worker_statistic.add_spider_success(
                                     "%s-%s" % (item_or_task.__class__.__name__, "handle"))
@@ -241,8 +238,7 @@ class Worker(object):
             except Exception, e:
                 self.logger.error("extract url: %s error:%s" % (task.request.url, e))
                 task.reason = "extract error"
-                self.spider.crawl_schedule.handle_fail_task(task)
-                self.worker_statistic.add_spider_retry(task.callback, task.reason)
+                self.handle_fail_task(task, "parse-" + task.callback)
             else:
                 extract_time = datetime.datetime.now() - extract_start_time
                 self.worker_statistic.count_average_extract_time(
@@ -282,6 +278,35 @@ class Worker(object):
                     datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval
                                                     * 3),
                     self.loop_get_and_execute)
+
+
+    def handle_fail_task(self, task, key):
+        """handle fail task
+
+            Args:
+                task:Task, task object
+        """
+        #  这样的错误就重试，其他的不
+        if task.reason.find("fetch error") != -1 and task.reason.find("404") == -1:
+            if task.fail_count > task.max_fail_count:
+                self.worker_statistic.add_spider_fail(key, task.reason)
+                self.spider.crawl_schedule.handle_fail_task(task)
+            else:
+                task.fail_count += 1
+                self.logger.error("one request failed %s" % task.reason)
+                if task.request.connect_timeout is not None:
+                    task.request.connect_timeout = task.request.connect_timeout * 2
+                if task.request.request_timeout is not None:
+                    task.request.request_timeout = task.request.request_timeout * 2
+                self.worker_statistic.add_spider_retry(key, task.reason)
+                self.spider.crawl_schedule.push_new_task(task)
+        #  这样的错误永远不重试
+        else:
+            self.worker_statistic.add_spider_fail(key, task.reason)
+            self.spider.crawl_schedule.handle_fail_task(task)
+
+
+
 
 def _move_start_tasks_to_crawl_schedule(start_tasks, crawl_schedule):
     """将种子任务转移到crawl_schedule中的待抓取队列

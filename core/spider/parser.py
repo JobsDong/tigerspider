@@ -9,7 +9,6 @@
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from core.util import logging
 import logging
 
 class ParserError(Exception):

@@ -61,7 +61,6 @@ class CityParser(BaseParser):
                                     cookie_host='http://www.ganji.com/index.htm',
                                     cookie_count=15,
                                     kwargs={'cityname': city_item.city_code})
-                    print city_element.attrib['href']
 
                     http_request = HTTPRequest(url=build_url(
                                                city_element.attrib['href']),
@@ -103,8 +102,6 @@ class CommunityParser(BaseParser):
             response:HTTPResponse, 下载的结果
         """
         tree = etree.HTML(response.body)
-        if '下面的验证码' in response.body:
-            print '遇到验证码了'
         elems = tree.xpath("//div[@class='listBox']//dl[@class='list-xq']")
         for elem in elems:
             community_name = elem.xpath("dd[@class='xq-detail']/p[1]/a/text()")

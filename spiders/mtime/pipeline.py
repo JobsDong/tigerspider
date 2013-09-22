@@ -46,7 +46,6 @@ class RealInfoPipeline(BasePipeline):
         if isinstance(item, RealInfoItem) and len(item.url) > 0:
             self._store_item(item)
 
-
     def _store_item(self, item):
         """储存item项
             Args:

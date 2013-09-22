@@ -114,15 +114,21 @@ class DealParser(BaseParser):
             item_remaining = data_element.findtext("remaining").strip()
             item_limit = data_element.findtext("limit").strip()
             item_noticed = data_element.findtext("noticed").replace("\n", "N_Line")
+            item_contact = u""
             item_pictures, picture_task = self._check_and_execute_picture(picture_url)
             if picture_task:
                 yield picture_task
-            deal_item = DealItem(item_price, item_city_code, item_dealid, item_url, item_name,
-                                 item_discount, item_start_time, item_end_time, item_discount,
-                                 item_original_price, item_noticed, item_pictures, item_description,
-                                 item_deadline, item_short_desc, item_content_text, item_content_pic,
-                                 item_purchased_number, item_m_url, item_appointment, item_place,
-                                 item_save, item_remaining, item_limit, item_refund)
+            deal_item = DealItem(price=item_price, city_code=item_city_code, dealid=item_dealid,
+                                 url=item_url, name=item_name, discount=item_discount,
+                                 start_time=item_start_time, end_time=item_end_time,
+                                 discount_type=item_discount_type, original_price=item_original_price,
+                                 noticed=item_noticed, pictures=item_pictures,
+                                 description=item_description, deadline=item_deadline,
+                                 short_desc=item_short_desc, content_text=item_content_text,
+                                 content_pic=item_content_pic, purchased_number=item_purchased_number,
+                                 m_url=item_m_url, appointment=item_appointment, place=item_place,
+                                 save=item_save, remaining=item_remaining, limit=item_limit,
+                                 refund=item_refund, contact=item_contact)
             yield deal_item
 
     def _check_and_execute_picture(self, picture_url):
@@ -140,7 +146,7 @@ class DealParser(BaseParser):
                 .lower()
             pictures.append(picture_path)
 
-        if len(pictures) >= 1 and not os.path.exists(pictures[0]):
+        if len(pictures) >= 1 and not os.path.exists(self._picture_dir + pictures[0]):
             picture_request = HTTPRequest(url=str(picture_url), connect_timeout=10,
                                           request_timeout=40)
             picture_task = Task(picture_request, callback='PictureParser',
@@ -194,6 +200,8 @@ class DealParser(BaseParser):
             place_info['place_name'] = remove_white(place.findtext("place_name"))
             place_info['address'] = remove_white(place.findtext("address"))
             place_info['place_phone'] = remove_white(place.findtext("place_phone"))
+            place_info['longitude'] = remove_white(place.findtext("longitude"))
+            place_info['latitude'] = remove_white(place.findtext("latitude"))
             place_info['open_time'] = remove_white(place.findtext("open_time"))
             item_places.append(place_info)
         return item_places

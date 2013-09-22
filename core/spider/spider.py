@@ -15,7 +15,6 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import uuid
 
-from core.util import logging
 import logging
 
 class SpiderError(Exception):

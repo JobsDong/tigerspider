@@ -25,7 +25,6 @@ class RedisSchedule(BaseSchedule):
             Args:
                 interval: str or int ,抓取间隔
                 max_number: str or int, 最大并发度
-                max_fail_count: str or int, 最多错误次数
             Raises:
                 ScheduleError: 当发生错误的时候
         """
@@ -40,7 +39,6 @@ class RedisSchedule(BaseSchedule):
             raise ScheduleError("params error:%s" % e)
 
         self._namespace = str(uuid.uuid4()) if not namespace else namespace
-        self._max_fail_count = max_fail_count
         try:
             self._prepare_to_process_queue = RedisQueue("%s:%s" % (self._namespace, "prepare",),
                                                         host=host, port=port, db=db)
@@ -58,7 +56,7 @@ class RedisSchedule(BaseSchedule):
 
         self._kwargs = {'namespace': self._namespace, "host": host,
                         "port": port, "db": db, "interval":interval,
-                        "max_number": max_number, "max_fail_count": max_fail_count}
+                        "max_number": max_number,}
         BaseSchedule.__init__(self, interval, max_number)
 
     @property
@@ -123,11 +121,6 @@ class RedisSchedule(BaseSchedule):
 
     def handle_fail_task(self, task):
         """处理失败的task,
-            当是reason是如下：
-                fetch error:404--------------------->不重试
-                fetch error:other-------------------->重试一次
-                extract error:any--------------------->不重试
-                handle error:any---------------------->不重试
             Args:
                 task:Task 失败的task
 
@@ -137,23 +130,10 @@ class RedisSchedule(BaseSchedule):
         if self._is_stopped:
             return
         try:
-            #  这样的错误就重试，其他的不
-            if task.reason.find("fetch error:") != -1 and task.reason.find("404") == -1:
-                if task.fail_count >= task.max_fail_count:
-                    self._fail_queue.push(task)
-                else:
-                    task.fail_count += 1
-                    self.logger.warn("one request failed %s" % task.reason)
-                    if task.request.connect_timeout is not None:
-                        task.request.connect_timeout = task.request.connect_timeout * 2
-                    if task.request.request_timeout is not None:
-                        task.request.request_timeout = task.request.request_timeout * 2
-                    self._prepare_to_process_queue.push(task)
-            #  这样的错误永远不重试
-            else:
-                self._fail_queue.push(task)
+            self._fail_queue.push(task)
         except RedisError, e:
-            raise ScheduleError("redis error:%s" % e)
+            raise ScheduleError("fail queue push failed error:%s" % e)
+
 
     def fail_task_size(self):
         """get fail task size
@@ -171,10 +151,8 @@ class RedisSchedule(BaseSchedule):
             Yields:
                 task:Task, fail task
         """
-        print "nimabi"
         while self._fail_queue.size() > 0:
             fail_task = self._fail_queue.pop()
-            print "wocha"
             if fail_task:
                 yield fail_task
 

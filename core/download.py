@@ -24,14 +24,14 @@ httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClien
 client = httpclient.AsyncHTTPClient()
 
 _host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=1; "
-                 r"abt=1378729480.0%7CBDF; rvct=1; rvd=8190998;"
-                 r" rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0;"
-                 r" __utma=1.580685477.1378729555.1378729555.1378729555.1;"
-                 r" __utmb=1.5.9.1378729597349; __utmc=1;"
-                 r" __utmz=1.1378729555.1.1.utmcsr=(direct)|"
-                 r"utmccn=(direct)|utmcmd=(none);"
-                 r" __utmv=1.|1=city=beijing=1;"
-                 r" __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall"}
+                r"abt=1378729480.0%7CBDF; rvct=1; rvd=8190998;"
+                r" rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0;"
+                r" __utma=1.580685477.1378729555.1378729555.1378729555.1;"
+                r" __utmb=1.5.9.1378729597349; __utmc=1;"
+                r" __utmz=1.1378729555.1.1.utmcsr=(direct)|"
+                r"utmccn=(direct)|utmcmd=(none);"
+                r" __utmv=1.|1=city=beijing=1;"
+                r" __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall"}
 _cookie_used_counts = {"http://www.meituan.com": 0}
 _cookie_is_buildings = set()
 
@@ -42,13 +42,11 @@ DEFAULT_USER_AGENT = r"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, l
 DEFAULT_ACCEPT_ENCODING = r"gzip,deflate,sdch"
 DEFAULT_ACCEPT = r"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 
-
 class GetPageException(Exception):
     '''
     get page exeception
     '''
     pass
-
 
 @gen.coroutine
 def fetch(task):
@@ -87,7 +85,6 @@ def fetch(task):
     resp = yield gen.Task(client.fetch, http_request)
     raise gen.Return(resp)
 
-
 #TODO 使用LRU算法对cache进行改进
 def _get_page_sy(task, cookie):
     headers = {"User-Agent": DEFAULT_USER_AGENT,
@@ -117,7 +114,6 @@ def _get_page_sy(task, cookie):
         resp = GetPageException(e)
     return resp
 
-
 def get_ip_by_host(host):
     '''
     根据host获取对应的ip，类似于简易的dns cache
@@ -130,7 +126,6 @@ def get_ip_by_host(host):
         _host_ip_cache[host] = sockaddr[0]
     else:
         return _host_ip_cache[host]
-
 
 def _build_cookie_sy(host):
     """访问主页，获取cookie
@@ -156,7 +151,6 @@ def _build_cookie_sy(host):
     _host_cookies[host] = new_cookie
     _cookie_used_counts[host] = 0
 
-
 def get_cookie_sy(host, flushcount=20):
     """获得可用的cookie，采用的事同步方式
         每隔flushcount次，cookie会自动刷新
@@ -178,3 +172,4 @@ def get_cookie_sy(host, flushcount=20):
         return _host_cookies.get(host)
     else:
         return None
+

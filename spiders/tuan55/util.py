@@ -77,6 +77,9 @@ def build_url_by_city_name(city_qname):
     return "http://www.55tuan.com/openAPI.do?city=%s" % city_qname
 
 def get_subcate_by_category(category_texts):
+    """
+        notice: 结婚 is 丽人 ?
+    """
     category = "".join(category_texts)
     if category.rfind(u"美食") != -1:
         return u"美食"
@@ -88,7 +91,7 @@ def get_subcate_by_category(category_texts):
         return u"酒店旅游"
     elif category.rfind(u"摄影写真") != -1 or category.rfind(u"美发") != -1 or \
     category.rfind(u"SPA") != -1 or category.rfind(u"美容塑形") != -1 or \
-    category.rfind(u"美甲") != -1:
+    category.rfind(u"美甲") != -1 or category.rfind(u'结婚') != -1:
         return u"丽人"
     elif category.rfind(u"KTV") != -1:
         return u"KTV"
@@ -98,6 +101,7 @@ def get_subcate_by_category(category_texts):
     elif category.rfind(u"生活服务") != -1 or category.rfind(u"美容保健") != -1:
         return u"生活服务"
     else:
+        print category
         return None
 
 def extract_id_from_url(url):
@@ -173,9 +177,6 @@ def item2dict(item):
             float(value)).strftime("%Y-%m-%d %H:%M:%S")
         elif key == "end_time":
             clone_dict['end_time'] = datetime.datetime.fromtimestamp(
-            float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key == "deadline":
-            clone_dict['deadline'] = datetime.datetime.fromtimestamp(
             float(value)).strftime("%Y-%m-%d %H:%M:%S")
         elif key == "pictures":
             clone_dict['pictures'] = [child_value if not isinstance(child_value, unicode)

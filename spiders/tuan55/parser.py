@@ -24,7 +24,7 @@ from spiders.tuan55.util import (get_city_code, build_url_by_city_name,
                                  get_subcate_by_category,extract_id_from_url,
                                  convert_to_m_url, extract_dl, extract_table)
 
-DEFAULT_PICTURE_DIR = u"/opt/swift_crawler/"
+DEFAULT_PICTURE_DIR = u"/home/wuyadong/swift_crawler/"
 DEFAULT_PICTURE_HOST = u"fruit-pictures/"
 
 class CityParser(BaseParser):
@@ -57,9 +57,9 @@ class CityParser(BaseParser):
             if item.chinese_name and item.english_name and item.city_code:
                 yield item
                 http_request = HTTPRequest(url=build_url_by_city_name(item.english_name),
-                                               connect_timeout=20, request_timeout=240)
+                                               connect_timeout=20, request_timeout=360)
                 new_task = Task(http_request, callback='DealParser',
-                                    kwargs={'citycode':item.city_code})
+                                max_fail_count=5, kwargs={'citycode':item.city_code})
                 yield new_task
             else:
                 self.logger.warn("city item's property is empty chinese:%s, english:%s,"
@@ -113,6 +113,7 @@ class DealParser(BaseParser):
             item_remaining = u""
             item_limit = u""
             item_noticed = u""
+            item_contact = u""
             item_pictures, picture_task = self._check_and_execute_picture(picture_url)
 
             deal_item = DealItem(item_price, item_city_code, item_dealid,
@@ -123,7 +124,8 @@ class DealParser(BaseParser):
                                      item_short_desc, item_content_text,
                                      item_content_pic, item_purchased_number, item_m_url,
                                      item_appointment, item_place,
-                                     item_save, item_remaining, item_limit, item_refund)
+                                     item_save, item_remaining, item_limit, item_refund,
+                                     item_contact)
             yield deal_item
             http_request = HTTPRequest(url=deal_item.url, connect_timeout=5,
                                            request_timeout=10)
@@ -148,7 +150,7 @@ class DealParser(BaseParser):
                 .lower()
             pictures.append(picture_path)
 
-        if len(pictures) >= 1 and not os.path.exists(pictures[0]):
+        if len(pictures) >= 1 and not os.path.exists(self._picture_dir + pictures[0]):
             picture_request = HTTPRequest(url=str(picture_url), connect_timeout=10,
                                           request_timeout=60)
             picture_task = Task(picture_request, callback='PictureParser',
@@ -289,6 +291,8 @@ class WebParser(BaseParser):
             a_place['address'] = remove_white(place_address[0]) if place_address else ""
             place_phones = li_elem.xpath("p/span[2]/text()")
             a_place['place_phone'] = remove_white(place_phones[0]) if place_phones else ""
+            a_place['longitude'] = u""
+            a_place['latitude'] = u""
             open_times = li_elem.xpath("p/span[3]/text()")
             a_place['open_time'] = remove_white(open_times[0]) if open_times else ""
             places.append(a_place)

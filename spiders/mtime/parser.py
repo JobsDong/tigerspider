@@ -87,4 +87,3 @@ def _build_url(task_url, movie_id, show_id):
             url: str, 构造出来的movie的url
     """
     return "%sshowtime.html?m=%s&s=%s" % (task_url, movie_id, show_id)
-

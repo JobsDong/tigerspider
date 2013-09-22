@@ -9,7 +9,6 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import os
 import sys
 import re
-import logging
 import cPickle as pickle
 import json
 from tornado import gen
