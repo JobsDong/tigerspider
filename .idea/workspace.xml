@@ -1,19 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="529554e5-292c-457f-9551-3fcab854b1cf" name="Default" comment="" />
+    <list default="true" id="529554e5-292c-457f-9551-3fcab854b1cf" name="Default" comment="add failure processor">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/datastruct.py" afterPath="$PROJECT_DIR$/core/datastruct.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/db.py" afterPath="$PROJECT_DIR$/core/db.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/download.py" afterPath="$PROJECT_DIR$/core/download.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loadtask.py" afterPath="$PROJECT_DIR$/loadtask.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logging.conf" afterPath="$PROJECT_DIR$/logging.conf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/logs/meituan.log" afterPath="$PROJECT_DIR$/data/logs/meituan.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/spider/parser.py" afterPath="$PROJECT_DIR$/core/spider/parser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/ganji/parser.py" afterPath="$PROJECT_DIR$/spiders/ganji/parser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/meituan/parser.py" afterPath="$PROJECT_DIR$/spiders/meituan/parser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/mtime/parser.py" afterPath="$PROJECT_DIR$/spiders/mtime/parser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/nuomi/parser.py" afterPath="$PROJECT_DIR$/spiders/nuomi/parser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/tuan55/parser.py" afterPath="$PROJECT_DIR$/spiders/tuan55/parser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/meituan/pipeline.py" afterPath="$PROJECT_DIR$/spiders/meituan/pipeline.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/mtime/pipeline.py" afterPath="$PROJECT_DIR$/spiders/mtime/pipeline.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/nuomi/pipeline.py" afterPath="$PROJECT_DIR$/spiders/nuomi/pipeline.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/tuan55/pipeline.py" afterPath="$PROJECT_DIR$/spiders/tuan55/pipeline.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/redistools.py" afterPath="$PROJECT_DIR$/core/redistools.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/schedules/schedules.py" afterPath="$PROJECT_DIR$/schedules/schedules.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/spider/spider.py" afterPath="$PROJECT_DIR$/core/spider/spider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/ganji/spider.py" afterPath="$PROJECT_DIR$/spiders/ganji/spider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/meituan/spider.py" afterPath="$PROJECT_DIR$/spiders/meituan/spider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/mtime/spider.py" afterPath="$PROJECT_DIR$/spiders/mtime/spider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/nuomi/spider.py" afterPath="$PROJECT_DIR$/spiders/nuomi/spider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/tuan55/spider.py" afterPath="$PROJECT_DIR$/spiders/tuan55/spider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/statistic.py" afterPath="$PROJECT_DIR$/core/statistic.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/util.py" afterPath="$PROJECT_DIR$/core/util.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/meituan/util.py" afterPath="$PROJECT_DIR$/spiders/meituan/util.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/tuan55/util.py" afterPath="$PROJECT_DIR$/spiders/tuan55/util.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/template/worker.html" afterPath="$PROJECT_DIR$/web/template/worker.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/worker.py" afterPath="$PROJECT_DIR$/core/worker.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="webspider.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/a.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379407298027" ignored="false" />
-    <file path="/a.dummy" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379410389837" ignored="false" />
-    <file path="/logging.conf" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379409057516" ignored="false" />
-    <file path="/pipeline.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379408777320" ignored="false" />
-    <file path="/worker.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379421439094" ignored="false" />
-    <file path="/schedules.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379422341212" ignored="false" />
+    <file path="/a.dummy" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379826395565" ignored="false" />
+    <file path="/logging.conf" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379835666795" ignored="false" />
+    <file path="/pipeline.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379906062681" ignored="false" />
+    <file path="/worker.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379920116732" ignored="false" />
+    <file path="/schedules.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379836063986" ignored="false" />
     <file path="/redistools.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379408994936" ignored="false" />
-    <file path="/statistic.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379422054929" ignored="false" />
+    <file path="/statistic.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379827060203" ignored="false" />
     <file path="/schedule.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379414847782" ignored="false" />
-    <file path="/datastruct.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379422383027" ignored="false" />
+    <file path="/datastruct.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379829300412" ignored="false" />
+    <file path="/Dummy.txt" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379927051714" ignored="false" />
+    <file path="/parser.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379926848501" ignored="false" />
+    <file path="/items.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379484007905" ignored="false" />
+    <file path="/test.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379924629683" ignored="false" />
+    <file path="/spider.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379906948662" ignored="false" />
+    <file path="/monitor.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379488002828" ignored="false" />
+    <file path="/util.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379921084899" ignored="false" />
+    <file path="/pages.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379817313421" ignored="false" />
+    <file path="/worker.html" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379817838283" ignored="false" />
+    <file path="/wgettest.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379820218503" ignored="false" />
+    <file path="/load_task.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379825023494" ignored="false" />
+    <file path="/loadtask.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379926193855" ignored="false" />
+    <file path="/download.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379829116019" ignored="false" />
+    <file path="/db.py" changelist="529554e5-292c-457f-9551-3fcab854b1cf" time="1379828895136" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,53 +81,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="worker.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/worker.py">
+      <file leaf-file-name="parser.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/mtime/parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="17" selection-start="5525" selection-end="5525" vertical-scroll-proportion="0.30283225">
+            <state line="54" column="19" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#428#443#0" expanded="true" />
+                <element signature="e#211#232#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="statistic.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/statistic.py">
+      <file leaf-file-name="loadtask.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loadtask.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#295#310#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schedule.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/schedule.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="33" selection-start="1683" selection-end="1683" vertical-scroll-proportion="0.0">
+            <state line="60" column="38" selection-start="1894" selection-end="1894" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="schedules.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schedules/schedules.py">
+      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="47" selection-start="5225" selection-end="5225" vertical-scroll-proportion="0.0">
+            <state line="7" column="26" selection-start="185" selection-end="185" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="datastruct.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/datastruct.py">
+      <file leaf-file-name="util.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spiders/tuan55/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="40" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#128#139#0" expanded="true" />
-              </folding>
+            <state line="122" column="2" selection-start="2634" selection-end="2634" vertical-scroll-proportion="0.1936842">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -91,21 +126,34 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myStructureFilterPaths" />
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/spiders/ganji/util.py" />
-        <option value="$PROJECT_DIR$/spiders/nuomi/util.py" />
-        <option value="$PROJECT_DIR$/spiders/tuan55/util.py" />
-        <option value="$PROJECT_DIR$/spiders/meituan/pipeline.py" />
-        <option value="$PROJECT_DIR$/spiders/meituan/spider.py" />
         <option value="$PROJECT_DIR$/logging.conf" />
-        <option value="$PROJECT_DIR$/core/redistools.py" />
-        <option value="$PROJECT_DIR$/core/schedule.py" />
-        <option value="$PROJECT_DIR$/core/worker.py" />
-        <option value="$PROJECT_DIR$/core/statistic.py" />
         <option value="$PROJECT_DIR$/schedules/schedules.py" />
-        <option value="$PROJECT_DIR$/core/datastruct.py" />
+        <option value="$PROJECT_DIR$/spiders/tuan55/spider.py" />
+        <option value="$PROJECT_DIR$/spiders/meituan/parser.py" />
+        <option value="$PROJECT_DIR$/spiders/ganji/parser.py" />
+        <option value="$PROJECT_DIR$/spiders/tuan55/pipeline.py" />
+        <option value="$PROJECT_DIR$/spiders/tuan55/parser.py" />
+        <option value="$PROJECT_DIR$/spiders/nuomi/parser.py" />
+        <option value="$PROJECT_DIR$/spiders/mtime/pipeline.py" />
+        <option value="$PROJECT_DIR$/spiders/mtime/spider.py" />
+        <option value="$PROJECT_DIR$/core/worker.py" />
+        <option value="$PROJECT_DIR$/core/util.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/loadtask.py" />
+        <option value="$PROJECT_DIR$/spiders/mtime/parser.py" />
+        <option value="$PROJECT_DIR$/spiders/tuan55/util.py" />
       </list>
     </option>
   </component>
@@ -115,7 +163,7 @@
     <option name="width" value="1375" />
     <option name="height" value="876" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -155,7 +203,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="webspider" />
+              <option name="myItemId" value="tigerknows-spider" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -165,25 +213,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="webspider" />
+              <option name="myItemId" value="tigerknows-spider" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="schedules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webspider" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webspider" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
+              <option name="myItemId" value="spiders" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -196,7 +230,8 @@
     <property name="options.splitter.main.proportions" value="0.30050084" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="fileTemplates" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
@@ -208,7 +243,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.monitor">
+  <component name="RunManager" selected="Python.test">
     <configuration default="false" name="monitor" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -223,6 +258,44 @@
       <module name="webspider" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/monitor.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="webspider" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="wgettest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/nuomi" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="webspider" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/nuomi/wgettest.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -288,12 +361,23 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <list size="1">
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.monitor" />
+      <item index="1" class="java.lang.String" itemvalue="Python.test" />
+      <item index="2" class="java.lang.String" itemvalue="Python.wgettest" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.monitor" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.test" />
+        <item index="1" class="java.lang.String" itemvalue="Python.monitor" />
+        <item index="2" class="java.lang.String" itemvalue="Python.wgettest" />
       </list>
     </recent_temporary>
   </component>
@@ -321,29 +405,55 @@
       <created>1379407162513</created>
       <updated>1379407162513</updated>
     </task>
+    <task id="LOCAL-00001" summary="add failure processor">
+      <created>1379813254817</created>
+      <updated>1379813254817</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TodoView" selected-index="4">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1375" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31924528" sideWeight="0.65026593" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16" sideWeight="0.64893615" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.61835104" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32978722" sideWeight="0.49962264" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19924529" sideWeight="0.42952126" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14792453" sideWeight="0.67021275" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35106382" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16377358" sideWeight="0.28590426" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3882979" sideWeight="0.50037736" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28457448" sideWeight="0.49962264" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3444149" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -388,7 +498,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="LAST_COMMIT_MESSAGE" value="add failure processor" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -402,71 +512,59 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="add failure processor" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/spiders/mtime/parser.py">
+    <entry file="file://$PROJECT_DIR$/spiders/nuomi/parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="53" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.0">
+        <state line="189" column="13" selection-start="8125" selection-end="8125" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#274#283#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/mtime/items.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="23" selection-start="830" selection-end="840" vertical-scroll-proportion="1.5634921">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/meituan/pipeline.py">
+    <entry file="file://$PROJECT_DIR$/spiders/mtime/spider.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="202" column="16" selection-start="7613" selection-end="7613" vertical-scroll-proportion="0.0">
+        <state line="26" column="0" selection-start="577" selection-end="577" vertical-scroll-proportion="0.46296296">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/meituan/spider.py">
+    <entry file="file://$PROJECT_DIR$/spiders/mtime/pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="19" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0">
+        <state line="47" column="36" selection-start="1498" selection-end="1498" vertical-scroll-proportion="0.46560848">
+          <folding>
+            <element signature="e#159#170#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schedules/schedules.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="13" selection-start="2593" selection-end="2593" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/python2.7/logging/config.py">
+    <entry file="file://$PROJECT_DIR$/core/statistic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="0" selection-start="2653" selection-end="2653" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="187" column="8" selection-start="4831" selection-end="4831" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/spider/spider.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="42" selection-start="3361" selection-end="3361" vertical-scroll-proportion="0.3705263">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/meituan/parser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="11" selection-start="3158" selection-end="3158" vertical-scroll-proportion="0.2857143">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/worker_record.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="22" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/redistools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="41" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.5444744">
-          <folding />
+        <state line="264" column="36" selection-start="9985" selection-end="9985" vertical-scroll-proportion="0.464">
+          <folding>
+            <element signature="e#295#310#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -477,51 +575,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logging.conf">
+    <entry file="file:///usr/lib/python2.7/functools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="26" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/statistic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#295#310#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/schedule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="33" selection-start="1683" selection-end="1683" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schedules/schedules.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="47" selection-start="5225" selection-end="5225" vertical-scroll-proportion="0.0">
+        <state line="32" column="0" selection-start="1310" selection-end="1310" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/datastruct.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="40" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#128#139#0" expanded="true" />
-          </folding>
+        <state line="27" column="13" selection-start="709" selection-end="709" vertical-scroll-proportion="0.9756637">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/download.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="26" selection-start="2682" selection-end="2682" vertical-scroll-proportion="2.7881548">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/worker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="17" selection-start="5525" selection-end="5525" vertical-scroll-proportion="0.30283225">
+        <state line="172" column="23" selection-start="5819" selection-end="5837" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#428#443#0" expanded="true" />
+            <element signature="e#427#442#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="7" selection-start="1507" selection-end="1507" vertical-scroll-proportion="0.38938054">
+          <folding>
+            <element signature="e#160#169#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="26" selection-start="185" selection-end="185" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadtask.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="38" selection-start="1894" selection-end="1894" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/mtime/parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="19" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#211#232#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/tuan55/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="2" selection-start="2634" selection-end="2634" vertical-scroll-proportion="0.1936842">
+          <folding />
         </state>
       </provider>
     </entry>

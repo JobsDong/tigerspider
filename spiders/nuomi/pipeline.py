@@ -10,7 +10,7 @@ import os
 import json
 
 from core.spider.pipeline import BasePipeline
-from core.db import DB, DBException
+from core.db import DB, DBError
 
 from spiders.nuomi.items import DealItem, PictureItem
 from spiders.nuomi.util import item2dict
@@ -18,8 +18,8 @@ from spiders.nuomi.util import item2dict
 class DealItemPipeline(BasePipeline):
     """处理DealItem的类
     """
-    def __init__(self, namespace, db_host="localhost", db_port=5432, db_user="postgres",
-                 db_password="311521", db_base="swift"):
+    def __init__(self, namespace, db_host="192.168.11.195", db_port=5432,
+                 db_user="postgres", db_password="titps4gg", db_base="test"):
         """初始化DealItemPipeline
             主要是链接数据库
         """
@@ -28,7 +28,7 @@ class DealItemPipeline(BasePipeline):
         try:
             self.item_db = DB(host=db_host, port=db_port,user=db_user,
                               password=db_password, database=db_base)
-        except DBException, e:
+        except DBError, e:
             self.logger.error("db error %s" % e)
 
     def process_item(self, item, kwargs):
@@ -51,11 +51,13 @@ class DealItemPipeline(BasePipeline):
                             " start_time=%(start_time)s, end_time=%(end_time)s, info=%(info)s," \
                             " source=%(source)s, update_time=%(update_time)s WHERE url=%(url)s"
 
-                self.item_db.execute_update(updatesql, {'city_code': item.city_code,
-                                                        'type': 90002003, 'start_time': item.start_time,
-                                                        'end_time': item.end_time,
-                                                        'info': encodestr, 'source': 'nuomi',
-                                                        'update_time': datetime.datetime.now(), 'url': item.url})
+                self.item_db.execute_update(updatesql,
+                                            {'city_code': item.city_code,
+                                            'type': 90002003, 'start_time': item.start_time,
+                                            'end_time': item.end_time,
+                                            'info': encodestr, 'source': 'nuomi',
+                                            'update_time': datetime.datetime.now(),
+                                            'url': item.url})
             else:
                 insertsql = "INSERT INTO rt_crawl \
                 (city_code, type, start_time, end_time, \

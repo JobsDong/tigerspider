@@ -54,19 +54,21 @@ def read_cinema_file(file_path):
             yield (cinema_id.strip(), district_str.strip())
             line = in_file.readline()
 
-def build_task(city_code, cinema_id, district_str):
+def build_http_task(city_code, cinema_id, district_str):
     """构造抓取任务
         Args:
             city_code: str, 城市code
             cinema_id: str, cinemacode
             district_str: str, 区域名
         Returns:
-            task: Task, 任务描述
+            task: HTTPTask, 任务描述
     """
     url = r"%s/%s/%s/" % ("http://theater.mtime.com",
                         district_str, cinema_id,)
     return Task(HTTPRequest(url, connect_timeout=10, request_timeout=20),
-                callback='RealInfoParser', kwargs={'citycode':city_code, 'cinemaid':cinema_id})
+                callback='RealInfoParser', kwargs={'citycode':city_code,
+                                                   'cinemaid':cinema_id,
+                                                   'district': district_str})
 
 def load_tasks(namespace, city_codes=None, host="localhost", port=6379, db=0, path=DEFAULT_PATH):
     key = "%s:%s" % (namespace, "prepare")

@@ -4,16 +4,13 @@
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于描述解析的过程的组件
-    BaseParser: 解析的基类
+    HttpParser: 解析Http的类
+    FileParser: 解析文件的类
 """
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import logging
-
-class ParserError(Exception):
-    """解析错误
-    """
 
 
 class BaseParser(object):
@@ -23,11 +20,11 @@ class BaseParser(object):
     def __init__(self, namespace):
         self.logger = logging.getLogger(self.__class__.__name__)
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """解析的方法
             Args:
                 task:Task, 描述任务的对象
-                response:HTTPResponse, 描述网页结果
+                input_file: File, 文件对象（可以是网络文件，也可以是本地文件对象）
         """
         raise NotImplementedError
 
@@ -35,3 +32,4 @@ class BaseParser(object):
         """释放资源的操作
         """
         pass
+

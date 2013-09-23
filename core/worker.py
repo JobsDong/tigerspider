@@ -4,7 +4,6 @@
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """描述实际执行任务的worker的行为和属性。
-
  Worker: 具体执行任务的worker类
  start_worker: 启动worker
  stop_worker: 关闭worker
@@ -19,15 +18,16 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
 import uuid
+import StringIO
 import logging
 
 from tornado import ioloop, gen
 
-from core.util import coroutine_wrap, get_class_path
+from core.util import coroutine_wrap, get_class_path, log_exception_wrap
 from core.download import fetch
-from core.datastruct import Task, Item
+from core.datastruct import HttpTask, FileTask, Item
 from core.statistic import (WorkerStatistic, output_statistic_file, WORKER_STATISTIC_PATH,
-                            output_fail_task_file, WORKER_FAIL_PATH)
+                            output_fail_http_task_file, WORKER_FAIL_PATH)
 from core.record import record, RecorderManager
 
 MAX_EMPTY_TASK_COUNT = 10  # worker最大能够获取的空Task个数
@@ -123,7 +123,7 @@ class Worker(object):
             fail_task_file_name = self.spider.__class__.__name__ + "-" + \
                 self.worker_statistic.start_time.strftime("%Y-%m-%d %H:%M:%S")
             try:
-                output_fail_task_file(WORKER_FAIL_PATH + fail_task_file_name + ".csv",
+                output_fail_http_task_file(WORKER_FAIL_PATH + fail_task_file_name + ".csv",
                                   self.spider.crawl_schedule)
             except Exception, e:
                 self.logger.error("output fail task failed error:%s" % e)
@@ -170,6 +170,34 @@ class Worker(object):
             self.logger.warn("stopped worker not permit to rouse")
 
     @gen.coroutine
+    @log_exception_wrap
+    def load_and_extract(self, task):
+        """加载并解析
+        """
+        if not self.is_started:
+            raise gen.Return
+
+        self.worker_statistic.incre_processing_number()
+        try:
+            input_file = None
+            try:
+                input_file = open(task.file_path, "rb")
+            except Exception, e:
+                self.logger.error("open file： %s failed" % e)
+                task.reason = "open file failed"
+                self.handle_fail_task(task, "load-" + task.callback)
+            else:
+                self.logger.debug("load file success")
+                self.extract(task, input_file)
+            finally:
+                if input_file:
+                    input_file.close()
+        finally:
+            self.worker_statistic.decre_processing_number()
+
+
+    @gen.coroutine
+    @log_exception_wrap
     def fetch_and_extract(self, task):
         """抓取并解析
             采用的是异步技术
@@ -178,37 +206,39 @@ class Worker(object):
             raise gen.Return
 
         self.worker_statistic.incre_processing_number()
-        fetch_start_time = datetime.datetime.now()
-        resp = yield fetch(task)
-        fetch_time = datetime.datetime.now() - fetch_start_time
-        self.worker_statistic.count_average_fetch_time(
-            task.callback, fetch_start_time,fetch_time)
+        try:
+            fetch_start_time = datetime.datetime.now()
+            resp = yield fetch(task)
+            fetch_time = datetime.datetime.now() - fetch_start_time
+            self.worker_statistic.count_average_fetch_time(
+                task.callback, fetch_start_time,fetch_time)
 
-        if resp.code == 200 and resp.error is None:
-            self.logger.debug("fetch success")
-            self.worker_statistic.add_spider_success(task.callback + "-fetch")
-            self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
-            self.extract(task, resp)
-        else:
-            self.logger.error("fetch request failed, code:%s error:%s url:%s" %
-                              (resp.code, resp.error, task.request.url))
-            task.reason = "fetch error, code:%s " % (resp.code, )
-            self.handle_fail_task(task, "fetch-" + task.callback)
+            if resp.code == 200 and resp.error is None:
+                self.logger.debug("fetch success")
+                self.worker_statistic.add_spider_success(task.callback + "-fetch")
+                self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
+                self.extract(task, StringIO.StringIO(resp.body))
+            else:
+                self.logger.error("fetch request failed, code:%s error:%s url:%s" %
+                                (resp.code, resp.error, task.request.url))
+                task.reason = "fetch error, code:%s " % (resp.code, )
+                self.handle_fail_task(task, "fetch-" + task.callback)
+        finally:
+            self.worker_statistic.decre_processing_number()
 
-        self.worker_statistic.decre_processing_number()
-
-    def extract(self, task, resp):
+    def extract(self, task, string_file):
         """解析下载下来的数据
             同步技术
             Args:
-                task: Task, 任务的描述
-                resp: HTTPResponse, http结果
+                task: HttpTask or FileTask, 任务的描述
+                string_file:File, 文件对象
         """
         if not self.is_started:
             return
+
         extract_start_time = datetime.datetime.now()
         try:
-            hrefs = self.spider.parse(task, resp)
+            hrefs = self.spider.parse(task, string_file)
         except Exception, e:
             self.logger.error("parser error:%s" % e)
             task.reason = "extract error"
@@ -217,7 +247,7 @@ class Worker(object):
             try:
                 if hrefs is not None:
                     for item_or_task in hrefs:
-                        if isinstance(item_or_task, Task):
+                        if isinstance(item_or_task, HttpTask) or isinstance(item_or_task, FileTask):
                             self.spider.crawl_schedule.push_new_task(item_or_task)
                         if isinstance(item_or_task, Item):
                             try:
@@ -236,7 +266,7 @@ class Worker(object):
                                     item_or_task.__class__.__name__, handle_start_time, handle_interval)
 
             except Exception, e:
-                self.logger.error("extract url: %s error:%s" % (task.request.url, e))
+                self.logger.error("extract error: %s error:%s" % (task.callback, e))
                 task.reason = "extract error"
                 self.handle_fail_task(task, "parse-" + task.callback)
             else:
@@ -246,6 +276,7 @@ class Worker(object):
                 self.worker_statistic.add_spider_success(task.callback + "-extract")
 
     @gen.coroutine
+    @log_exception_wrap
     def loop_get_and_execute(self):
         """循环获取任务，并执行
             异步技术
@@ -253,16 +284,27 @@ class Worker(object):
         if self.is_started:
             if not self.is_suspended and self.worker_statistic.processing_number \
                     < self.spider.crawl_schedule.max_number:
-                task = yield coroutine_wrap(self.spider.crawl_schedule.pop_task)
+                task = yield coroutine_wrap(log_exception_wrap(
+                                    self.spider.crawl_schedule.pop_task))
+
                 if isinstance(task, Exception):
                     self.logger.error("pop task error:%s" % task)
+                    ioloop.IOLoop.instance().add_timeout(
+                            datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval),
+                            self.loop_get_and_execute)
                 else:
                     if task:
                         ioloop.IOLoop.instance().add_timeout(
                             datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval),
                             self.loop_get_and_execute)
                         self._empty_task_count = 0
-                        yield self.fetch_and_extract(task)
+
+                        if isinstance(task, HttpTask):
+                            self.logger.debug("fetch and extract http task")
+                            yield self.fetch_and_extract(task)
+                        elif isinstance(task, FileTask):
+                            self.logger.debug("load and extract file task")
+                            yield self.load_and_extract(task)
                     else:
                         if self.worker_statistic.processing_number <= 0:
                             self._empty_task_count += 1
@@ -275,8 +317,7 @@ class Worker(object):
                             self.loop_get_and_execute)
             else:
                 ioloop.IOLoop.instance().add_timeout(
-                    datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval
-                                                    * 3),
+                    datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval * 3),
                     self.loop_get_and_execute)
 
 
@@ -284,9 +325,10 @@ class Worker(object):
         """handle fail task
 
             Args:
-                task:Task, task object
+                task:HttTask or FileTask, task object
         """
         #  这样的错误就重试，其他的不
+
         if task.reason.find("fetch error") != -1 and task.reason.find("404") == -1:
             if task.fail_count > task.max_fail_count:
                 self.worker_statistic.add_spider_fail(key, task.reason)
@@ -304,8 +346,6 @@ class Worker(object):
         else:
             self.worker_statistic.add_spider_fail(key, task.reason)
             self.spider.crawl_schedule.handle_fail_task(task)
-
-
 
 
 def _move_start_tasks_to_crawl_schedule(start_tasks, crawl_schedule):

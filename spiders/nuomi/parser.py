@@ -13,17 +13,17 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import os
 from tornado.httpclient import HTTPRequest
-from lxml import etree
+from lxml import etree, html
 
 from core.spider.parser import BaseParser
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.util import remove_white
 
 from spiders.nuomi.items import CityItem, DealItem, PictureItem
 from spiders.nuomi.util import (get_city_code, build_url_by_city_name,
                                 get_subcate_by_category)
 
-DEFAULT_PICTURE_DIR = u"/opt/swift_crawler/"
+DEFAULT_PICTURE_DIR = u"/home/wuyadong/swift_crawler"
 DEFAULT_PICTURE_HOST = u"fruit-pictures/"
 
 class CityParser(BaseParser):
@@ -37,16 +37,16 @@ class CityParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init nuomi city parser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """解析函数
             Args:
                 task:Task, 任务描述
-                response:HTTPResponse, http结果
+                input_file:File, 文件对象
             Yields:
                 Item
                 Task
         """
-        tree = etree.HTML(response.body)
+        tree = html.parse(input_file)
         citys = tree.xpath("//p[@id='citypid']/text()")
         citys = citys[0] if citys is not None and len(citys) > 0 else ""
         for city in citys.split(u","):
@@ -55,9 +55,10 @@ class CityParser(BaseParser):
                 city_item = CityItem("", city_english_name,get_city_code(city_english_name))
                 if city_item.english_name and city_item.city_code:
                     yield city_item
-                    http_request = HTTPRequest(url=build_url_by_city_name(city_item.english_name),
-                                               connect_timeout=20, request_timeout=240)
-                    new_task = Task(http_request, callback='DealParser',
+                    http_request = HTTPRequest(
+                        url=build_url_by_city_name(city_item.english_name),
+                        connect_timeout=20, request_timeout=240)
+                    new_task = HttpTask(http_request, callback='DealParser', max_fail_count=5,
                                     kwargs={'citycode':city_item.city_code})
                     yield new_task
 
@@ -78,21 +79,22 @@ class DealParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init nuomi deal parser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """解析函数
             Args:
                 task:Task, 任务描述
-                response:HTTPResponse, http请求结果
+                input_file: File, 文件对象
         """
         self.logger.debug("deal parse start to parse")
-        tree = etree.XML(response.body)
+        tree = etree.parse(input_file)
         for data_element in tree.xpath("//data"):
             item_price = data_element.findtext("price").strip()
             item_city_code = task.kwargs.get('citycode')
             item_url = data_element.findtext("url").strip()
             item_dealid = data_element.findtext("dealid").strip()
             item_name = data_element.findtext("title").strip()
-            item_discount_type = get_subcate_by_category(data_element.findtext("types/type").strip())
+            item_discount_type = get_subcate_by_category(
+                data_element.findtext("types/type").strip())
             if not item_discount_type:
                 continue
             item_start_time = data_element.findtext("startTime").strip()
@@ -149,7 +151,7 @@ class DealParser(BaseParser):
         if len(pictures) >= 1 and not os.path.exists(self._picture_dir + pictures[0]):
             picture_request = HTTPRequest(url=str(picture_url), connect_timeout=10,
                                           request_timeout=40)
-            picture_task = Task(picture_request, callback='PictureParser',
+            picture_task = HttpTask(picture_request, callback='PictureParser',
                                 cookie_host='http://www.nuomi.com', cookie_count=15,
                                 kwargs={'picturepath':self._picture_dir + pictures[0]})
             return (pictures, picture_task)
@@ -181,10 +183,12 @@ class DealParser(BaseParser):
                 temp_texts.append(last_text[:-7])
             else:
                 temp_texts.append(last_text)
-        if len(temp_texts) > 0:
-            temp_texts.append("-")
 
-        return "".join(temp_texts)
+        if len(temp_texts) > 0:
+            texts = [u"-"].extend(temp_texts)
+            return "".join(texts)
+        else:
+            return ""
 
     def _extract_place(self, data_element):
         """从api中解析出地址信息列表
@@ -242,7 +246,7 @@ class PictureParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init nuomi PictureParser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         if task.kwargs.has_key('picturepath'):
-            picture_item = PictureItem(response.body, task.kwargs.get('picturepath'))
+            picture_item = PictureItem(input_file.read(), task.kwargs.get('picturepath'))
             yield picture_item

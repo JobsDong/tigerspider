@@ -14,7 +14,8 @@ import uuid
 
 from core.schedule import BaseSchedule, ScheduleError
 from core.redistools import RedisQueue, RedisSet, RedisError
-from core.util import check_task_integrity
+from core.util import check_http_task_integrity
+from core.datastruct import FileTask, HttpTask
 
 class RedisSchedule(BaseSchedule):
     u"""RedisSchedule是独享式的基于redis生成的schedule
@@ -89,15 +90,20 @@ class RedisSchedule(BaseSchedule):
         if self._is_stopped:
             return
         try:
-            if check_task_integrity(task):
-                url = task.request.url if not isinstance(task.request.url, unicode) \
-                    else task.request.url.encode("utf-8")
-                if not self._processed_url_set.exist(url):
-                    self._prepare_to_process_queue.push(task)
+            if isinstance(task, HttpTask):
+                if check_http_task_integrity(task):
+                    url = task.request.url if not isinstance(task.request.url, unicode) \
+                        else task.request.url.encode("utf-8")
+                    if not self._processed_url_set.exist(url):
+                        self._prepare_to_process_queue.push(task)
+                    else:
+                        self.logger.debug("request haven been done before.")
                 else:
-                    self.logger.debug("request haven been done before.")
-            else:
-                self.logger.warn("task is not integrate:%s" % task)
+                    self.logger.warn("task is not integrate:%s" % task)
+
+            if isinstance(task, FileTask):
+                self._prepare_to_process_queue.push(task)
+
         except RedisError, e:
             raise ScheduleError("redis error in schedule:%s" % e)
 

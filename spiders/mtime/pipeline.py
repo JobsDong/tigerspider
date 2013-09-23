@@ -9,7 +9,7 @@ import json
 import datetime
 
 from core.spider.pipeline import BasePipeline
-from core.db import DB, DBException
+from core.db import DB, DBError
 
 from spiders.mtime.util import item2dict
 from spiders.mtime.items import RealInfoItem
@@ -34,7 +34,7 @@ class RealInfoPipeline(BasePipeline):
         try:
             self.item_db = DB(host=db_host, port=db_port,user=db_user,
                               password=db_password, database=db_base)
-        except DBException, e:
+        except DBError, e:
             self.logger.error("db error %s" % e)
 
     def process_item(self, item, kwargs):
@@ -44,7 +44,8 @@ class RealInfoPipeline(BasePipeline):
                 kwargs: 参数字典，传递过来的参数
         """
         if isinstance(item, RealInfoItem) and len(item.url) > 0:
-            self._store_item(item)
+            print item.start_time, item.url
+            # self._store_item(item)
 
     def _store_item(self, item):
         """储存item项

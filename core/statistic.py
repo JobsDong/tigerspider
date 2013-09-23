@@ -14,7 +14,7 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import datetime
 
 import logging
-from core.datastruct import Task
+from core.datastruct import HttpTask
 
 WORKER_STATISTIC_PATH = "data/worker_statistic.dat"
 WORKER_FAIL_PATH = "data/fails/"
@@ -300,7 +300,7 @@ def output_statistic_dict(worker_statistic):
     return statistic_dict
 
 
-def output_fail_task_file(file_path, schedule):
+def output_fail_http_task_file(file_path, schedule):
     """output all fail task to file
 
         Args:
@@ -310,5 +310,6 @@ def output_fail_task_file(file_path, schedule):
     import core.util
     with open(core.util.get_project_path() + file_path, "w") as out_file:
         for task in schedule.dumps_all_fail_task():
-            line = '"%s" "%s"\n' % (task.callback, task.request.url)
-            out_file.write(line)
+            if isinstance(task, HttpTask):
+                line = '"%s" "%s"\n' % (task.callback, task.request.url)
+                out_file.write(line)

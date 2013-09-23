@@ -6,10 +6,8 @@
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-import json
-import cPickle as pickle
 
-class Task(object):
+class HttpTask(object):
     '''
     task 中有三类参数：
     一类：request，表明http请求时的参数
@@ -32,32 +30,31 @@ class Task(object):
         self.max_fail_count = max_fail_count
         self.dns_need = dns_need
 
-    def to_json(self):
-        """dumps to a json object
-
-            Returns:
-                json: str, json str
+class FileTask(object):
+    """file task
+    """
+    def __init__(self, file_path, callback, fail_count=0,
+                 reason=None, max_fail_count=2, kwargs=None):
+        """初始化函数
+            Args:
+                input_file: File, 文件对象
+                callback: str, 回调函数
+                fail_count: int , 错误次数
+                reason: str, 错误原因
+                max_fail_count: int, 最大失败次数
+                kwargs: dict, 参数字典
         """
-        request = pickle.dumps(self.request)
-        return json.dumps({"request": request, "callback": self.callback,
-                "fail_count": self.fail_count,
-                "reason": self.reason,"cookie_host": self.cookie_host,
-                "cookie_count": self.cookie_count,
-                "dns_need": self.dns_need,})
+        if kwargs == None:
+            self.kwargs = dict()
+        else:
+            self.kwargs = dict(kwargs)
 
-    @classmethod
-    def from_json(cls, json_str):
-        temp_dict = json.loads(json_str)
-        for key in ["request", "callback", "fail_count", "reason", "cookie_host",
-                    "cookie_count", "dns_need"]:
-            if not temp_dict.has_key(key):
-                raise KeyError("not exist %s" % key)
+        self.file_path = file_path
+        self.callback = callback
+        self.fail_count = fail_count
+        self.reason = reason
+        self.max_fail_count = max_fail_count
 
-        new_request = temp_dict.get('request')
-        new_request = pickle.loads(new_request)
-        return Task(new_request, temp_dict.get('callback'), temp_dict.get('fail_count'),
-                    temp_dict.get('reason'), temp_dict.get('cookie_host'),
-                    temp_dict.get('cookie_count'), temp_dict.get('dns_need'))
 
 class Item(object):
     pass

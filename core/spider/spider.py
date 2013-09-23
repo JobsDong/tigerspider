@@ -72,11 +72,11 @@ class BaseSpider(object):
     def crawl_schedule(self):
         return self._crawl_schedule
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """用于解析response的结果
             Args:
                 task: Task, 任务的描述
-                response:HTTPResponse, 结果的描述
+                input_file: File, 文件对象
             Returns:
                 iterator: iter，一个迭代器, 如果失败就返回一个None
         """
@@ -84,7 +84,7 @@ class BaseSpider(object):
             return None
         if self._clone_parsers.has_key(task.callback):
             try:
-                item_or_task_iterator = self._clone_parsers[task.callback].parse(task, response)
+                item_or_task_iterator = self._clone_parsers[task.callback].parse(task, input_file)
             except Exception, e:
                 self.logger.error("parser error %s" % e)
                 task.reason = "parser error:%s" % e

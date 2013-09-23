@@ -17,9 +17,7 @@ from core.util import PickleDeocoder, PickleEncoder
 
 class RedisError(Exception):
     """描述redis发生的错误
-
     """
-    pass
 
 class RedisQueue(object):
     """Redis构成的队列
