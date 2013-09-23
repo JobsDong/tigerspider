@@ -1,9 +1,5 @@
 *.py[cod]
 
-# pycharm
-.idea
-.name
-
 # C extensions
 *.so
 
@@ -39,3 +35,7 @@ nosetests.xml
 .pydevproject
 
 data/
+# pycharm
+/.idea/
+/.idea/vcs.xml
+/.idea/workspace.xml
