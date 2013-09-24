@@ -61,6 +61,7 @@ class DB(object):
 
     def close(self):
         """关闭，释放资源
+
         """
         if self.cur:
             self.cur.close()

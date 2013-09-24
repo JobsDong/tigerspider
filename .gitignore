@@ -35,4 +35,7 @@ nosetests.xml
 .pydevproject
 
 data/
-.idea
+# pycharm
+/.idea/
+/.idea/vcs.xml
+/.idea/workspace.xml

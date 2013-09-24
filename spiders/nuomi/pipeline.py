@@ -28,7 +28,7 @@ class DealItemPipeline(BasePipeline):
         try:
             self.item_db = DB(host=db_host, port=db_port,user=db_user,
                               password=db_password, database=db_base)
-        except DBError, e:
+        except DBException, e:
             self.logger.error("db error %s" % e)
 
     def process_item(self, item, kwargs):

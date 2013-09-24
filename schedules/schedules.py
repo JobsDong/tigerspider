@@ -20,7 +20,6 @@ from core.datastruct import FileTask, HttpTask
 class RedisSchedule(BaseSchedule):
     """RedisSchedule是独享式的基于redis生成的schedule
     """
-
     def __init__(self, namespace=None, host="localhost", port=6379, db=0,
                  interval=30, max_number=15):
         u"""使用redis初始化schedule

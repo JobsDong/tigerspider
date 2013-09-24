@@ -72,7 +72,6 @@ def log_exception_wrap(func):
             print "unexcepted error:%s in %s" % (e, func.__name__)
         else:
             return result
-    return _wrap
 
 @gen.coroutine
 def coroutine_wrap(func, *args, **kwargs):

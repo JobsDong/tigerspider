@@ -11,6 +11,7 @@ from core.util import remove_white
 
 _city2code = {
     "beijing": "110000",
+    "all": "000000",
     "changchun": "220100",
     "changsha": "430100",
     "chengdu": "510100",
