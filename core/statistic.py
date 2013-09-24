@@ -12,7 +12,6 @@
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
-
 import logging
 from core.datastruct import HttpTask
 
@@ -140,6 +139,8 @@ class WorkerStatistic(object):
 
     def count_average_extract_time(self, parser_name, extract_time,
             extract_interval, default_interval=datetime.timedelta(minutes=10)):
+        """extract one task's response. include handle time
+        """
         if not self._parser2extractcount.has_key(parser_name):
             self._parser2extractcount[parser_name] = {}
             self._parser2extractinterval[parser_name] = {}
@@ -302,7 +303,7 @@ def output_statistic_dict(worker_statistic):
 
 def output_fail_http_task_file(file_path, schedule):
     """output all fail task to file
-
+        only record http task
         Args:
             file_path: str, file path to store fail task
             schedule: Schedule, schedule for spider
@@ -311,5 +312,5 @@ def output_fail_http_task_file(file_path, schedule):
     with open(core.util.get_project_path() + file_path, "w") as out_file:
         for task in schedule.dumps_all_fail_task():
             if isinstance(task, HttpTask):
-                line = '"%s" "%s"\n' % (task.callback, task.request.url)
+                line = '"%s" "%s" "%s"\n' % (task.request.url, task.callback, task.reason)
                 out_file.write(line)

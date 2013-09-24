@@ -44,8 +44,7 @@ class RealInfoPipeline(BasePipeline):
                 kwargs: 参数字典，传递过来的参数
         """
         if isinstance(item, RealInfoItem) and len(item.url) > 0:
-            print item.start_time, item.url
-            # self._store_item(item)
+            self._store_item(item)
 
     def _store_item(self, item):
         """储存item项

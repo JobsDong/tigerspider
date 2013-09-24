@@ -120,7 +120,7 @@ def get_city_code_from_chinese(city_chinese_name):
 
 
 
-# 
+#
 # def get_city_code(city_pname):
 #     """获取对应城市的cityCode,同时起到了一定的过滤效果
 #         Args:

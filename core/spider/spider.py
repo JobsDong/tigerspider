@@ -4,7 +4,7 @@
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """主要是描述公共抓取流程的类
-    SpiderException: spider发生的内部错误
+    SpiderError: spider发生的内部错误
     BaseSpider: 描述流程的基类
     add_spider_class(): 注册一个spider类
     get_all_spider_class(): 获得所有注册的类
@@ -14,13 +14,14 @@
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import uuid
-
 import logging
 
+from core.spider.parser import ParserError
+from core.spider.pipeline import PipelineError
+
 class SpiderError(Exception):
-    """spider内部的错误
+    """Spider error
     """
-    pass
 
 class BaseSpider(object):
     """用于描述spider公共流程的类
@@ -55,6 +56,7 @@ class BaseSpider(object):
                               if arg_name.startswith(parser_name + "_")])
 
             self._clone_parsers[parser_name] = parser_claz(self._namespace, **parser_kwargs)
+
         for pipeline_name, pipeline_claz in self.pipelines.iteritems():
             pipeline_kwargs =  dict([(arg_name[len(pipeline_name) + 1:], arg_value)
                               for arg_name, arg_value
@@ -78,57 +80,61 @@ class BaseSpider(object):
                 task: Task, 任务的描述
                 input_file: File, 文件对象
             Returns:
-                iterator: iter，一个迭代器, 如果失败就返回一个None
+                iterator: iter，一个迭代器 or None
+            Raises:
+                error:ParserError,
         """
         if self._is_cleared:
             return None
+
         if self._clone_parsers.has_key(task.callback):
             try:
                 item_or_task_iterator = self._clone_parsers[task.callback].parse(task, input_file)
             except Exception, e:
-                self.logger.error("parser error %s" % e)
-                task.reason = "parser error:%s" % e
-                self.crawl_schedule.handle_fail_task(task)
+                raise ParserError("parser error:%s, task:%s", (e, task))
             else:
                 return item_or_task_iterator
         else:
             self.logger.error("has no callback:%s" % task.callback)
-            task.reason = "parser error:has no callback %s" % task.callback
-            self.crawl_schedule.handle_fail_task(task)
-            return None  # for readability
+            raise ParserError("parser error:%s, task:%s", ("not exists callback", task))
+
 
     def handle_item(self, item, kwargs):
         """处理item的函数
             Args:
                 item: Item, 表示解析出的结果
                 kwargs: dict, 表示额外带的参数字典
+            Raises:
+                error: PipelineError
         """
         if self._is_cleared:
             return
+
         if self._clone_pipelines.has_key(item.__class__.__name__):
             try:
                 self._clone_pipelines[item.__class__.__name__].process_item(item, kwargs)
             except Exception, e:
                 self.logger.error("process item error, %s" % e)
-                raise SpiderError("process item error, %s" % e)
+                raise PipelineError("process item error:%s, item:%s" % (e, item))
         else:
             self.logger.error("has not this pipeline:%s" % item.__class__.__name__)
-            raise SpiderError("has not this pipeline:%s" % item.__class__.__name__)
+            raise PipelineError("process item error:%s, item:%s" % ("not exists pipeline", item))
 
     def clear_all(self):
         """释放spider中的资源
         """
-        try:
-            self._is_cleared = True
-            for _, parser in self._clone_parsers.iteritems():
+        self._is_cleared = True
+        for _, parser in self._clone_parsers.iteritems():
+            try:
                 parser.clear_all()
+            except Exception, e:
+                self.logger.warn("clear parser:%s resource error:%s" % (parser.__name__, e))
 
-            for _, pipeline in self._clone_pipelines.iteritems():
+        for _, pipeline in self._clone_pipelines.iteritems():
+            try:
                 pipeline.clear_all()
-
-            self.crawl_schedule.clear_all()
-        except Exception, ignore:
-            self.logger.warn("clear spider resource failed!error:%s" % ignore)
+            except Exception, e:
+                self.logger.warn("clear pipeline:%s resource error:%s" % (pipeline.__name__, e))
 
 
 def add_spider_class(path, clz):

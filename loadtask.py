@@ -11,10 +11,10 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import os
 from tornado.httpclient import HTTPRequest
 from tornado.options import options, define
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.redistools import RedisQueue
 
-DEFAULT_PATH = r"/home/geocoder/meituan/test/"
+DEFAULT_PATH = r"/home/wuyadong/test/"
 
 define("namespace", default="mtime", type=str, help="the namespace of the prepare-queue")
 define("city_codes", default=None, type=list, help="citycode you want to crawl")
@@ -65,10 +65,11 @@ def build_http_task(city_code, cinema_id, district_str):
     """
     url = r"%s/%s/%s/" % ("http://theater.mtime.com",
                         district_str, cinema_id,)
-    return Task(HTTPRequest(url, connect_timeout=10, request_timeout=20),
-                callback='RealInfoParser', kwargs={'citycode':city_code,
+    return HttpTask(HTTPRequest(url, connect_timeout=10, request_timeout=20),
+                callback='RealInfoParser', max_fail_count=3, kwargs={'citycode':city_code,
                                                    'cinemaid':cinema_id,
-                                                   'district': district_str})
+                                                   'district': district_str,
+                                                   'requesturl': url})
 
 def load_tasks(namespace, city_codes=None, host="localhost", port=6379, db=0, path=DEFAULT_PATH):
     key = "%s:%s" % (namespace, "prepare")
@@ -76,7 +77,7 @@ def load_tasks(namespace, city_codes=None, host="localhost", port=6379, db=0, pa
 
     for city_code, cinema_path in build_cinema_path(city_codes=city_codes, path=path):
         for cinema_id, district_str in read_cinema_file(cinema_path):
-            task = build_task(city_code, cinema_id, district_str)
+            task = build_http_task(city_code, cinema_id, district_str)
             que.push(task)
 
 if __name__ == "__main__":

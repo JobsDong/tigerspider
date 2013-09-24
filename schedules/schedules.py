@@ -18,8 +18,9 @@ from core.util import check_http_task_integrity
 from core.datastruct import FileTask, HttpTask
 
 class RedisSchedule(BaseSchedule):
-    u"""RedisSchedule是独享式的基于redis生成的schedule
+    """RedisSchedule是独享式的基于redis生成的schedule
     """
+
     def __init__(self, namespace=None, host="localhost", port=6379, db=0,
                  interval=30, max_number=15):
         u"""使用redis初始化schedule
@@ -125,18 +126,40 @@ class RedisSchedule(BaseSchedule):
         except RedisError, e:
             raise ScheduleError("redis error:%s" % e)
 
-    def handle_fail_task(self, task):
+    def handle_error_task(self, task):
         """处理失败的task,
             Args:
                 task:Task 失败的task
 
+            Returns:
+                is_failed: bool, whether task is push into fail queue
+
             Raises:
                 ScheduleError: 当发生错误的时候
+
         """
         if self._is_stopped:
-            return
+            return False
+
         try:
-            self._fail_queue.push(task)
+            # reason is fetch error and is not 404 error
+            if task.reason.find("fetch error") != -1 and task.reason.find("404") == -1:
+                if task.fail_count > task.max_fail_count:
+                    self._fail_queue.push(task)
+                    return True
+                else:
+                    task.fail_count += 1
+                    self.logger.error("one request failed %s" % task.reason)
+                    if task.request.connect_timeout is not None:
+                        task.request.connect_timeout = task.request.connect_timeout * 2
+                    if task.request.request_timeout is not None:
+                        task.request.request_timeout = task.request.request_timeout * 2
+                    self.push_new_task(task)
+                    return False
+            #  这样的错误永远不重试
+            else:
+                self._fail_queue.push(task)
+                return True
         except RedisError, e:
             raise ScheduleError("fail queue push failed error:%s" % e)
 

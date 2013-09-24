@@ -4,14 +4,17 @@
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于描述解析的过程的组件
-    HttpParser: 解析Http的类
-    FileParser: 解析文件的类
+    ParserError: 与Parser有关的错误
+    BaseParser: Parser的基类
 """
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import logging
 
+class ParserError(Exception):
+    """Parser error
+    """
 
 class BaseParser(object):
     """用于描述解析的基类

@@ -14,7 +14,6 @@
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import inspect
-
 import logging
 
 UUID_INDEPENDENT = 1
@@ -81,13 +80,15 @@ class BaseSchedule(object):
         """
         raise NotImplementedError
 
-    def handle_fail_task(self, task):
-        """处理错误的task
+    def handle_error_task(self, task):
+        """handle error task
             Args:
-                task: Task 失败的任务
-
+                task:Task, task
+            Returns:
+                is_failed:bool, whether is push into fail queue
         """
         raise NotImplementedError
+
 
     def fail_task_size(self):
         """get fail task size

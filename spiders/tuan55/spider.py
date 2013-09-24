@@ -10,9 +10,7 @@
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 
-from tornado.httpclient import HTTPRequest
-
-from core.datastruct import FileTask, HttpTask
+from core.datastruct import FileTask
 from core.spider.spider import BaseSpider
 
 from spiders.tuan55.parser import WebParser, DealParser, PictureParser
