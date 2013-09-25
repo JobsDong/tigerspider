@@ -3,4 +3,4 @@ webspider
 
 a python webspider
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
+Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.

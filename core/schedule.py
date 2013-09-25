@@ -15,7 +15,7 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import inspect
 
-from core.util import logging
+#from core.util import logging
 import logging
 
 UUID_INDEPENDENT = 1

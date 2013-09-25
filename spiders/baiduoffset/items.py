@@ -8,8 +8,8 @@ class CityItem(Item):
     '''coordinate'''
 
     def __init__(self, x, y):
-        self.x = x
-        self.y = y[:-1]
+        self.x = str(x)
+        self.y = str(y)
         self.key = self.x+'_'+self.y
 
     def __str__(self):
@@ -25,5 +25,5 @@ class CoordItem(Item):
         self.key = key
         self.orig_x = orig_x
         self.orig_y = orig_y
-        self.offset_x = float(orig_x) - float(x)
-        self.offset_y = float(orig_y) - float(y)
+        self.offset_x = map(lambda i, j: float(i)-float(j), orig_x, x)
+        self.offset_y = map(lambda i, j: float(i)-float(j), orig_y, y)

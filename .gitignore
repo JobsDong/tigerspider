@@ -36,3 +36,9 @@ nosetests.xml
 
 data/
 nohup.out
+newkey*.csv
+
+spiders/baiduoffset1/
+spiders/baiduoffset2/
+spiders/baiduoffset3/
+spiders/baiduoffset4/

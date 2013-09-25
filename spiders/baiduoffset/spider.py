@@ -13,7 +13,7 @@ from spiders.baiduoffset.parser import OffsetParser
 
 
 class BaiduoffsetSpider(BaseSpider):
-    u'''用于获取赶集网小区名称的爬虫
+    u'''用于获取Baidu Offset
     '''
 
     parsers = {
@@ -30,6 +30,5 @@ class BaiduoffsetSpider(BaseSpider):
         Task(HTTPRequest(url='http://www.baidu.com/',
                          connect_timeout=3, request_timeout=5),
              callback='OffsetParser',
-             cookie_host='http://www.baidu.com/',
-             cookie_count=20, kwargs={}),
+             kwargs={}),
     ]

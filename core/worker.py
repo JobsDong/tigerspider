@@ -180,12 +180,13 @@ class Worker(object):
         self.worker_statistic.incre_processing_number()
         fetch_start_time = datetime.datetime.now()
         resp = yield fetch(task)
+        #print 'resp', datetime.datetime.now()
         fetch_time = datetime.datetime.now() - fetch_start_time
         self.worker_statistic.count_average_fetch_time(
             task.callback, fetch_start_time, fetch_time)
 
         if resp.code is 200 and resp.error is None:
-            self.logger.debug("fetch success")
+            #self.logger.debug("fetch success")
             self.worker_statistic.add_spider_success(task.callback + "-fetch")
             self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
             self.extract(task, resp)
@@ -425,6 +426,7 @@ def get_all_workers():
     for key, value in Worker.workers.iteritems():
         temp_worker = {}
         temp_worker['name'] = key
+        print 'in get_all_workers'
         if not value.is_started:
             status = "stopped"
         elif value.is_suspended:

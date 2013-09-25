@@ -6,6 +6,7 @@
     WebParser: 解析網頁的類
 """
 import json
+import csv
 from base64 import decodestring
 import urlparse
 from tornado.httpclient import HTTPRequest
@@ -35,19 +36,25 @@ class OffsetParser(BaseParser):
         """
         self.logger.debug("OffsetParser start")
         try:
-            with open('./baiduoffset.csv') as file:
-                for line in file:
-                    (x, y) = line[:-1].split(',')
-                    city_item = CityItem(x, y)
-                    yield city_item
+            file = csv.reader(open('./newkey.csv'))
+            #print 'csv read'
+            for line in file:
+                #xylist = line[:-1].split(',')
+                (x, y) = (float(line[0]), float(line[1]))
+                print 'key', int(x), int(y)
+                city_item = CityItem(int(x), int(y))
+                yield city_item
 
-                    xstr, ystr = build_xystr(float(x), float(y))
+                y = y + eps
+                if y-int(city_item.y) >= 1.0:
+                    x += eps
+                    y = int(city_item.y)
+                if x-int(city_item.x) < 1.0:
+                    xstr, ystr = build_xystr(x, y)
                     http_request = HTTPRequest(url=build_url(xstr, ystr),
-                                               connect_timeout=20,
-                                               request_timeout=240)
+                                               connect_timeout=5,
+                                               request_timeout=10)
                     new_task = Task(http_request, callback='CoordParser',
-                                    cookie_host='http://www.baidu.com/',
-                                    cookie_count=15,
                                     kwargs={'xstr': xstr,
                                             'ystr': ystr,
                                             'key': city_item.key})
@@ -93,18 +100,22 @@ class CoordParser(BaseParser):
         orig_y = task.kwargs['ystr'].split(',')
         key = task.kwargs['key']
         city_x, city_y = key.split('_')
+        city_x = float(city_x)
+        city_y = float(city_y)
         try:
             coordlist = json.loads(response.body)
             count = -1
+            x = []
+            y = []
             for elem in coordlist:
                 if elem['error'] == 0:
                     count += 1
-                    x = (decodestring(elem['x']))
-                    y = (decodestring(elem['y']))
-                    yield CoordItem(x, y, orig_x[count], orig_y[count], key)
+                    x.append(decodestring(elem['x']))
+                    y.append(decodestring(elem['y']))
                 else:
                     self.logger.error("orig_x: %s, orig_y: %s, elem: %s" %
                                       (orig_x[count], orig_y[count], elem))
+            yield CoordItem(x, y, orig_x, orig_y, key)
         except:
             self.logger.error("json loads error xstr %s" % task.kwargs['xstr'])
             self.logger.error("json loads error ystr %s" % task.kwargs['ystr'])
@@ -112,21 +123,20 @@ class CoordParser(BaseParser):
         #print 'new task',
         fx = float(orig_x[-1])
         fy = float(orig_y[-1]) + eps
-        print fx, fy
-        if fy % 1 != 0.0:
-            xstr, ystr = build_xystr(fx, fy)
-        else:
+        if fy-city_y >= 1.0:
             fx += eps
-            xstr, ystr = build_xystr(fx, fy-1)
+            fy = city_y
+            #print fx, fy
+        xstr, ystr = build_xystr(fx, fy)
 
-        if fx-float(city_x) != 1.0:
-            http_request = HTTPRequest(url=build_url(xstr, ystr),
-                                       connect_timeout=20,
-                                       request_timeout=240)
-            new_task = Task(http_request, callback='CoordParser',
-                            cookie_host='http://www.baidu.com/',
-                            cookie_count=15,
+        if fx-city_x < 1.0:
+            http_request = HTTPRequest(
+                url=build_url(xstr, ystr),
+                connect_timeout=5,
+                request_timeout=10)
+            new_task = Task(http_request,
+                            callback='CoordParser',
                             kwargs={'xstr': xstr,
                                     'ystr': ystr,
-                                    'key': key})
+                                    'key':  key})
             yield new_task

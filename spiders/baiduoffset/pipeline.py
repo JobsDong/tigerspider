@@ -12,7 +12,7 @@ from core.spider.pipeline import BasePipeline
 
 from spiders.baiduoffset.items import CoordItem
 
-DEFAULT_COMMUNITY_DIR = u"/home/iceout/work/offset/"
+DEFAULT_COMMUNITY_DIR = u"/home/iceout/ganji/"
 
 
 class CoordItemPipeline(BasePipeline):
@@ -36,11 +36,12 @@ class CoordItemPipeline(BasePipeline):
         if not os.path.exists(path):
             self._check_and_create(path)
         with open(path, "ab") as out_file:
-            line = u'"%s","%s","%s","%s","%s","%s"' % \
-                   (item.orig_x, item.orig_y, item.x, item.y,
-                    item.offset_x, item.offset_y)
-            out_file.write(line.encode("utf-8"))
-            out_file.write("\n")
+            for i in range(len(item.x)):
+                line = u'"%s","%s","%s","%s","%s","%s"' % \
+                       (item.orig_x[i], item.orig_y[i], item.x[i], item.y[i],
+                        item.offset_x[i], item.offset_y[i])
+                out_file.write(line.encode("utf-8"))
+                out_file.write("\n")
         #print path
 
     def _check_and_create(self, path):
