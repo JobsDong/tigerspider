@@ -34,7 +34,7 @@ class DealItem(Item):
     def __init__(self, price, city_code, dealid, url, name, discount_type, start_time,
                  end_time, discount, original_price, noticed, pictures, description,
                  deadline, short_desc, content_text, content_pic, purchased_number,
-                 m_url, appointment, place, save, remaining, limit, refund):
+                 m_url, appointment, place, save, remaining, limit, refund, contact):
         """初始化函数
             Args:
                 略
@@ -64,6 +64,7 @@ class DealItem(Item):
         self.m_url = m_url
         self.appointment = appointment
         self.place = place
+        self.contact = contact
 
 class WebItem(Item):
     """用于保存解析网页结果的item

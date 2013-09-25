@@ -17,7 +17,7 @@ import os
 
 from core.spider.pipeline import BasePipeline
 from core.redistools import RedisDict, RedisError
-from core.db import DB, DBException
+from core.db import DB, DBError
 
 from spiders.meituan.items import WebItem, DealItem, PictureItem
 from spiders.meituan.util import item2dict
@@ -99,7 +99,7 @@ class WebItemPipeline(BasePipeline):
 
     def __init__(self, namespace, temp_host="localhost", temp_port=6379,
                  temp_db=0, db_host="192.168.11.195", db_port=5432, db_user="postgres",
-                 db_password="titps4gg", db_base="swift"):
+                 db_password="titps4gg", db_base="test"):
         """初始化WebItemPipeline
             主要是连接redis，postgres
         """
@@ -110,7 +110,7 @@ class WebItemPipeline(BasePipeline):
             self.temp_item_dict = RedisDict(temp_namespace, host=temp_host, port=temp_port, db=temp_db)
             self.item_db = DB(host=db_host, port=db_port,user=db_user,
                               password=db_password, database=db_base)
-        except DBException, e:
+        except DBError, e:
             self.logger.error("db error %s" % e)
         except RedisError, e:
             self.logger.error("redis error %s" % e)

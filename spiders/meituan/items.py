@@ -13,7 +13,7 @@ class DealItem(Item):
     def __init__(self, price, city_code, dealid, url, name, discount_type, start_time,
                  end_time, discount, original_price, noticed, pictures, description,
                  deadline, short_desc, content_pic, purchased_number,
-                 m_url, appointment, place, save, remaining, limit, refund):
+                 m_url, appointment, place, save, remaining, limit, refund, contact):
 
         self.price = price
         self.city_code = city_code
@@ -39,6 +39,7 @@ class DealItem(Item):
         self.remaining = remaining
         self.limit = limit
         self.refund = refund
+        self.contact = contact
 
 class WebItem(Item):
     def __init__(self, refund, content_text):

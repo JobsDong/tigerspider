@@ -11,7 +11,7 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from tornado.httpclient import HTTPRequest
 
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.spider.spider import BaseSpider
 from core.spider.pipeline import EmptyPipeline
 
@@ -34,10 +34,10 @@ class NuomiSpider(BaseSpider):
     }
 
     start_tasks = [
-        # Task(HTTPRequest(url='http://www.nuomi.com/help/api',
-        #                  connect_timeout=4, request_timeout=5),
-        #                  callback='CityParser', kwargs={}),
-        Task(HTTPRequest(url='http://www.nuomi.com/api/tiger?city=nanchang',
-                         connect_timeout=10, request_timeout=120),
-                        callback='DealParser', kwargs={'citycode':360100})
+        HttpTask(HTTPRequest(url='http://www.nuomi.com/help/api',
+                         connect_timeout=10, request_timeout=20),
+                         callback='CityParser', max_fail_count=8, kwargs={}),
+        # Task(HTTPRequest(url='http://www.nuomi.com/api/tiger?city=nanchang',
+        #                  connect_timeout=10, request_timeout=120),
+        #                 callback='DealParser', kwargs={'citycode':360100})
     ]

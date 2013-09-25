@@ -3,7 +3,7 @@
 
 from tornado.httpclient import HTTPRequest
 
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.spider.spider import BaseSpider
 from core.spider.pipeline import EmptyPipeline
 
@@ -31,9 +31,11 @@ class GanjiSpider(BaseSpider):
         #                  connect_timeout=3, request_timeout=99),
         #                  callback='DealParser',
         #                  kwargs={'citycode':"360100"}),
-        Task(HTTPRequest(url='http://www.ganji.com/index.htm',
+        HttpTask(HTTPRequest(url='http://www.ganji.com/index.htm',
                          connect_timeout=3, request_timeout=5),
-             callback='CityParser',
-             cookie_host='http://www.ganji.com/index.htm',
-             cookie_count=10, kwargs={}),
+            callback='CityParser'),
+
+        # Task(HTTPRequest('http://bj.ganji.com/xiaoqu/', connect_timeout=5, request_timeout=10),
+        #      callback='CommunityParser', cookie_host='http://www.ganji.com/index.htm', cookie_count=15,
+        #      kwargs={'citycode': '110000'})
     ]

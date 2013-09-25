@@ -14,7 +14,9 @@ import cPickle as pickle
 import json
 from tornado import gen
 
-from core.datastruct import Task
+from core.datastruct import HttpTask
+
+logger = logging.getLogger("core-util")
 
 
 class SettingError(Exception):
@@ -57,6 +59,22 @@ def unicode2str_for_dict(dictionary):
         value = value if not isinstance(value, unicode) else str(value)
         clone_dictionary[key] = value
     return clone_dictionary
+
+def log_exception_wrap(func):
+    """记录函数所运行的错误,捕获所有错误
+        包装器
+        Args:
+            func: Function, 函数对象
+    """
+    def _wrap(*args, **kwargs):
+        try:
+            result = func(*args, **kwargs)
+        except Exception, e:
+            logger.error("unexceptted error:%s in %s" % (e, func.__name__))
+            print "unexcepted error:%s in %s" % (e, func.__name__)
+        else:
+            return result
+    return _wrap
 
 @gen.coroutine
 def coroutine_wrap(func, *args, **kwargs):
@@ -128,11 +146,11 @@ class ObjectDecoder(json.JSONDecoder):
             inst = d
         return inst
 
-def check_task_integrity(task):
-    if not isinstance(task, Task):
+def check_http_task_integrity(http_task):
+    if not isinstance(http_task, HttpTask):
         return False
     else:
-        if task.request and task.callback:
+        if http_task.request and http_task.callback:
             return True
         else:
             return False
@@ -186,7 +204,7 @@ def walk_settings(path='settings.registersettings'):
             try:
                 spider = load_object(spider_path)
             except Exception, e:
-                raise SettingError, "load spider error:%s" % e
+                raise SettingError, "%s load spider error:%s" % (spider_path, e)
             else:
                 add_spider_class(spider_path, spider)
 

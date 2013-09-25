@@ -42,3 +42,8 @@ spiders/baiduoffset1/
 spiders/baiduoffset2/
 spiders/baiduoffset3/
 spiders/baiduoffset4/
+
+# pycharm
+/.idea/
+/.idea/vcs.xml
+/.idea/workspace.xml

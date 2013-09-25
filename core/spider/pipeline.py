@@ -4,15 +4,18 @@
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于描述item处理逻辑的组件
+    PipelineError: 与pipeline有关的错误
     BasePipeline: 处理item的基类
     EmptyPipeline: 不做任何处理的pipeline
-
 """
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from core.util import logging
 import logging
+
+class PipelineError(Exception):
+    """Pipeline error
+    """
 
 class BasePipeline(object):
     """处理item的基类

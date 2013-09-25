@@ -9,18 +9,33 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 from tornado.httpclient import HTTPRequest
 
 from core.spider.spider import BaseSpider
-from core.datastruct import Task
-
-from spiders.mtime.parser import RealInfoParser
-from spiders.mtime.pipeline import RealInfoPipeline
+from core.datastruct import HttpTask
+from spiders.mtime.parser import RealInfoParser, JSParser
+from spiders.mtime.pipeline import RealInfoPipeline, MovieInfoPipeline
 
 class MtimeSpider(BaseSpider):
     """抓取mtime中影片信息的类
     """
+
     parsers = {
         "RealInfoParser": RealInfoParser,
+        "JSParser": JSParser,
     }
 
     pipelines = {
         "RealInfoItem": RealInfoPipeline,
+        "MovieInfoItem": MovieInfoPipeline,
     }
+
+    # start_tasks = [
+    #     HttpTask(
+    #         HTTPRequest("http://theater.mtime.com/China_Guangdong_Province_Guangzhou_BaiYunQu/3222/",
+    #                     connect_timeout=5, request_timeout=10), callback='RealInfoParser',
+    #         max_fail_count=2,
+    #         kwargs={'citycode':'440100', 'cinemaid': 3222, 'district': 'China_Guangdong_Province_Guangzhou_BaiYunQu',
+    #                                   'requesturl': "http://theater.mtime.com/China_Guangdong_Province_Guangzhou_BaiYunQu/3222/"}
+    #             )
+    # ]
+
+
+

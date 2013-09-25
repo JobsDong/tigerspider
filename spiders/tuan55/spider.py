@@ -9,39 +9,36 @@
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from tornado.httpclient import HTTPRequest
 
-from core.datastruct import Task
+from core.datastruct import FileTask
 from core.spider.spider import BaseSpider
-from core.spider.pipeline import EmptyPipeline
 
-from spiders.tuan55.parser import CityParser, WebParser, DealParser, PictureParser
+from spiders.tuan55.parser import WebParser, DealParser, PictureParser
 from spiders.tuan55.pipeline import DealItemPipeline, WebItemPipeline, PictureItemPipeline
 
 class Tuan55Spider(BaseSpider):
     """用于获取55tuan团购数据的爬虫
     """
     parsers = {
-        'CityParser': CityParser,
         'DealParser': DealParser,
         'WebParser': WebParser,
         'PictureParser': PictureParser,
     }
 
     pipelines = {
-        'CityItem': EmptyPipeline,
         'DealItem': DealItemPipeline,
         'WebItem': WebItemPipeline,
         'PictureItem': PictureItemPipeline,
     }
 
     start_tasks = [
-         Task(HTTPRequest(url='http://www.55tuan.com/city.xml',
-                          connect_timeout=4, request_timeout=5),
-              dns_need=False, callback='CityParser', kwargs={}),
-         #Task(HTTPRequest(url='http://www.55tuan.com/openAPI.do?city=beijing',
-         #                 connect_timeout=2, request_timeout=99), callback='DealParser',
-         #     kwargs={'citycode':360100})
-        #jTask(HTTPRequest(url='http://www.55tuan.com/goods-967ba93aeaa2208a.html'),
-         #    callback='WebParser')
+         # Task(HTTPRequest(url='http://www.55tuan.com/city.xml',
+         #                  connect_timeout=10, request_timeout=20),
+         #      dns_need=False, max_fail_count=8,callback='CityParser', kwargs={}),
+         # Task(HTTPRequest(url='http://www.55tuan.com/openAPI.do?city=shanghai',
+         #                 connect_timeout=1, request_timeout=1), callback='DealParser',
+         #      max_fail_count=5, kwargs={'citycode':360100})
+         # HttpTask(HTTPRequest(url='http://dalian.55tuan.com/goods-92d9c592242770cf.html'),
+         #     callback='WebParser')
+        FileTask("/home/wuyadong/Downloads/55tuan_mobile.xml", callback='DealParser')
     ]

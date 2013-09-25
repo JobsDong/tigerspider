@@ -7,7 +7,7 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from tornado.httpclient import HTTPRequest
 
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.spider.spider import BaseSpider
 from core.spider.pipeline import EmptyPipeline
 
@@ -33,11 +33,12 @@ class MeituanSpider(BaseSpider):
     }
 
     start_tasks = [
-        Task(HTTPRequest(url='http://www.meituan.com/api/v2/nanchang/deals',
-                         connect_timeout=3, request_timeout=99), callback='DealParser',
-             kwargs={'citycode':"360100"}),
+        HttpTask(HTTPRequest(url='http://www.meituan.com/api/v2/nanchang/deals',
+                         connect_timeout=3, request_timeout=99),
+             callback='DealParser', max_fail_count = 5, kwargs={'citycode':"360100"}),
         # Task(HTTPRequest(url='http://api.union.meituan.com/data/citylist',
-        # connect_timeout=10, request_timeout=60), callback='CityParser', kwargs={}),
+        # connect_timeout=10, request_timeout=60), callback='CityParser',
+        #  max_fail_count=8, kwargs={}),
     ]
 
 

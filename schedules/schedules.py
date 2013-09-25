@@ -14,10 +14,11 @@ import uuid
 
 from core.schedule import BaseSchedule, ScheduleError
 from core.redistools import RedisQueue, RedisSet, RedisError
-from core.util import check_task_integrity
+from core.util import check_http_task_integrity
+from core.datastruct import FileTask, HttpTask
 
 class RedisSchedule(BaseSchedule):
-    u"""RedisSchedule是独享式的基于redis生成的schedule
+    """RedisSchedule是独享式的基于redis生成的schedule
     """
     def __init__(self, namespace=None, host="localhost", port=6379, db=0,
                  interval=30, max_number=15):
@@ -42,7 +43,7 @@ class RedisSchedule(BaseSchedule):
         try:
             self._prepare_to_process_queue = RedisQueue("%s:%s" % (self._namespace, "prepare",),
                                                         host=host, port=port, db=db)
-            self._processing_queue = RedisQueue("%s:%s" % (self._namespace,"processing",),
+            self._processing_set = RedisSet("%s:%s" % (self._namespace,"processing",),
                                                 host=host, port=port, db=db)
             self._processed_queue = RedisQueue("%s:%s" % (self._namespace, "processed",),
                                                host=host, port=port, db=db)
@@ -56,12 +57,26 @@ class RedisSchedule(BaseSchedule):
 
         self._kwargs = {'namespace': self._namespace, "host": host,
                         "port": port, "db": db, "interval":interval,
-                        "max_number": max_number}
+                        "max_number": max_number,}
         BaseSchedule.__init__(self, interval, max_number)
 
     @property
     def schedule_kwargs(self):
         return self._kwargs
+
+    def flag_task_processing(self, task):
+        """标记某个task正在处理
+            Args:
+                task:Task, task
+        """
+        self._processing_set.add(task)
+
+    def remove_processing_task(self, task):
+        """移除task正在执行
+            Args:
+                task:Task, task
+        """
+        self._processed_url_set.delete(task)
 
     def pop_task(self):
         """弹出一个待抓取的task
@@ -89,15 +104,20 @@ class RedisSchedule(BaseSchedule):
         if self._is_stopped:
             return
         try:
-            if check_task_integrity(task):
-                url = task.request.url if not isinstance(task.request.url, unicode) \
-                    else task.request.url.encode("utf-8")
-                if not self._processed_url_set.exist(url):
-                    self._prepare_to_process_queue.push(task)
+            if isinstance(task, HttpTask):
+                if check_http_task_integrity(task):
+                    url = task.request.url if not isinstance(task.request.url, unicode) \
+                        else task.request.url.encode("utf-8")
+                    if not self._processed_url_set.exist(url):
+                        self._prepare_to_process_queue.push(task)
+                    else:
+                        self.logger.debug("request haven been done before.")
                 else:
-                    self.logger.debug("request haven been done before.")
-            else:
-                self.logger.warn("task is not integrate:%s" % task)
+                    self.logger.warn("task is not integrate:%s" % task)
+
+            if isinstance(task, FileTask):
+                self._prepare_to_process_queue.push(task)
+
         except RedisError, e:
             raise ScheduleError("redis error in schedule:%s" % e)
 
@@ -119,39 +139,40 @@ class RedisSchedule(BaseSchedule):
         except RedisError, e:
             raise ScheduleError("redis error:%s" % e)
 
-    def handle_fail_task(self, task):
+    def handle_error_task(self, task):
         """处理失败的task,
-            当是reason是如下：
-                fetch error:404--------------------->不重试
-                fetch error:other-------------------->重试一次
-                extract error:any--------------------->不重试
-                handle error:any---------------------->不重试
             Args:
                 task:Task 失败的task
 
+            Returns:
+                is_failed: bool, whether task is push into fail queue
+
             Raises:
                 ScheduleError: 当发生错误的时候
+
         """
         if self._is_stopped:
-            return
+            return False
+
         try:
-            #  这样的错误就重试，其他的不
-            if task.reason.find("fetch error:") != -1 and task.reason.find("404") == -1:
-                if task.fail_count >= task.max_fail_count:
+            if isinstance(task, HttpTask):
+                if task.reason.rfind("404") != -1 or task.reason.rfind("unsupported") != 1:
                     self._fail_queue.push(task)
+                    return True
                 else:
                     task.fail_count += 1
-                    self.logger.warn("one request failed %s" % task.reason)
-                    if task.request.connect_timeout is not None:
-                        task.request.connect_timeout = task.request.connect_timeout * 2
-                    if task.request.request_timeout is not None:
-                        task.request.request_timeout = task.request.request_timeout * 2
-                    self._prepare_to_process_queue.push(task)
-            #  这样的错误永远不重试
+                    if task.fail_count >= task.max_fail_count:
+                        self._fail_queue.push(task)
+                        return True
+                    else:
+                        self._prepare_to_process_queue.push(task)
+                        return False
             else:
                 self._fail_queue.push(task)
+                return True
         except RedisError, e:
-            raise ScheduleError("redis error:%s" % e)
+            raise ScheduleError("fail queue push failed error:%s" % e)
+
 
     def fail_task_size(self):
         """get fail task size
@@ -169,10 +190,8 @@ class RedisSchedule(BaseSchedule):
             Yields:
                 task:Task, fail task
         """
-        print "nimabi"
         while self._fail_queue.size() > 0:
             fail_task = self._fail_queue.pop()
-            print "wocha"
             if fail_task:
                 yield fail_task
 
@@ -184,7 +203,7 @@ class RedisSchedule(BaseSchedule):
         self._is_stopped = True
         try:
             self._prepare_to_process_queue.clear()
-            self._processing_queue.clear()
+            self._processing_set.clear()
             self._processed_queue.clear()
             self._fail_queue.clear()
             self._processed_url_set.clear()

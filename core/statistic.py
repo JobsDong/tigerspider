@@ -12,9 +12,8 @@
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
-
 import logging
-from core.datastruct import Task
+from core.datastruct import HttpTask
 
 WORKER_STATISTIC_PATH = "data/worker_statistic.dat"
 WORKER_FAIL_PATH = "data/fails/"
@@ -75,7 +74,7 @@ class WorkerStatistic(object):
                 key_name: str, 对应的key
         """
         self._parser2success[key_name] = 1 if not self._parser2success.has_key(key_name) \
-            else self._parser2success[key_name] + 1
+        else self._parser2success[key_name] + 1
 
     @property
     def parser2success(self):
@@ -84,13 +83,18 @@ class WorkerStatistic(object):
         '''
         return self._parser2success
 
-    def add_spider_fail(self, key_name):
+    def add_spider_fail(self, key, reason):
         """增加对应key的失败次数
             Args:
-                key_name:str,对应的key值
+                parser_name: str, callback name
+                reason: str, reason
         """
-        self._parser2fail[key_name] = 1 if not self._parser2fail.has_key(key_name) \
-            else self._parser2fail.get(key_name) + 1
+        if not self._parser2fail.has_key(key):
+            self._parser2fail[key] = {}
+        reason2count = self._parser2fail[key]
+        reason2count[reason] = 1 if not reason2count.has_key(reason) \
+            else reason2count[reason] + 1
+
 
     @property
     def parser2fail(self):
@@ -99,11 +103,11 @@ class WorkerStatistic(object):
         '''
         return self._parser2fail
 
-    def add_spider_retry(self, parser_name, reason):
-        if not self._parser2retry.has_key(parser_name):
-            self._parser2retry[parser_name] = {}
+    def add_spider_retry(self, key, reason):
+        if not self._parser2retry.has_key(key):
+            self._parser2retry[key] = {}
 
-        reason2count = self._parser2retry[parser_name]
+        reason2count = self._parser2retry[key]
         reason2count[reason] = 1 if not reason2count.has_key(reason) \
             else reason2count[reason] + 1
 
@@ -135,6 +139,8 @@ class WorkerStatistic(object):
 
     def count_average_extract_time(self, parser_name, extract_time,
             extract_interval, default_interval=datetime.timedelta(minutes=10)):
+        """extract one task's response. include handle time
+        """
         if not self._parser2extractcount.has_key(parser_name):
             self._parser2extractcount[parser_name] = {}
             self._parser2extractinterval[parser_name] = {}
@@ -211,10 +217,14 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
             out_file.write("%s: %s\n" % (key, value))
         out_file.write("\n\n")
 
-        # out_file.write("spider fail count:\n")
-        # for key, value in get_spider_fail().items():
-        #     out_file.write("%s: %s\n" % (key, value))
-        # out_file.write("\n\n")
+        out_file.write("spider fail count:\n")
+        for spider_name, reason2count in work_statistic.parser2fail.iteritems():
+            out_file.write("%s: \n" % spider_name)
+            for key, value in reason2count.iteritems():
+                out_file.write("%s: %s\n" % (key, value))
+            out_file.write("\n")
+        out_file.write("\n\n")
+
 
         out_file.write("spider retry count:\n")
         for spider_name, reason2count in work_statistic.parser2retry.iteritems():
@@ -261,6 +271,7 @@ def output_statistic_dict(worker_statistic):
         else worker_statistic.end_time.strftime("%Y-%m-%d %H:%M:%S")
     statistic_dict['success_count'] = worker_statistic.parser2success
     statistic_dict['retry_count'] = worker_statistic.parser2retry
+    statistic_dict['fail_count'] = worker_statistic.parser2fail
     statistic_dict['processing_number'] = worker_statistic.processing_number
 
     temp_fetch_interval_dict = {}
@@ -290,11 +301,9 @@ def output_statistic_dict(worker_statistic):
     return statistic_dict
 
 
-def output_fail_task_file(file_path, schedule):
+def output_fail_http_task_file(file_path, schedule):
     """output all fail task to file
-
-        notice:N_Line
-
+        only record http task
         Args:
             file_path: str, file path to store fail task
             schedule: Schedule, schedule for spider
@@ -302,5 +311,6 @@ def output_fail_task_file(file_path, schedule):
     import core.util
     with open(core.util.get_project_path() + file_path, "w") as out_file:
         for task in schedule.dumps_all_fail_task():
-            line = '"%s" "%s"\n' % (task.callback, task.request.url)
-            out_file.write(line)
+            if isinstance(task, HttpTask):
+                line = '"%s" "%s" "%s"\n' % (task.request.url, task.callback, task.reason)
+                out_file.write(line)

@@ -17,7 +17,7 @@ import json
 
 from core.spider.pipeline import BasePipeline
 from core.redistools import RedisDict, RedisError
-from core.db import DB, DBException
+from core.db import DB, DBError
 
 from spiders.tuan55.items import  DealItem, WebItem, PictureItem
 from spiders.tuan55.util import item2dict
@@ -56,7 +56,7 @@ class WebItemPipeline(BasePipeline):
     """
     def __init__(self, namespace, temp_host="localhost", temp_port=6379,
                  temp_db=0, db_host="192.168.11.195", db_port=5432, db_user="postgres",
-                 db_password="titps4gg", db_base="swift"):
+                 db_password="titps4gg", db_base="test"):
         """初始化WebItemPipeline
             主要是连接redis，postgres
         """
@@ -67,7 +67,7 @@ class WebItemPipeline(BasePipeline):
             self.temp_item_dict = RedisDict(temp_namespace, host=temp_host, port=temp_port, db=temp_db)
             self.item_db = DB(host=db_host, port=db_port,user=db_user,
                               password=db_password, database=db_base)
-        except DBException, e:
+        except DBError, e:
             self.logger.error("db error %s" % e)
         except RedisError, e:
             self.logger.error("redis error %s" % e)
@@ -111,12 +111,15 @@ class WebItemPipeline(BasePipeline):
                             " start_time=%(start_time)s, end_time=%(end_time)s, info=%(info)s," \
                             " source=%(source)s, update_time=%(update_time)s WHERE url=%(url)s"
 
-                self.item_db.execute_update(updatesql, {'city_code': item.city_code,
-                                                        'type': 90002003, 'start_time': datetime.datetime.fromtimestamp(
-                                                        float(item.start_time)),
-                                                        'end_time': datetime.datetime.fromtimestamp(float(item.end_time)),
-                                                        'info': encodestr, 'source': '55tuan',
-                                                        'update_time': datetime.datetime.now(), 'url': item.url})
+                self.item_db.execute_update(updatesql,
+                                            {'city_code': item.city_code,'type': 90002003,
+                                             'start_time': datetime.datetime.strptime(
+                                                 item.start_time, "%Y-%m-%d %H:%M:%S"),
+                                            'end_time': datetime.datetime.strptime(
+                                                 item.end_time, "%Y-%m-%d %H:%M:%S"),
+                                            'info': encodestr, 'source': '55tuan',
+                                            'update_time': datetime.datetime.now(),
+                                            'url': item.url})
             else:
                 insertsql = "INSERT INTO rt_crawl \
                 (city_code, type, start_time, end_time, \
@@ -126,9 +129,12 @@ class WebItemPipeline(BasePipeline):
 
 
                 self.item_db.execute_update(insertsql, {'city_code': item.city_code,
-                    'type': 90002003, 'start_time': datetime.datetime.fromtimestamp(float(item.start_time)),
-                    'end_time': datetime.datetime.fromtimestamp(float(item.end_time)),'info': encodestr,
-                    'url': item.url, 'source': '55tuan','update_time': datetime.datetime.now(),
+                    'type': 90002003, 'start_time': datetime.datetime.strptime(
+                                                item.start_time, "%Y-%m-%d %H:%M:%S"),
+                    'end_time': datetime.datetime.fromtimestamp(
+                                                float(item.end_time)),
+                    'info': encodestr,'url': item.url,
+                    'source': '55tuan','update_time': datetime.datetime.now(),
                     'add_time': datetime.datetime.now()})
 
         except Exception, e:

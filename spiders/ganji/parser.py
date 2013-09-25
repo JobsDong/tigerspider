@@ -8,11 +8,11 @@
 """
 
 import urlparse
-from lxml import etree
+from lxml import html
 from tornado.httpclient import HTTPRequest
 
 from core.spider.parser import BaseParser
-from core.datastruct import Task
+from core.datastruct import HttpTask
 
 from spiders.ganji.items import CityItem
 from spiders.ganji.util import (build_url, get_city_code)
@@ -32,7 +32,7 @@ class CityParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init ganji CityParser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """用於解析城市的html
             Args:
                 task: Task, 任務描述
@@ -43,7 +43,7 @@ class CityParser(BaseParser):
         """
         self.logger.debug("CityParser start")
         try:
-            tree = etree.HTML(response.body)
+            tree = html.parse(input_file)
             elements = tree.xpath("//div[@class='all-city']//a")
 
             for city_element in elements:
@@ -57,17 +57,16 @@ class CityParser(BaseParser):
                                                city_element.attrib['href']),
                                                connect_timeout=20,
                                                request_timeout=240)
-                    new_task = Task(http_request, callback='CommunityParser',
+                    new_task = HttpTask(http_request, callback='CommunityParser',
                                     cookie_host='http://www.ganji.com/index.htm',
                                     cookie_count=15,
                                     kwargs={'cityname': city_item.city_code})
-                    print city_element.attrib['href']
 
                     http_request = HTTPRequest(url=build_url(
                                                city_element.attrib['href']),
                                                connect_timeout=5,
                                                request_timeout=10)
-                    new_task = Task(http_request, callback='CommunityParser',
+                    new_task = HttpTask(http_request, callback='CommunityParser',
                                     cookie_host=city_element.attrib['href'],
                                     cookie_count=15,
                                     kwargs={'citycode': city_item.city_code})
@@ -97,14 +96,12 @@ def replace_url_path(url, path):
 class CommunityParser(BaseParser):
     """用于解析小区信息
     """
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """解析函数
             task:Task, 任务描述
             response:HTTPResponse, 下载的结果
         """
-        tree = etree.HTML(response.body)
-        if '下面的验证码' in response.body:
-            print '遇到验证码了'
+        tree = html.parse(input_file)
         elems = tree.xpath("//div[@class='listBox']//dl[@class='list-xq']")
         for elem in elems:
             community_name = elem.xpath("dd[@class='xq-detail']/p[1]/a/text()")
@@ -122,7 +119,7 @@ class CommunityParser(BaseParser):
             next_url_path = next_url_path[0]
             host = replace_url_path(task.request.url, next_url_path)
             http_request = HTTPRequest(host, connect_timeout=5, request_timeout=10)
-            next_task = Task(http_request, callback="CommunityParser",
+            next_task = HttpTask(http_request, callback="CommunityParser",
                              cookie_host="http://www.ganji.com", cookie_count=15,
                              kwargs={'cityname': task.kwargs['cityname']})
             yield next_task

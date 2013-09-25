@@ -22,7 +22,6 @@ class CommunityItemPipeline(BasePipeline):
     def process_item(self, item, kwargs):
         """将item存储在文件中
         """
-        #print 'pipeline:', item
         if isinstance(item, CommunityItem):
             if item.city and item.community:
                 self._store_item(item)

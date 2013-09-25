@@ -16,7 +16,7 @@ from tornado import gen, httpclient
 from tornado.httpclient import HTTPRequest
 
 from core.util import coroutine_wrap
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.resolver import DNSResolver, ResolveError
 
 httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
@@ -24,14 +24,14 @@ httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClien
 client = httpclient.AsyncHTTPClient()
 
 _host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=1; "
-                 r"abt=1378729480.0%7CBDF; rvct=1; rvd=8190998;"
-                 r" rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0;"
-                 r" __utma=1.580685477.1378729555.1378729555.1378729555.1;"
-                 r" __utmb=1.5.9.1378729597349; __utmc=1;"
-                 r" __utmz=1.1378729555.1.1.utmcsr=(direct)|"
-                 r"utmccn=(direct)|utmcmd=(none);"
-                 r" __utmv=1.|1=city=beijing=1;"
-                 r" __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall"}
+                r"abt=1378729480.0%7CBDF; rvct=1; rvd=8190998;"
+                r" rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0;"
+                r" __utma=1.580685477.1378729555.1378729555.1378729555.1;"
+                r" __utmb=1.5.9.1378729597349; __utmc=1;"
+                r" __utmz=1.1378729555.1.1.utmcsr=(direct)|"
+                r"utmccn=(direct)|utmcmd=(none);"
+                r" __utmv=1.|1=city=beijing=1;"
+                r" __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall"}
 _cookie_used_counts = {"http://www.meituan.com": 0}
 _cookie_is_buildings = set()
 
@@ -42,41 +42,40 @@ DEFAULT_USER_AGENT = r"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, l
 DEFAULT_ACCEPT_ENCODING = r"gzip,deflate,sdch"
 DEFAULT_ACCEPT = r"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 
-
-class GetPageException(Exception):
+class GetPageError(Exception):
     '''
     get page exeception
     '''
-    pass
-
 
 @gen.coroutine
-def fetch(task):
+def fetch(http_task):
     """根据任务要求进行下载
         注意这个操作时异步的
         Args:
-            task:Task , 任务描述
+            http_task:http_task , 任务描述
         Returns:
             resp:Response, 下载的HTTP结果
     """
-    http_request = task.request
+    http_request = http_task.request
     # get cookie if needed
-    if task.cookie_host:
-        cookie = yield coroutine_wrap(get_cookie_sy, task.cookie_host, task.cookie_count)
+    if http_task.cookie_host:
+        cookie = yield coroutine_wrap(get_cookie_sy,
+                                      http_task.cookie_host,
+                                      http_task.cookie_count)
         if cookie:
             http_request.headers = {"Cookie": cookie} if not http_request.headers \
                 else http_request.update({"Cookie": cookie})
 
     # client
-    if not task.request.headers.has_key('User-Agent'):
-        task.request.headers['User-Agent'] = DEFAULT_USER_AGENT
-    if not task.request.headers.has_key('Accept-Encoding'):
-        task.request.headers['Accept-Encoding'] = DEFAULT_ACCEPT_ENCODING
-    if not task.request.headers.has_key('Accept'):
-        task.request.headers['Accept'] = DEFAULT_ACCEPT
+    if not http_task.request.headers.has_key('User-Agent'):
+        http_task.request.headers['User-Agent'] = DEFAULT_USER_AGENT
+    if not http_task.request.headers.has_key('Accept-Encoding'):
+        http_task.request.headers['Accept-Encoding'] = DEFAULT_ACCEPT_ENCODING
+    if not http_task.request.headers.has_key('Accept'):
+        http_task.request.headers['Accept'] = DEFAULT_ACCEPT
 
     # 使用dns resolver
-    if task.dns_need:
+    if http_task.dns_need:
         try:
             ip_addr = DNSResolver.instance().resolve(http_request.url)
         except ResolveError, e:
@@ -87,41 +86,50 @@ def fetch(task):
     resp = yield gen.Task(client.fetch, http_request)
     raise gen.Return(resp)
 
-
-#TODO 使用LRU算法对cache进行改进
-def _get_page_sy(task, cookie):
+def _get_page_sy(http_task, cookie):
+    """以同步方式获取网页内容
+        Args:
+            task:HttpTask, 任务描述
+            cookie: str, cookie
+        Returns:
+            resp: HTTPResponse, 结果
+        Raises:
+            error:GetPageError 错误
+    """
     headers = {"User-Agent": DEFAULT_USER_AGENT,
                "Accept-Encoding": DEFAULT_ACCEPT_ENCODING,
                "Accept": DEFAULT_ACCEPT}
     if cookie:
         headers.update({"Cookie": cookie})
-    if task.request.headers:
-        task.request.headers.update(headers)
+    if http_task.request.headers:
+        http_task.request.headers.update(headers)
     else:
-        task.request.headers = headers
+        http_task.request.headers = headers
 
     # dns resovler
-    if task.dns_need:
+    if http_task.dns_need:
         try:
-            addr = DNSResolver.instance().resolve(task.request.url)
+            addr = DNSResolver.instance().resolve(http_task.request.url)
         except ResolveError, e:
-            logger.warn("dns %s error:%s" % (task.request.url, e))
+            logger.warn("dns %s error:%s" % (http_task.request.url, e))
         else:
-            task.request.url = addr
+            http_task.request.url = addr
 
     try:
         client = httpclient.HTTPClient()
-        resp = client.fetch(task.request)
+        resp = client.fetch(http_task.request)
     except Exception, e:
         logger.warn("get page failed error: %s" % e)
-        resp = GetPageException(e)
+        resp = GetPageError(e)
     return resp
 
-
 def get_ip_by_host(host):
-    '''
-    根据host获取对应的ip，类似于简易的dns cache
-    '''
+    """获取ip，根据host
+        Args:
+            host: str, 域名
+        Returns:
+            ip: str, ip地址
+    """
     global _host_ip_cache
     if not _host_ip_cache.has_key(host):
         # get ip
@@ -131,16 +139,15 @@ def get_ip_by_host(host):
     else:
         return _host_ip_cache[host]
 
-
 def _build_cookie_sy(host):
     """访问主页，获取cookie
         Args:
             host: str, 主页地址
     """
-    cookie_task = Task(HTTPRequest(host), callback="None")
+    cookie_http_task = HttpTask(HTTPRequest(host), callback="None")
     cookie = None if not _host_cookies.has_key(host) else _host_cookies[host]
 
-    resp = _get_page_sy(cookie_task, cookie)
+    resp = _get_page_sy(cookie_http_task, cookie)
     if not resp or isinstance(resp, Exception):
         logger.warn("get cookie failed, error:%s" % resp)
         new_cookie = None
@@ -155,7 +162,6 @@ def _build_cookie_sy(host):
 
     _host_cookies[host] = new_cookie
     _cookie_used_counts[host] = 0
-
 
 def get_cookie_sy(host, flushcount=20):
     """获得可用的cookie，采用的事同步方式
@@ -178,3 +184,4 @@ def get_cookie_sy(host, flushcount=20):
         return _host_cookies.get(host)
     else:
         return None
+

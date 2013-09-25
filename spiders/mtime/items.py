@@ -10,6 +10,19 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from core.datastruct import Item
 
+class MovieInfoItem(Item):
+    """定义MovieInfo的数据结构
+
+    """
+    def __init__(self, shopurl, cityname=u"全球"):
+        """初始化函数
+            Args:
+                略
+        """
+        self.cityname = cityname
+        self.shopurl = shopurl
+
+
 class RealInfoItem(Item):
     """定义RealInfo的数据结构
     """

@@ -45,6 +45,7 @@
             <div class="panel-heading">end_time</div>
             <div class="panel-body">{{statistic.end_time}}</div>
         </div>
+
         <div class="panel-danger">
             <div class="panel-heading">spider success</div>
             <div class="panel-body">
@@ -58,6 +59,23 @@
                   </table>
             </div>
         </div>
+
+        <div class="panel-warning">
+            <div class="panel-heading">spider fail</div>
+            <div class="panel-body">
+                  <table class="table">
+                      <thead><tr><th>name</th><th>reason</th><th>number</th></tr></thead>
+                      <tbody>
+                      {%for key, value in statistic.parser2fail.items()%}
+                      {%for reason, count in value.items()%}
+                      <tr><td>{{key}}</td><td>{{reason}}</td><td>{{count}}</td></tr>
+                      {%end%}
+                      {%end%}
+                      </tbody>
+                  </table>
+            </div>
+        </div>
+
         <div class="panel-danger">
             <div class="panel-heading">spider retry</div>
             <div class="panel-body">

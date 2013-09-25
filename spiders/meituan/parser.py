@@ -14,11 +14,11 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import os
 
-from lxml import etree
+from lxml import etree, html
 from tornado.httpclient import HTTPRequest
 
 from core.spider.parser import BaseParser
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.util import remove_white
 
 from spiders.meituan.items import DealItem, WebItem, CityItem, PictureItem
@@ -28,7 +28,7 @@ from spiders.meituan.util import (build_url_by_city_name, get_subcate_by_categor
                                     extract_table, )
 
 
-DEFAULT_PICTURE_DIR = u"/opt/swift_crawler/"
+DEFAULT_PICTURE_DIR = u"/home/wuyadong/swift_crawler/"
 DEFAULT_PICTURE_HOST = u"fruit-pictures/"
 
 class CityParser(BaseParser):
@@ -39,7 +39,7 @@ class CityParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init meituan.CityParser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """用於解析城市的xml
             Args:
                 task: Task, 任務描述
@@ -47,7 +47,7 @@ class CityParser(BaseParser):
         """
         self.logger.debug("CityParser start")
         try:
-            tree = etree.XML(response.body)
+            tree = etree.parse(input_file)
             elements = tree.xpath("//url")
 
             for city_element in elements:
@@ -58,7 +58,7 @@ class CityParser(BaseParser):
                     yield city_item
                     http_request = HTTPRequest(url=build_url_by_city_name(city_item.english_name)
                         , connect_timeout=20, request_timeout=240)
-                    new_task = Task(http_request, callback='DealParser',
+                    new_task = HttpTask(http_request, callback='DealParser', max_fail_count=5,
                                     kwargs={'citycode':city_item.city_code})
                     yield new_task
                 else:
@@ -84,15 +84,15 @@ class DealParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init meituan.DealParser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """解析文件的parser
             Args:
                 task:Task, 任務的描述
-                response:HTTPResponse，網頁的結果
+                input_file:File, 文件对象
         """
         self.logger.debug("deal parse start to parse")
         try:
-            tree = etree.XML(response.body)
+            tree = etree.parse(input_file)
             for date_element in tree.xpath("//data"):
                 item_price = date_element.findtext("deal/price").strip()
                 item_city_code = task.kwargs.get("citycode")
@@ -120,6 +120,8 @@ class DealParser(BaseParser):
                 item_appointment = date_element.findtext("deal/reservation").strip()
                 item_place = [{'place_name': remove_white(shop_element.findtext("shop_name")),
                           'address': remove_white(shop_element.findtext("shop_addr")),
+                          'longitude': shop_element.findtext("shop_long").strip(),
+                          'latitude': shop_element.findtext("shop_lat").strip(),
                           'place_phone': shop_element.findtext("shop_tel").strip(),
                           'open_time': u""}
                          for shop_element in date_element.xpath("shops//shop")]
@@ -127,6 +129,7 @@ class DealParser(BaseParser):
                 item_save = u""
                 item_remaining = u""
                 item_limit = u""
+                item_contact = u""
 
                 item_pictures, picture_task = self._check_and_execute_picture(picture_url)
 
@@ -136,11 +139,12 @@ class DealParser(BaseParser):
                                      item_noticed, item_pictures, item_description, item_deadline,
                                      item_short_desc, item_content_pic, item_purchased_number,item_m_url,
                                      item_appointment, item_place, item_save, item_remaining, item_limit,
-                                     item_refund)
+                                     item_refund, item_contact)
                 yield deal_item
 
                 http_request = HTTPRequest(url=deal_item.url, connect_timeout=5, request_timeout=10)
-                web_task = Task(http_request, callback='WebParser', cookie_host='http://www.meituan.com', cookie_count=20, kwargs={'url': deal_item.url})
+                web_task = HttpTask(http_request, callback='WebParser', cookie_host='http://www.meituan.com',
+                                cookie_count=20, max_fail_count=2, kwargs={'url': deal_item.url})
                 yield web_task
 
                 if picture_task:
@@ -166,16 +170,16 @@ class DealParser(BaseParser):
                 .lower()
             pictures.append(picture_path)
 
-        if len(pictures) >= 1 and not os.path.exists(pictures[0]):
+        if len(pictures) >= 1 and not os.path.exists(self._picture_dir + pictures[0]):
             picture_request = HTTPRequest(url=str(picture_url), connect_timeout=10,
                                           request_timeout=60)
-            picture_task = Task(picture_request, callback='PictureParser', dns_need=False,
+            picture_task = HttpTask(picture_request, callback='PictureParser', dns_need=False,
                                 cookie_host='http://www.meituan.com', cookie_count=20,
+                                max_fail_count=2,
                                 kwargs={'picturepath':self._picture_dir + pictures[0]})
             return (pictures, picture_task)
         else:
             return (pictures, None)
-
 
 
 class WebParser(BaseParser):
@@ -186,15 +190,15 @@ class WebParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init meituan.WebParser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         """解析網頁
             Args:
                 task:Task 任務的描述
-                response:HTTPResponse 網頁
+                input_file: File, 文件对象
         """
         self.logger.debug("web parse start to parse")
         try:
-            tree = etree.HTML(response.body)
+            tree = html.parse(input_file)
             item_refund = self._extract_refund(tree)
             item_content_text = self._extract_content_text(tree)
             web_item = WebItem(item_refund, item_content_text)
@@ -260,7 +264,7 @@ class PictureParser(BaseParser):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init PictureParser")
 
-    def parse(self, task, response):
+    def parse(self, task, input_file):
         if task.kwargs.has_key('picturepath'):
-            picture_item = PictureItem(response.body, task.kwargs.get('picturepath'))
+            picture_item = PictureItem(input_file.read(), task.kwargs.get('picturepath'))
             yield picture_item

@@ -11,10 +11,10 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import os
 from tornado.httpclient import HTTPRequest
 from tornado.options import options, define
-from core.datastruct import Task
+from core.datastruct import HttpTask
 from core.redistools import RedisQueue
 
-DEFAULT_PATH = r"/home/geocoder/meituan/test/"
+DEFAULT_PATH = r"/home/wuyadong/test/"
 
 define("namespace", default="mtime", type=str, help="the namespace of the prepare-queue")
 define("city_codes", default=None, type=list, help="citycode you want to crawl")
@@ -34,7 +34,6 @@ def build_cinema_path(path=DEFAULT_PATH, city_codes=None):
     children_paths = os.listdir(path)
     if not city_codes:
         city_codes = children_paths
-
     for city_code in city_codes:
         if city_code.isdigit():
             yield city_code, os.path.join(path, city_code, "cinema.csv")
@@ -54,19 +53,22 @@ def read_cinema_file(file_path):
             yield (cinema_id.strip(), district_str.strip())
             line = in_file.readline()
 
-def build_task(city_code, cinema_id, district_str):
+def build_http_task(city_code, cinema_id, district_str):
     """构造抓取任务
         Args:
             city_code: str, 城市code
             cinema_id: str, cinemacode
             district_str: str, 区域名
         Returns:
-            task: Task, 任务描述
+            task: HTTPTask, 任务描述
     """
     url = r"%s/%s/%s/" % ("http://theater.mtime.com",
                         district_str, cinema_id,)
-    return Task(HTTPRequest(url, connect_timeout=10, request_timeout=20),
-                callback='RealInfoParser', kwargs={'citycode':city_code, 'cinemaid':cinema_id})
+    return HttpTask(HTTPRequest(url, connect_timeout=10, request_timeout=20),
+                callback='RealInfoParser', max_fail_count=3, kwargs={'citycode':city_code,
+                                                   'cinemaid':cinema_id,
+                                                   'district': district_str,
+                                                   'requesturl': url})
 
 def load_tasks(namespace, city_codes=None, host="localhost", port=6379, db=0, path=DEFAULT_PATH):
     key = "%s:%s" % (namespace, "prepare")
@@ -74,7 +76,7 @@ def load_tasks(namespace, city_codes=None, host="localhost", port=6379, db=0, pa
 
     for city_code, cinema_path in build_cinema_path(city_codes=city_codes, path=path):
         for cinema_id, district_str in read_cinema_file(cinema_path):
-            task = build_task(city_code, cinema_id, district_str)
+            task = build_http_task(city_code, cinema_id, district_str)
             que.push(task)
 
 if __name__ == "__main__":

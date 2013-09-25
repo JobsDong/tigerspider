@@ -18,65 +18,125 @@ import datetime
 
 from core.util import remove_white
 
-_city2code = {
-"beijing":"110000",
-"changchun":"220100",
-"changsha":"430100",
-"chengdu":"510100",
-"chongqing":"500000",
-"dalian":"210200",
-"dongguan":"441900",
-"foshan":"440600",
-"fuzhou":"350100",
-"guangzhou":"440100",
-"guiyang":"520100",
-"haerbin":"230100",
-"haikou":"460100",
-"hangzhou":"330100",
-"hefei":"340100",
-"huhehaote":"150100",
-"jinan":"370100",
-"kunming":"530100",
-"lanzhou":"620100",
-"nanchang":"360100",
-"nanjing":"320100",
-"nanning":"450100",
-"ningbo":"330200",
-"qingdao":"370200",
-"shanghai":"310000",
-"shenyang":"210100",
-"shenzhen":"440300",
-"shijiazhuang":"130100",
-"suzhou":"320500",
-"taiyuan":"140100",
-"tianjin":"120000",
-"wenzhou":"330300",
-"wuhan":"420100",
-"wulumuqi":"650100",
-"wuxi":"320200",
-"xiamen":"350200",
-"xian":"610100",
-"yangzhou":"321000",
-"yantai":"370600",
-"zhengzhou":"410100",
-"zhuhai":"440400",
-"huizhou":"441300",
+_chinese_city2code = {
+    u"北京": "110000",
+    u"长春": "220100",
+    u"长沙": "430100",
+    u"成都": "510100",
+    u"重庆": "500000",
+    u"大连": "210200",
+    u"东莞": "441900",
+    u"佛山": "440600",
+    u"福州": "350100",
+    u"广州": "440100",
+    u"贵阳": "520100",
+    u"哈尔滨": "230100",
+    u"海口": "460100",
+    u"杭州": "330100",
+    u"合肥": "340100",
+    u"呼和浩特": "150100",
+    u"济南": "370100",
+    u"昆明": "530100",
+    u"兰州": "620100",
+    u"南昌": "360100",
+    u"南京": "320100",
+    u"青岛": "370200",
+    u"上海": "310000",
+    u"沈阳": "210100",
+    u"深圳": "440300",
+    u"石家庄": "130100",
+    u"苏州":"320500",
+    u"太原":"140100",
+    u"天津":"120000",
+    u"温州":"330300",
+    u"武汉":"420100",
+    u"乌鲁木齐":"650100",
+    u"无锡":"320200",
+    u"厦门":"350200",
+    u"西安":"610100",
+    u"扬州":"321000",
+    u"烟台":"370600",
+    u"郑州":"410100",
+    u"珠海":"440400",
+    u"惠州":"441300",
+    u"南宁": "450100",
+    u"宁波": "330200",
 }
 
-#TODO 将功能进行分解
-def get_city_code(city_pname):
-    """获取对应城市的cityCode,同时起到了一定的过滤效果
+# _city2code = {
+# "beijing":"110000",
+# "changchun":"220100",
+# "changsha":"430100",
+# "chengdu":"510100",
+# "chongqing":"500000",
+# "dalian":"210200",
+# "dongguan":"441900",
+# "foshan":"440600",
+# "fuzhou":"350100",
+# "guangzhou":"440100",
+# "guiyang":"520100",
+# "haerbin":"230100",
+# "haikou":"460100",
+# "hangzhou":"330100",
+# "hefei":"340100",
+# "huhehaote":"150100",
+# "jinan":"370100",
+# "kunming":"530100",
+# "lanzhou":"620100",
+# "nanchang":"360100",
+# "nanjing":"320100",
+# "nanning":"450100",
+# "ningbo":"330200",
+# "qingdao":"370200",
+# "shanghai":"310000",
+# "shenyang":"210100",
+# "shenzhen":"440300",
+# "shijiazhuang":"130100",
+# "suzhou":"320500",
+# "taiyuan":"140100",
+# "tianjin":"120000",
+# "wenzhou":"330300",
+# "wuhan":"420100",
+# "wulumuqi":"650100",
+# "wuxi":"320200",
+# "xiamen":"350200",
+# "xian":"610100",
+# "yangzhou":"321000",
+# "yantai":"370600",
+# "zhengzhou":"410100",
+# "zhuhai":"440400",
+# "huizhou":"441300",
+# }
+
+def get_city_code_from_chinese(city_chinese_name):
+    """获取对于城市的citycode, 同时起到一定的过滤效果
         Args:
-            city_pname: 城市英文名
+            city_chinese_name:str, 城市中文名
         Returns:
             city_code: str, 城市id
     """
-    return None if not _city2code.has_key(city_pname) else _city2code[city_pname]
+    return None if not _chinese_city2code.has_key(city_chinese_name)\
+        else _chinese_city2code[city_chinese_name]
+
+
+
+#
+# def get_city_code(city_pname):
+#     """获取对应城市的cityCode,同时起到了一定的过滤效果
+#         Args:
+#             city_pname: 城市英文名
+#         Returns:
+#             city_code: str, 城市id
+#     """
+#     return None if not _city2code.has_key(city_pname) else _city2code[city_pname]
 
 def build_url_by_city_name(city_qname):
     return "http://www.55tuan.com/openAPI.do?city=%s" % city_qname
 
 def get_subcate_by_category(category_texts):
+    """
+        notice: 结婚 is 丽人 ?
+    """
     category = "".join(category_texts)
     if category.rfind(u"美食") != -1:
         return u"美食"
@@ -88,7 +148,7 @@ def get_subcate_by_category(category_texts):
         return u"酒店旅游"
     elif category.rfind(u"摄影写真") != -1 or category.rfind(u"美发") != -1 or \
     category.rfind(u"SPA") != -1 or category.rfind(u"美容塑形") != -1 or \
-    category.rfind(u"美甲") != -1:
+    category.rfind(u"美甲") != -1 or category.rfind(u'结婚') != -1:
         return u"丽人"
     elif category.rfind(u"KTV") != -1:
         return u"KTV"
@@ -98,6 +158,7 @@ def get_subcate_by_category(category_texts):
     elif category.rfind(u"生活服务") != -1 or category.rfind(u"美容保健") != -1:
         return u"生活服务"
     else:
+        print category
         return None
 
 def extract_id_from_url(url):
@@ -135,7 +196,6 @@ def extract_table(elem, text_splits):
     if elem is not None:
         tr_elems = elem.xpath("//tr")
         for tr_elem in tr_elems:
-            text_splits.append(u"-")
             temp_texts = []
             for text in tr_elem.itertext():
                 stripped_text = remove_white(text)
@@ -169,14 +229,9 @@ def item2dict(item):
     clone_dict = {}
     for key, value in item.__dict__.items():
         if key == "start_time":
-            clone_dict['start_time'] = datetime.datetime.fromtimestamp(
-            float(value)).strftime("%Y-%m-%d %H:%M:%S")
+            clone_dict['start_time'] = value
         elif key == "end_time":
-            clone_dict['end_time'] = datetime.datetime.fromtimestamp(
-            float(value)).strftime("%Y-%m-%d %H:%M:%S")
-        elif key == "deadline":
-            clone_dict['deadline'] = datetime.datetime.fromtimestamp(
-            float(value)).strftime("%Y-%m-%d %H:%M:%S")
+            clone_dict['end_time'] = value
         elif key == "pictures":
             clone_dict['pictures'] = [child_value if not isinstance(child_value, unicode)
                                     else child_value.encode("utf-8")
