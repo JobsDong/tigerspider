@@ -79,6 +79,7 @@ class Worker(object):
         if self.is_started:
             self.logger.warn("duplicate start")
         else:
+            self.is_started = True
             self.worker_statistic.start_time = datetime.datetime.now()
             try:
                 RecorderManager.instance().record_doing(
@@ -92,7 +93,7 @@ class Worker(object):
 
             _move_start_tasks_to_crawl_schedule(self.spider.start_tasks,
                                             self.spider.crawl_schedule)
-            self.is_started = True
+
             ioloop.IOLoop.instance().add_timeout(
                 datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval),
                 self.loop_get_and_execute)
@@ -219,6 +220,7 @@ class Worker(object):
             raise gen.Return
 
         self.worker_statistic.incre_processing_number()
+        self.spider.crawl_schedule.flag_task_processing(task)
         try:
             fetch_start_time = datetime.datetime.now()
             resp = yield fetch(task)
@@ -238,6 +240,7 @@ class Worker(object):
                 self.handle_fail_task(task, "fetch-" + task.callback)
         finally:
             self.worker_statistic.decre_processing_number()
+            self.spider.crawl_schedule.remove_processing_task(task)
 
     def extract(self, task, string_file):
         """解析数据
@@ -254,35 +257,49 @@ class Worker(object):
             hrefs = self.spider.parse(task, string_file)
         except ParserError, e:
             self.logger.error("parser error:%s" % e)
-            task.reason = "parser error"
-            self.handle_fail_task(task, "parse-" + task.callback)
+            task.reason = "%s" % e
+            self.handle_fail_task(task, "parser-" + task.callback)
+        except Exception, e:
+            self.logger.error("extract error:%s" % e)
+            task.reason = "%s" % "unsupported"
+            self.handle_fail_task(task, "extract-" + task.callback)
         else:
-            self.worker_statistic.add_spider_success(task.callback + "-extract")
-            if hrefs is not None:
-                for item_or_task in hrefs:
+            try:
+                if hrefs is not None:
+                    for item_or_task in hrefs:
                         # 处理new_task
-                    if isinstance(item_or_task, HttpTask) or isinstance(item_or_task, FileTask):
-                        try:
-                            self.spider.crawl_schedule.push_new_task(item_or_task)
-                        except ScheduleError, e:
-                            self.logger.warn("push new task error:%s" % e)
-                        # 处理item
-                    if isinstance(item_or_task, Item):
-                        handle_start_time = datetime.datetime.now()
-                        try:
-                            self.spider.handle_item(item_or_task, task.kwargs)
-                        except PipelineError, e:
-                            self.logger.error("handle error:%s" % e)
-                            task.reason = "handle error"
-                            self.handle_fail_task(task,
-                                  "handle-" + item_or_task.__class__.__name__,)
-                        else:
-                            self.worker_statistic.add_spider_success(
-                                    "%s-%s" % (item_or_task.__class__.__name__, "handle"))
-                        finally:
-                            handle_interval = datetime.datetime.now() - handle_start_time
-                            self.worker_statistic.count_average_handle_item_time(
-                                item_or_task.__class__.__name__, handle_start_time, handle_interval)
+                        if isinstance(item_or_task, HttpTask) or isinstance(item_or_task, FileTask):
+                            try:
+                                self.spider.crawl_schedule.push_new_task(item_or_task)
+                            except ScheduleError, e:
+                                self.logger.warn("push new task error:%s" % e)
+                            # 处理item
+                        if isinstance(item_or_task, Item):
+                            handle_start_time = datetime.datetime.now()
+                            try:
+                                self.spider.handle_item(item_or_task, task.kwargs)
+                            except PipelineError, e:
+                                self.logger.error("handle error:%s" % e)
+                                task.reason = "handle error"
+                                self.handle_fail_task(task,
+                                      "handle-" + item_or_task.__class__.__name__,)
+                            else:
+                                self.worker_statistic.add_spider_success(
+                                        "%s-%s" % (item_or_task.__class__.__name__, "handle"))
+                            finally:
+                                handle_interval = datetime.datetime.now() - handle_start_time
+                                self.worker_statistic.count_average_handle_item_time(
+                                    item_or_task.__class__.__name__, handle_start_time, handle_interval)
+            except ParserError, e:
+                self.logger.error("parser error:%s" % e)
+                task.reason = "%s" % e
+                self.handle_fail_task(task, "parser-" + task.callback)
+            except Exception, e:
+                self.logger.error("extract error:%s" % e)
+                task.reason = "%s" % "unsupported"
+                self.handle_fail_task(task, "extract-" + task.callback)
+            else:
+                self.worker_statistic.add_spider_success(task.callback + "-extract")
         finally:
             extract_time = datetime.datetime.now() - extract_start_time
             self.worker_statistic.count_average_extract_time(

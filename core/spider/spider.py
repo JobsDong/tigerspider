@@ -90,8 +90,10 @@ class BaseSpider(object):
         if self._clone_parsers.has_key(task.callback):
             try:
                 item_or_task_iterator = self._clone_parsers[task.callback].parse(task, input_file)
+            except ParserError, e:
+                raise e
             except Exception, e:
-                raise ParserError("parser error:%s, task:%s", (e, task))
+                raise e
             else:
                 return item_or_task_iterator
         else:
@@ -135,6 +137,10 @@ class BaseSpider(object):
                 pipeline.clear_all()
             except Exception, e:
                 self.logger.warn("clear pipeline:%s resource error:%s" % (pipeline.__name__, e))
+        try:
+            self._crawl_schedule.clear_all()
+        except Exception, e:
+            self.logger.warn("clear crawl schedule error:%s" % e)
 
 
 def add_spider_class(path, clz):

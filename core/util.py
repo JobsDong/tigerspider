@@ -72,6 +72,7 @@ def log_exception_wrap(func):
             print "unexcepted error:%s in %s" % (e, func.__name__)
         else:
             return result
+    return _wrap
 
 @gen.coroutine
 def coroutine_wrap(func, *args, **kwargs):
@@ -201,7 +202,7 @@ def walk_settings(path='settings.registersettings'):
             try:
                 spider = load_object(spider_path)
             except Exception, e:
-                raise SettingError, "load spider error:%s" % e
+                raise SettingError, "%s load spider error:%s" % (spider_path, e)
             else:
                 add_spider_class(spider_path, spider)
 
