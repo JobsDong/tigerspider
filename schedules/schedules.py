@@ -43,8 +43,6 @@ class RedisSchedule(BaseSchedule):
         try:
             self._prepare_to_process_queue = RedisQueue("%s:%s" % (self._namespace, "prepare",),
                                                         host=host, port=port, db=db)
-            self._processing_set = RedisSet("%s:%s" % (self._namespace,"processing",),
-                                                host=host, port=port, db=db)
             self._processed_queue = RedisQueue("%s:%s" % (self._namespace, "processed",),
                                                host=host, port=port, db=db)
             self._fail_queue = RedisQueue("%s:%s" % (self._namespace, "fail",),
@@ -63,20 +61,6 @@ class RedisSchedule(BaseSchedule):
     @property
     def schedule_kwargs(self):
         return self._kwargs
-
-    def flag_task_processing(self, task):
-        """标记某个task正在处理
-            Args:
-                task:Task, task
-        """
-        self._processing_set.add(task)
-
-    def remove_processing_task(self, task):
-        """移除task正在执行
-            Args:
-                task:Task, task
-        """
-        self._processed_url_set.delete(task)
 
     def pop_task(self):
         """弹出一个待抓取的task
@@ -156,10 +140,12 @@ class RedisSchedule(BaseSchedule):
 
         try:
             if isinstance(task, HttpTask):
-                if task.reason.rfind("404") != -1 or task.reason.rfind("unsupported") != 1:
+                if task.reason.rfind("404") != -1 or\
+                                task.reason.rfind("unsupported") != -1:
                     self._fail_queue.push(task)
                     return True
                 else:
+                    print task.fail_count, task.max_fail_count
                     task.fail_count += 1
                     if task.fail_count >= task.max_fail_count:
                         self._fail_queue.push(task)
@@ -203,7 +189,6 @@ class RedisSchedule(BaseSchedule):
         self._is_stopped = True
         try:
             self._prepare_to_process_queue.clear()
-            self._processing_set.clear()
             self._processed_queue.clear()
             self._fail_queue.clear()
             self._processed_url_set.clear()
