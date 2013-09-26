@@ -14,10 +14,16 @@ spiders = [
     'spiders.meituan.spider.MeituanSpider',
     'spiders.tuan55.spider.Tuan55Spider',
     'spiders.nuomi.spider.NuomiSpider',
-    'spiders.ganji.spider.GanjiSpider',
     'spiders.mtime.spider.MtimeSpider',
+    'spiders.ganji.spider.GanjiSpider',
+    'spiders.baiduoffset.spider.BaiduoffsetSpider',
+    'spiders.baiduoffset1.spider.BaiduoffsetSpider',
+    'spiders.baiduoffset2.spider.BaiduoffsetSpider',
+    'spiders.baiduoffset3.spider.BaiduoffsetSpider',
+    'spiders.baiduoffset4.spider.BaiduoffsetSpider',
 ]
 
 schedules = [
     'schedules.schedules.RedisSchedule',
+    'schedules.nostoreschedule.NostoreSchedule',
 ]

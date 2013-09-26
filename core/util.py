@@ -18,9 +18,11 @@ from core.datastruct import HttpTask
 
 logger = logging.getLogger("core-util")
 
+
 class SettingError(Exception):
     """用于表示配置错误的exception
     """
+
 
 def get_project_path():
     """获取项目的绝对路径

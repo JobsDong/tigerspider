@@ -515,6 +515,7 @@ def get_all_workers():
     for key, value in Worker.workers.iteritems():
         temp_worker = {}
         temp_worker['name'] = key
+        print 'in get_all_workers'
         if not value.is_started:
             status = "stopped"
         elif value.is_suspended:
