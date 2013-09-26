@@ -316,7 +316,7 @@ class WebParser(BaseParser):
             Returns:
                 deadline：str, 截止信息
         """
-        if notice.rfind(u"有效期：") != -1:
+        if notice.rfind(u"有效期：") != -1 or notice.rfind(u"有效日期") != -1:
             return ""
         else:
             deadlines = tree.xpath(u"//*/text()[contains(., '窝窝券有效期')]")

@@ -60,6 +60,7 @@
             </table>
         </div>
     </div>
+
     <div class="panel-success">
         <div class="panel-heading">以前失效的worker如下：</div>
         <div class="panel-body">
@@ -70,6 +71,7 @@
                        <th>spider_class</th><th>spider_kwargs</th>
                    </tr></thead>
                    <tbody>
+                   {%for fail_worker in fail_workers%}
                    <tr><td>{{fail_worker.get('worker_name')}}</td><td>{{fail_worker.get('start_time')}}</td>
                        <td>{{fail_worker.get('schedule_class')}}</td><td>{{fail_worker.get('schedule_kwargs')}}</td>
                        <td>{{fail_worker.get('spider_class')}}</td><td>{{fail_worker.get('spider_kwargs')}}</td>
