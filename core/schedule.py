@@ -57,16 +57,6 @@ class BaseSchedule(object):
     def max_number(self):
         return self._max_number
 
-    def flag_task_processing(self, task):
-        """标记某个task正在处理
-        """
-        raise NotImplementedError
-
-    def remove_processing_task(self, task):
-        """移除某个task正在处理
-        """
-        raise NotImplementedError
-
     def pop_task(self):
         """取出一个可用的Task
             Returns:

@@ -220,7 +220,6 @@ class Worker(object):
             raise gen.Return
 
         self.worker_statistic.incre_processing_number()
-        self.spider.crawl_schedule.flag_task_processing(task)
         try:
             fetch_start_time = datetime.datetime.now()
             resp = yield fetch(task)
@@ -240,7 +239,6 @@ class Worker(object):
                 self.handle_fail_task(task, "fetch-" + task.callback)
         finally:
             self.worker_statistic.decre_processing_number()
-            self.spider.crawl_schedule.remove_processing_task(task)
 
     def extract(self, task, string_file):
         """解析数据

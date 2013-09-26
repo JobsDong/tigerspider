@@ -127,6 +127,7 @@ class JSParser(BaseParser):
         fruits = tree.xpath("//dl[@class='s_cinamelist']/node()")
 
         if len(fruits) <= 0 and content.rfind(u"showtimeList") == -1:
+            self.logger.error("WARN: %s %s" % (task.request.url, content))
             raise ParserError("not exists showtimelist")
 
         for fruit in fruits:

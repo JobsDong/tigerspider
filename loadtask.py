@@ -34,6 +34,7 @@ def build_cinema_path(path=DEFAULT_PATH, city_codes=None):
     children_paths = os.listdir(path)
     if not city_codes:
         city_codes = children_paths
+    city_codes = ['110000']
     for city_code in city_codes:
         if city_code.isdigit():
             yield city_code, os.path.join(path, city_code, "cinema.csv")

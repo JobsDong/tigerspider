@@ -312,5 +312,5 @@ def output_fail_http_task_file(file_path, schedule):
     with open(core.util.get_project_path() + file_path, "w") as out_file:
         for task in schedule.dumps_all_fail_task():
             if isinstance(task, HttpTask):
-                line = '"%s" "%s" "%s"\n' % (task.request.url, task.callback, task.reason)
+                line = '"%s" "%s" "%s" "%s"\n' % (task.request.url, task.kwargs, task.callback, task.reason)
                 out_file.write(line)
