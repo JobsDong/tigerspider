@@ -25,6 +25,7 @@ import logging
 from tornado import ioloop, gen
 
 from core.util import get_class_path, log_exception_wrap
+from core.proxy import ProxyManager, Proxy
 from core.spider.parser import ParserError
 from core.schedule import ScheduleError
 from core.spider.pipeline import PipelineError
@@ -35,7 +36,6 @@ from core.statistic import (WorkerStatistic, output_statistic_file, WORKER_STATI
 from core.record import record, RecorderManager
 
 MAX_EMPTY_TASK_COUNT = 10  # worker最大能够获取的空Task个数
-
 
 class WorkerError(Exception):
     """当worker内部发生异常时，将抛出workerError
@@ -229,6 +229,13 @@ class Worker(object):
 
             if resp.code == 200 and resp.error is None:
                 self.logger.debug("fetch success")
+                try:
+                    if task.proxy_need:
+                        proxy = Proxy(task.request.proxy_host, task.request.proxy_port,
+                                      task.request.proxy_username, task.request.proxy_password)
+                        ProxyManager.instance().flag_proxy_avaliable(proxy, task.request.url)
+                except Exception, e:
+                    self.logger.error("flag proxy avaliable failed:%s" % e)
                 self.worker_statistic.add_spider_success(task.callback + "-fetch")
                 self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
                 self.extract(task, StringIO.StringIO(resp.body))
@@ -364,6 +371,17 @@ class Worker(object):
                 task:HttTask or FileTask, task object
                 key: str, key words
         """
+
+        # 如果task需要代理，失败了就不要用代理了
+        try:
+            if task.proxy_need:
+                proxy = Proxy(task.request.proxy_host, task.request.proxy_port,
+                          task.request.proxy_username, task.request.proxy_password)
+                ProxyManager.instance().flag_proxy_not_avaliable(proxy, task.request.url)
+        except Exception, e:
+            self.logger.error("flag proxy failed error:%s" % e)
+
+
         try:
             is_failed = self.spider.crawl_schedule.handle_error_task(task)
             if is_failed:
@@ -515,7 +533,6 @@ def get_all_workers():
     for key, value in Worker.workers.iteritems():
         temp_worker = {}
         temp_worker['name'] = key
-        print 'in get_all_workers'
         if not value.is_started:
             status = "stopped"
         elif value.is_suspended:

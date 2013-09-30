@@ -140,12 +140,10 @@ class RedisSchedule(BaseSchedule):
 
         try:
             if isinstance(task, HttpTask):
-                if task.reason.rfind("404") != -1 or\
-                                task.reason.rfind("unsupported") != -1:
+                if task.reason.rfind("unsupported") != -1:
                     self._fail_queue.push(task)
                     return True
                 else:
-                    print task.fail_count, task.max_fail_count
                     task.fail_count += 1
                     if task.fail_count >= task.max_fail_count:
                         self._fail_queue.push(task)

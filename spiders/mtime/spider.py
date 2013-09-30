@@ -29,11 +29,11 @@ class MtimeSpider(BaseSpider):
 
     # start_tasks = [
     #     HttpTask(
-    #         HTTPRequest("http://theater.mtime.com/China_Jiangsu_Province_Changzhou_LiYangShi/3478/",
+    #         HTTPRequest("http://theater.mtime.com/China_Beijing_Chaoyang/2697/",
     #                     connect_timeout=5, request_timeout=10), callback='RealInfoParser',
-    #         max_fail_count=2,
-    #         kwargs={'citycode':'320481', 'cinemaid': 3478, 'district': 'China_Jiangsu_Province_Changzhou_LiYangShi',
-    #                                   'requesturl': "http://theater.mtime.com/China_Jiangsu_Province_Changzhou_LiYangShi/3478/"}
+    #         max_fail_count=2, proxy_need=True,
+    #         kwargs={'citycode':'110000', 'cinemaid': 2697, 'district': 'China_Beijing_Chaoyang',
+    #                                   'requesturl': "http://theater.mtime.com/China_Beijing_Chaoyang/2697/"}
     #             )
     # ]
 
