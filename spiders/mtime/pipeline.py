@@ -18,7 +18,9 @@ class MovieInfoPipeline(BasePipeline):
     """处理MovieInfo的pipeline
     """
     def __init__(self, namespace, db_host="192.168.11.195", db_port=5432,
-                 db_user="postgres", db_password="titps4gg", db_base="test"):
+                 db_user="postgres", db_password="titps4gg", db_base="swift",
+                 server_host="211.151.180.126", server_port=5432, server_user="postgres",
+                 server_password="titps4gg", server_db="swift"):
         """初始化函数
             Args:
                 namespace:str, 名字空间
@@ -30,6 +32,11 @@ class MovieInfoPipeline(BasePipeline):
         """
         BasePipeline.__init__(self, namespace)
         self.logger.debug("init mtime MovieInfoPipeline")
+        self.server_host = server_host
+        self.server_port = server_port
+        self.server_user = server_user
+        self.server_password = server_password
+        self.server_db = server_db
         try:
             self.item_db = DB(host=db_host, port=db_port,user=db_user,
                               password=db_password, database=db_base)
@@ -60,6 +67,14 @@ class MovieInfoPipeline(BasePipeline):
 
             self.item_db.execute_update(insertsql, {'cityname': item.cityname,
                     'shopurl': item.shopurl})
+
+            server_db = DB(host=self.server_host, port=self.server_port,user=self.server_user,
+                              password=self.server_password, database=self.server_db)
+            try:
+                server_db.execute_update(insertsql, {'cityname': item.cityname,
+                    'shopurl': item.shopurl})
+            finally:
+                server_db.close()
 
 
 class RealInfoPipeline(BasePipeline):
