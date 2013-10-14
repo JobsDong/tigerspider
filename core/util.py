@@ -93,6 +93,25 @@ def coroutine_wrap(func, *args, **kwargs):
 
     raise gen.Return(result)
 
+def xpath_namespace(tree, expr):
+    """xpath with namespace
+
+        can't be used in "tree = etree.parser(), just can be used in etree.fromstring()"
+        can't have function in expr
+        Args:
+            tree: Etree, element tree
+            expr: str, xpath str
+        Return:
+            elems: list, list of _Element
+    """
+    handle_elem = lambda elem: elem if not elem or ":" in elem\
+        else "*[local-name()='%s']" % elem
+
+    new_expr = "/".join([handle_elem(elem) for elem in expr.split("/")])
+    nsmap = dict((k, v) for k, v in tree.nsmap.items() if k)
+    return tree.xpath(new_expr, namespaces=nsmap)
+
+
 class PickleEncoder(object):
     """使用pickle将对象进行编码
     """

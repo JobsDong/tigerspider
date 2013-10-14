@@ -98,7 +98,7 @@ class BaseSpider(object):
                 return item_or_task_iterator
         else:
             self.logger.error("has no callback:%s" % task.callback)
-            raise ParserError("parser error:%s, task:%s", ("not exists callback", task))
+            raise Exception("parser error:%s, callback:%s" % ("not exists callback", task.callback))
 
 
     def handle_item(self, item, kwargs):

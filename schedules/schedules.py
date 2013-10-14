@@ -140,7 +140,7 @@ class RedisSchedule(BaseSchedule):
 
         try:
             if isinstance(task, HttpTask):
-                if task.reason.rfind("unsupported") != -1:
+                if task.reason.rfind("unsupported") != -1 or task.reason.rfind("handle error") != -1:
                     self._fail_queue.push(task)
                     return True
                 else:
