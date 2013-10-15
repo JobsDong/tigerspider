@@ -3,6 +3,14 @@
 
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
+"""item for ctrip
+    CityItem: item for storing city information
+    HotelCodeItem: item for storing hotel code information
+    HotelInfoItem: item for storing hotel information
+    ImageItem: item for storing image information
+    RoomInfoItem: item for storing room information
+"""
+
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from core.datastruct import Item
@@ -27,6 +35,7 @@ class CityItem(Item):
 class HotelCodeItem(Item):
     """store hotel code and city code
     """
+
     def __init__(self, hotel_id, city_code, hotel_url):
         """init method
 
@@ -47,6 +56,11 @@ class HotelInfoItem(Item):
     def __init__(self, hotel_code, city_code, hotel_name, brand_id, latitude,
                  longitude, hotel_services, room_services, hotel_star, hotel_rate,
                  image_list, hotel_preview, room_list):
+        """init method
+
+            Args:
+                ignore
+        """
         self.hotel_code = hotel_code
         self.city_code = city_code
         self.hotel_name = hotel_name
@@ -68,6 +82,11 @@ class RoomInfoItem(Item):
 
     def __init__(self, hotel_code, room_id, room_type, floor, net_service, net_service_fee,
                  bed_type, breakfast, area):
+        """init method
+
+            Args:
+                ignore
+        """
         self.hotel_code = hotel_code
         self.room_id = room_id
         self.room_type = room_type
@@ -79,8 +98,19 @@ class RoomInfoItem(Item):
         self.area = area
 
 class ImageItem(Item):
+    """image item
+
+    """
 
     def __init__(self, hotel_code, image_type, image_text, image_url):
+        """init method
+
+            Args:
+                hotel_code: str, code of hotel
+                image_type: str, type of image
+                image_text: str, text of image
+                image_url: str, url of image
+        """
         self.hotel_code = hotel_code
         self.image_type = image_type
         self.image_text = image_text

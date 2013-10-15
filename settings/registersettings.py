@@ -26,5 +26,6 @@ spiders = [
 
 schedules = [
     'schedules.schedules.RedisSchedule',
+    'schedules.canrepeatschedule.RepeatRedisSchedule',
     # 'schedules.nostoreschedule.NostoreSchedule',
 ]

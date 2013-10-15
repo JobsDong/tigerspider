@@ -3,6 +3,22 @@
 
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
+"""universal toolkits for ctrip
+    ALLIANCE_ID: alliance id for api of ctrip
+    SID: sid code(one of authenticat)
+    API_URL: url of api
+    API_KEY: api key
+    __city2code: cityname 2 citycode dict
+    HOTEL_SERVICE_CODES: hotel service code in ctrip api
+    is_needed_for_city: whether this city is needed
+    build_hotel_url: build hotel url based on hotel code
+    build_hotels_task_for_city: build HttpTask for hoteles description
+    build_rooms_task_for_hotel: build HttpTask for room description
+    convert_hotel_info_item_2_dict: convert hotel info item 2 dict
+    convert_room_info_item_2_dict: convert room info item 2 dict
+    get_city_code: get city code
+"""
+
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import hashlib
@@ -181,7 +197,6 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name):
     <ContactInfo SendData="false"/><MultimediaObjects SendData="true"/>
     </HotelDescriptiveInfo>""" % hotel_code for hotel_code in hotel_requests])
 
-
     request_xml = """<?xml version="1.0" encoding="utf-8"?><Request>
     <Header  AllianceID="%s" SID="%s" TimeStamp="%s"  RequestType="%s" Signature="%s" />
     <HotelRequest><RequestBody xmlns:ns="http://www.opentravel.org/OTA/2003/05"
@@ -213,9 +228,23 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name):
                     kwargs={"citycode": city_code, "chinesename": chinese_name})
 
 def build_hotel_url(hotel_id):
+    """build hotel url
+
+        Args:
+            hotel_id: str, hotel code
+        Returns:
+            hotel_url: str, hotel url
+    """
     return "http://hotels.ctrip.com/hotel/%s.html" % hotel_id
 
 def convert_room_info_item_2_dict(room_info_item):
+    """convert room info item 2 dict
+
+        Args:
+            room_info_item: RoomInfoItem, item of room info
+        Returns:
+            room_dict: Dict, dict of room info
+    """
     room_dict = {
         "hotel_id": room_info_item.hotel_code,
         "room_id": room_info_item.room_id,
@@ -230,6 +259,13 @@ def convert_room_info_item_2_dict(room_info_item):
     return room_dict
 
 def convert_hotel_info_item_2_dict(hotel_info_item):
+    """convert hotel info item 2 dict
+
+        Args:
+            hotel_info_item: HotelInfoItem, item
+        Returns:
+            hotel_dict: dict
+    """
     preview = hotel_info_item.hotel_preview if not isinstance(
         hotel_info_item.hotel_preview, unicode) else \
         hotel_info_item.hotel_preview.encode("utf-8")

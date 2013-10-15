@@ -240,3 +240,6 @@ def walk_settings(path='settings.registersettings'):
                 raise SettingError, "load schedule error:%s" % e
             else:
                 add_schedule_class(schedule_path, schedule)
+
+# lambda
+flist = lambda elems, default="": default if len(elems) <= 0 else elems[0]

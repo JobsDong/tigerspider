@@ -3,6 +3,14 @@
 
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
+"""pipeline for ctrip
+    CityItemPipeline: pipeline handle CityItem
+    HotelCodeItemPipeline: pipeline handle HotelCodeItem
+    HotelInfoItemPipeline: pipeline handle HotelInfoItem
+    ImageItemPipeline: pipeline handle ImageItem
+    RoomInfoItemPipeline: pipeline handle RoomInfoItem
+"""
+
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import json
@@ -22,10 +30,20 @@ class CityItemPipeline(BasePipeline):
     """
 
     def __init__(self, namespace):
+        """init method
+
+            Args:
+                namespace: str, namespace
+        """
         BasePipeline.__init__(self, namespace)
         self.logger.debug("init city item pipeline")
 
     def process_item(self, item, kwargs):
+        """process CityCodeItem
+            Args:
+                item: CityItem, item of city
+                kwargs: dict, param dict from task
+        """
         pass
         # print "city:", item.chinese_name, item.english_name, item.ctrip_code, item.city_code
 
@@ -34,8 +52,12 @@ class HotelCodeItemPipeline(BasePipeline):
     """pipeline handle hotel code item
     """
 
-    def __init__(self, namespace, db_host="192.168.11.195", db_port=5432, db_user="postgres",
-                 db_password="titps4gg", db_base="test"):
+    def __init__(self, namespace, db_host="192.168.11.195", db_port=5432,
+                 db_user="postgres", db_password="titps4gg", db_base="test"):
+        """init method
+            Args:
+                ignore
+        """
         BasePipeline.__init__(self, namespace)
         self.logger.debug("init hotel code item pipeline")
         try:
@@ -50,7 +72,6 @@ class HotelCodeItemPipeline(BasePipeline):
             Args:
                 item: HotelCodeItem, item
                 kwargs: dict, params dict
-
         """
         if isinstance(item, HotelCodeItem):
             city_chinese_name = kwargs.get("chinesename")
@@ -82,8 +103,7 @@ class HotelCodeItemPipeline(BasePipeline):
             raise e
 
     def clear_all(self):
-        """释放资源
-            关闭数据库连接，清空redis中的数据
+        """release db resource
         """
         try:
             self.item_db.close()
@@ -94,8 +114,13 @@ class RoomInfoItemPipeline(BasePipeline):
     """pipeline hande room info item
     """
 
-    def __init__(self, namespace, db_host="192.168.11.195", db_port=5432, db_user="postgres",
-                 db_password="titps4gg", db_base="test"):
+    def __init__(self, namespace, db_host="192.168.11.195", db_port=5432,
+                 db_user="postgres", db_password="titps4gg", db_base="test"):
+        """pipeline of room info item
+
+            Args:
+                ignore
+        """
         BasePipeline.__init__(self, namespace)
         self.logger.debug("init room info item pipeline")
         try:
@@ -109,6 +134,7 @@ class RoomInfoItemPipeline(BasePipeline):
 
             Args:
                 item: RoomInfoItem, item
+                kwargs: dict, param dict
         """
         if isinstance(item, RoomInfoItem):
             chinese_name = kwargs.get('chinesename')
@@ -173,8 +199,13 @@ class HotelInfoItemPipeline(BasePipeline):
     """pipeline handle hotel info item
     """
 
-    def __init__(self, namespace, db_host="192.168.11.195", db_port=5432, db_user="postgres",
-                 db_password="titps4gg", db_base="test"):
+    def __init__(self, namespace, db_host="192.168.11.195", db_port=5432,
+                 db_user="postgres", db_password="titps4gg", db_base="test"):
+        """init method
+
+            Args:
+                ignore
+        """
         BasePipeline.__init__(self, namespace)
         self.logger.debug("init hotel info item pipeline")
         try:
@@ -184,12 +215,22 @@ class HotelInfoItemPipeline(BasePipeline):
             self.logger.error("db error %s" % e)
 
     def process_item(self, item, kwargs):
+        """process item
+
+            Args:
+                item: Item, item processed
+                kwargs: dict, param dict
+        """
         if isinstance(item, HotelInfoItem):
             # print "hotel info:", item.hotel_code
-            print "hotel:", item.hotel_code
             self._store_item(item)
 
     def _store_item(self, item):
+        """store item to database
+
+            Args:
+                item: Item
+        """
         try:
             clone_dict = convert_hotel_info_item_2_dict(item)
             encodestr = json.dumps(clone_dict, ensure_ascii=False)
@@ -244,20 +285,18 @@ class ImageItemPipeline(BasePipeline):
 
     def process_item(self, item, kwargs):
         if isinstance(item, ImageItem):
-            # print "hotel info:", item.hotel_code
             self._store_item(item)
 
     def _store_item(self, item):
         try:
             selectsql = """SELECT * FROM rthotel_ctrip_image WHERE
-                        siteid=%(siteid)s and image_url=%(image_url)s LIMIT 1"""
+                image_url=%(image_url)s LIMIT 1"""
             if len(self.item_db.execute_query(selectsql,
-                            {'siteid': item.hotel_code, 'image_url': item.image_url})) < 1:
+                            {'image_url': item.image_url})) < 1:
                 insertsql = """INSERT INTO rthotel_ctrip_image
                 (siteid, image_type, image_text, image_url, addtime)
                 VALUES(%(siteid)s, %(image_type)s, %(image_text)s, %(image_url)s, %(addtime)s)"""
 
-                print insertsql
                 self.item_db.execute_update(insertsql, {'siteid': item.hotel_code,
                     'image_type': item.image_type, 'image_text': item.image_text,
                     'image_url': item.image_url, 'addtime': datetime.datetime.now()})
