@@ -73,7 +73,10 @@ class HotelListParser(BaseParser):
     """parse hotel result
     """
 
-    BATCH_HOTEL_COUNT = 50
+    def __init__(self, namespace, batch_count=50):
+        BaseParser.__init__(self, namespace)
+        self.logger.debug("init HotelListParser")
+        self.batch_count = batch_count
 
     def parse(self, task, input_file):
         """parse response result
@@ -112,7 +115,7 @@ class HotelListParser(BaseParser):
                         yield HotelCodeItem(hotel_code, city_code, hotel_url)
 
                         hotel_requests.append(hotel_code)
-                        if len(hotel_requests) >= self.BATCH_HOTEL_COUNT:
+                        if len(hotel_requests) >= self.batch_count:
                             yield build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name)
                             del hotel_requests[:]
 
