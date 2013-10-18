@@ -104,24 +104,30 @@ class HotelListParser(BaseParser):
                 chinese_name = task.kwargs.get('chinesename')
 
                 hotel_requests = list()
+                hotel_addresses = dict()
                 for property_elem in property_elems:
                     hotel_code = property_elem.attrib['HotelCode'] if property_elem.attrib.has_key('HotelCode') \
                         else None
                     hotel_ctrip_city_code = property_elem.attrib['HotelCityCode'] \
                         if property_elem.attrib.has_key('HotelCityCode') else None
 
+                    hotel_address = xpath_namespace(property_elem, "Address/AddressLine/text()")
+
                     if hotel_code and hotel_ctrip_city_code:
                         hotel_url = build_hotel_url(hotel_code)
                         yield HotelCodeItem(hotel_code, city_code, hotel_url)
 
                         hotel_requests.append(hotel_code)
+                        hotel_addresses[hotel_code] = hotel_address
                         if len(hotel_requests) >= self.batch_count:
-                            yield build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name)
+                            yield build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_addresses)
+                            hotel_addresses.clear()
                             del hotel_requests[:]
 
                 # send left requests
                 if len(hotel_requests) > 0:
-                    yield build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name)
+                    yield build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_addresses)
+                    hotel_addresses.clear()
                     del hotel_requests[:]
         finally:
             self.logger.debug("hotel parse end to parse")
@@ -143,7 +149,12 @@ class HotelParser(BaseParser):
         """
         self.logger.debug("room parser begin to parse")
         try:
-            soap_tree = etree.fromstring(input_file.read())
+            try:
+                soap_tree = etree.fromstring(input_file.read())
+            except Exception, e:
+                self.logger.error("not complete xml:%s" % e)
+                raise ParserError("not complete xml")
+
             soap_elems = xpath_namespace(soap_tree,
                             "/soap:Envelope/soap:Body/RequestResponse/RequestResult")
             xml_str = soap_elems[0].text
@@ -151,6 +162,7 @@ class HotelParser(BaseParser):
             tree = etree.fromstring(xml_str)
             elems = tree.xpath("/Response/Header")
             header = elems[0]
+
             if not header.attrib.has_key("ResultCode") or header.attrib['ResultCode'] != "Success":
                 self.logger.error("not has resultcode or resultcode is not success")
                 raise ParserError("ResultCode error")
@@ -240,10 +252,11 @@ class HotelParser(BaseParser):
                                             room_bed_type, room_breakfast, room_area)
                                 yield room_item
 
+                        item_hotel_address = task.kwargs
                         hotel_item = HotelInfoItem(item_hotel_code, item_hotel_city_code, item_hotel_name,
                                            item_hotel_brand_id, item_hotel_latitude, item_hotel_longitude,
                                            item_hotel_service, item_room_service, item_hotel_star, item_hotel_rate,
-                                           item_image_list, item_hotel_preview, item_room_list)
+                                           item_image_list, item_hotel_preview, item_room_list, item_hotel_address)
 
                         yield hotel_item
                     except Exception, e:

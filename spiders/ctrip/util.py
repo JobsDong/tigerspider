@@ -179,13 +179,14 @@ def build_hotels_task_for_city(ctrip_code, city_code, chinese_name):
                     kwargs={"citycode": city_code, "chinesename": chinese_name})
 
 
-def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name):
+def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_addresses):
     """build room task for hotel
 
         Args:
             hotel_requests: list, [(hotel_code, city_code, chinese_name)]
             city_code: str, city code of tigerknows
             chinese_name: str, chinese name of city
+            hotel_addresses: dict, hotel address dict
         Returns:
             task: HttpTask, new task for hotel search
     """
@@ -225,7 +226,7 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name):
                     headers={"SOAPAction": "http://ctrip.com/Request",
                             "Content-Type": "text/xml; charset=utf-8"})
     return HttpTask(http_request, callback="HotelParser", max_fail_count=5,
-                    kwargs={"citycode": city_code, "chinesename": chinese_name})
+                    kwargs={"citycode": city_code, "chinesename": chinese_name, "address": hotel_addresses})
 
 def build_hotel_url(hotel_id):
     """build hotel url

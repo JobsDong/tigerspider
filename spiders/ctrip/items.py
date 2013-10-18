@@ -55,7 +55,7 @@ class HotelInfoItem(Item):
 
     def __init__(self, hotel_code, city_code, hotel_name, brand_id, latitude,
                  longitude, hotel_services, room_services, hotel_star, hotel_rate,
-                 image_list, hotel_preview, room_list):
+                 image_list, hotel_preview, room_list, address):
         """init method
 
             Args:
@@ -74,6 +74,7 @@ class HotelInfoItem(Item):
         self.image_list = image_list
         self.hotel_preview = hotel_preview
         self.room_list = room_list
+        self.address = address
 
 
 class RoomInfoItem(Item):
