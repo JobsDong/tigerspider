@@ -10,7 +10,7 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import threading
 import logging
-from core.redistools import RedisQueue, RedisError
+from core.redistools import RedisPriorityQueue, RedisError
 
 DEFAULT_PROXY_NAMESPACE = "system:proxys"
 
@@ -24,7 +24,7 @@ class Proxy(object):
     """proxy class
     """
 
-    def __init__(self, host, port, username=None, passwd=None):
+    def __init__(self, host, port, username=None, passwd=None, score=100):
         """init proxy
 
             Args:
@@ -32,23 +32,22 @@ class Proxy(object):
                 port: int, proxy port
                 username: str, proxy username
                 passwd: str, proxy password
+                score: float, proxy score
         """
         self.host = host
         self.port = port
         self.username = username
-        self.passwd = passwd
-        self._is_need_passwd = True if username is not None else False
-
-    @property
-    def is_need_passwd(self):
-        return self._is_need_passwd
+        self.password = passwd
+        self.score = score
+        self.is_need_passwd = True if username is not None else False
 
     def __eq__(self, other):
         if isinstance(other, Proxy):
             return other.host == self.host and \
                 other.port == self.port and \
                 other.username == self.username and \
-                other.passwd == self.passwd
+                other.password == self.password and \
+                other.is_need_passwd == self.is_need_passwd
         else:
             return False
 
@@ -73,7 +72,7 @@ class ProxyManager(object):
             load proxy list from redis queue
         """
         try:
-            self._proxy_queue = RedisQueue(
+            self._proxy_queue = RedisPriorityQueue(
                 DEFAULT_PROXY_NAMESPACE, host="localhost", port=6379, db=0)
         except RedisError, e:
             raise ProxyError("init proxy queue failed, error:%s" % e)
@@ -87,11 +86,12 @@ class ProxyManager(object):
                 error:ProxyError, proxy error
         """
         try:
-            proxy = self._proxy_queue.pop()
+            proxy, dynamic_score = self._proxy_queue.pop()
         except RedisError, e:
             raise ProxyError(e)
         else:
-            self._proxy_queue.push(proxy)
+            self._proxy_queue.push(proxy,
+                self._score_dynamic_change(dynamic_score, proxy.score))
             return proxy
 
     def flag_proxy_not_avaliable(self, proxy, url):
@@ -103,3 +103,6 @@ class ProxyManager(object):
     def flag_proxy_avaliable(self, proxy, url):
         proxy_logger.info("success-proxy, host:%s, port:%s, url:%s" %
                           (proxy.host, proxy.port, url))
+
+    def _score_dynamic_change(self, dynamic, score, gab):
+        return dynamic - gab/ score
