@@ -1,0 +1,36 @@
+----------------------------------2013-10-18 20:01:14.727661----------------------------------------
+crawl start time: 2013-10-18 20:00:41.714710
+
+
+crawl end time: 2013-10-18 20:01:14.725611
+
+
+worker name: worker-292958736035308599865859131746370930836
+
+
+spider name: CtripSpider
+
+
+spider success count:
+CityParser-extract: 1
+
+
+spider fail count:
+
+
+spider retry count:
+
+
+spider fetch interval:
+
+
+spider extract interval:
+spider name:CityParser
+2013-10-18 20:00:43.217746: 0:00:00.002394
+
+
+
+spider handle item interval:
+
+
+---------------------------------------------------------------------------------------

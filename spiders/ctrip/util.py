@@ -33,52 +33,98 @@ SID = 254296
 API_URL = "openapi.ctrip.com"
 API_KEY = "823266C3-DCDE-4F3C-B20B-9EFD6C2BC7BD"
 
-_city2code = {
-    "beijing": "110000",
-    "all": "000000",
-    "changchun": "220100",
-    "changsha": "430100",
-    "chengdu": "510100",
-    "chongqing": "500000",
-    "dalian": "210200",
-    "dongguan": "441900",
-    "foshan": "440600",
-    "fuzhou": "350100",
-    "guangzhou": "440100",
-    "guiyang": "520100",
-    "haerbin": "230100",
-    "haikou": "460100",
-    "hangzhou": "330100",
-    "hefei": "340100",
-    "huhehaote": "150100",
-    "jinan": "370100",
-    "kunming": "530100",
-    "lanzhou": "620100",
-    "nanchang": "360100",
-    "nanjing": "320100",
-    "nanning": "450100",
-    "ningbo": "330200",
-    "qingdao": "370200",
-    "shanghai": "310000",
-    "shantou": "440500",
-    "shenyang": "210100",
-    "shenzhen": "440300",
-    "shijiazhuang": "130100",
-    "suzhou": "320500",
-    "taiyuan": "140100",
-    "tianjin": "120000",
-    "wenzhou": "330300",
-    "wuhan": "420100",
-    "wulumuqi": "650100",
-    "wuxi": "320200",
-    "xiamen": "350200",
-    "xian": "610100",
-    "yangzhou": "321000",
-    "yantai": "370600",
-    "zhengzhou": "410100",
-    "zhuhai": "440400",
-    "huizhou": "441300",
-}
+# _chinese_city2code = {
+#     u"北京": "110000",
+#     u"长春": "220100",
+#     u"长沙": "430100",
+#     u"成都": "510100",
+#     u"重庆": "500000",
+#     u"大连": "210200",
+#     u"东莞": "441900",
+#     u"佛山": "440600",
+#     u"福州": "350100",
+#     u"广州": "440100",
+#     u"贵阳": "520100",
+#     u"哈尔滨": "230100",
+#     u"海口": "460100",
+#     u"杭州": "330100",
+#     u"合肥": "340100",
+#     u"呼和浩特": "150100",
+#     u"济南": "370100",
+#     u"昆明": "530100",
+#     u"兰州": "620100",
+#     u"南昌": "360100",
+#     u"南京": "320100",
+#     u"南宁": "450100",
+#     u"宁波": "330200",
+#     u"青岛": "370200",
+#     u"上海": "310000",
+#     u"汕头": "440500",
+#     u"沈阳": "210100",
+#     u"深圳": "440300",
+#     u"石家庄": "130100",
+#     u"苏州": "320500",
+#     u"太原": "140100",
+#     u"天津": "120000",
+#     u"温州": "330300",
+#     u"武汉": "420100",
+#     u"乌鲁木齐": "650100",
+#     u"无锡": "320200",
+#     u"厦门": "350200",
+#     u"西安": "610100",
+#     u"扬州": "321000",
+#     u"烟台": "370600",
+#     u"郑州": "410100",
+#     u"珠海": "440400",
+#     u"惠州": "441300",
+# }
+#
+# _city2code = {
+#     "beijing": "110000",
+#     "all": "000000",
+#     "changchun": "220100",
+#     "changsha": "430100",
+#     "chengdu": "510100",
+#     "chongqing": "500000",
+#     "dalian": "210200",
+#     "dongguan": "441900",
+#     "foshan": "440600",
+#     "fuzhou": "350100",
+#     "guangzhou": "440100",
+#     "guiyang": "520100",
+#     "haerbin": "230100",
+#     "haikou": "460100",
+#     "hangzhou": "330100",
+#     "hefei": "340100",
+#     "huhehaote": "150100",
+#     "jinan": "370100",
+#     "kunming": "530100",
+#     "lanzhou": "620100",
+#     "nanchang": "360100",
+#     "nanjing": "320100",
+#     "nanning": "450100",
+#     "ningbo": "330200",
+#     "qingdao": "370200",
+#     "shanghai": "310000",
+#     "shantou": "440500",
+#     "shenyang": "210100",
+#     "shenzhen": "440300",
+#     "shijiazhuang": "130100",
+#     "suzhou": "320500",
+#     "taiyuan": "140100",
+#     "tianjin": "120000",
+#     "wenzhou": "330300",
+#     "wuhan": "420100",
+#     "wulumuqi": "650100",
+#     "wuxi": "320200",
+#     "xiamen": "350200",
+#     "xian": "610100",
+#     "yangzhou": "321000",
+#     "yantai": "370600",
+#     "zhengzhou": "410100",
+#     "zhuhai": "440400",
+#     "huizhou": "441300",
+# }
 
 HOTEL_SERVICE_CODES = ('9','10','11','12','13','14','15','16','17','18','19',
                         '38','39','40','41',
@@ -93,27 +139,33 @@ ROOM_SERVICE_CODES = ('75','76','77','78','79','80','81','82','83','84',
                         '103', '104',
                         '106', '107', '108', '109', '110', '111', '112', '113', '114', '115')
 
-def is_needed_for_city(english_name):
-    """whether this city is needed
-
-        Args:
-            english_name: str, english name of city
-        Returns:
-            is_needed: bool, whether is needed
-    """
-    lower = english_name.lower()
-    return True if _city2code.has_key(lower) else False
-
-def get_city_code(english_name):
-    """get city code
-
-        Args:
-            english_name: str, english name for city
-        Returns:
-            city_code: str, city code for city
-    """
-    lower = english_name.lower()
-    return _city2code.get(lower)
+# def is_needed_for_city(english_name, chinese_name):
+#     """whether this city is needed
+#
+#         Args:
+#             english_name: str, english name of city
+#             chinese_name: str, chinese name of city
+#         Returns:
+#             is_needed: bool, whether is needed
+#     """
+#     lower = english_name.lower()
+#     if _city2code.has_key(lower) and _chinese_city2code.has_key(chinese_name)\
+#         and _city2code.get(lower) == _chinese_city2code.get(chinese_name):
+#         print english_name, chinese_name
+#         return True
+#     else:
+#         return False
+#
+# def get_city_code(english_name):
+#     """get city code
+#
+#         Args:
+#             english_name: str, english name for city
+#         Returns:
+#             city_code: str, city code for city
+#     """
+#     lower = english_name.lower()
+#     return _city2code.get(lower)
 
 def _create_signature(timestamp, alliance, sid, request_type, api_key):
     """create signature for ctrip
@@ -134,7 +186,7 @@ def _create_signature(timestamp, alliance, sid, request_type, api_key):
     return m.hexdigest().upper()
 
 
-def build_hotels_task_for_city(ctrip_code, city_code, chinese_name):
+def build_hotels_task_for_city(ctrip_code, city_code, chinese_name, avaliable="false"):
     """build task for hotel search
 
         Args:
@@ -154,13 +206,14 @@ def build_hotels_task_for_city(ctrip_code, city_code, chinese_name):
     <ns:OTA_HotelSearchRQ Version="1.0" PrimaryLangID="zh"
     xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_HotelSearchRQ.xsd"
     xmlns="http://www.opentravel.org/OTA/2003/05">
-    <ns:Criteria AvailableOnlyIndicator="true"><ns:Criterion>
+    <ns:Criteria AvailableOnlyIndicator="%s"><ns:Criterion>
     <ns:HotelRef HotelCityCode="%s"/>
     <ns:Position PositionTypeCode="502" />
     </ns:Criterion></ns:Criteria></ns:OTA_HotelSearchRQ>
     </RequestBody></HotelRequest></Request>""" \
     % (ALLIANCE_ID, SID, timestamp, "OTA_HotelSearch",
-       _create_signature(timestamp, ALLIANCE_ID, SID, "OTA_HotelSearch", API_KEY), ctrip_code)
+       _create_signature(timestamp, ALLIANCE_ID, SID, "OTA_HotelSearch", API_KEY),
+       avaliable, ctrip_code,)
 
     post_xml = """<?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -179,13 +232,14 @@ def build_hotels_task_for_city(ctrip_code, city_code, chinese_name):
                     kwargs={"citycode": city_code, "chinesename": chinese_name})
 
 
-def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name):
+def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_addresses):
     """build room task for hotel
 
         Args:
             hotel_requests: list, [(hotel_code, city_code, chinese_name)]
             city_code: str, city code of tigerknows
             chinese_name: str, chinese name of city
+            hotel_addresses: dict, hotel address dict
         Returns:
             task: HttpTask, new task for hotel search
     """
@@ -225,7 +279,7 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name):
                     headers={"SOAPAction": "http://ctrip.com/Request",
                             "Content-Type": "text/xml; charset=utf-8"})
     return HttpTask(http_request, callback="HotelParser", max_fail_count=5,
-                    kwargs={"citycode": city_code, "chinesename": chinese_name})
+                    kwargs={"citycode": city_code, "chinesename": chinese_name, "address": hotel_addresses})
 
 def build_hotel_url(hotel_id):
     """build hotel url
@@ -246,7 +300,7 @@ def convert_room_info_item_2_dict(room_info_item):
             room_dict: Dict, dict of room info
     """
     room_dict = {
-        "hotel_id": room_info_item.hotel_code,
+        # "hotel_id": room_info_item.hotel_code,
         "room_id": room_info_item.room_id,
         "room_type": room_info_item.room_type,
         "floor": room_info_item.floor,
@@ -296,5 +350,6 @@ def convert_hotel_info_item_2_dict(hotel_info_item):
         "images": hotel_info_item.image_list,
         "preview": preview,
         "rooms": hotel_info_item.room_list,
+        "address": hotel_info_item.address,
     }
     return hotel_dict

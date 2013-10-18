@@ -17,4 +17,4 @@ logging.config.fileConfig("logging.conf")
 if __name__ == "__main__":
     walk_settings()
     web_service = WebService()
-    web_service.start(1234)
+    web_service.start(1235)

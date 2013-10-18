@@ -18,17 +18,15 @@ from core.datastruct import Item
 class CityItem(Item):
     """City Item
     """
-    def __init__(self, chinese_name, english_name, ctrip_code, city_code):
+    def __init__(self, chinese_name, ctrip_code, city_code):
         """init method
 
             Args:
                 chinese_name: str, chinese name of city
-                english_name: str, english name of city
                 ctrip_code: str, city code of ctrip
                 city_code: str, city code of tigerknows
         """
         self.chinese_name = chinese_name
-        self.english_name = english_name
         self.ctrip_code = ctrip_code
         self.city_code = city_code
 
@@ -55,7 +53,7 @@ class HotelInfoItem(Item):
 
     def __init__(self, hotel_code, city_code, hotel_name, brand_id, latitude,
                  longitude, hotel_services, room_services, hotel_star, hotel_rate,
-                 image_list, hotel_preview, room_list):
+                 image_list, hotel_preview, room_list, address):
         """init method
 
             Args:
@@ -74,6 +72,7 @@ class HotelInfoItem(Item):
         self.image_list = image_list
         self.hotel_preview = hotel_preview
         self.room_list = room_list
+        self.address = address
 
 
 class RoomInfoItem(Item):
