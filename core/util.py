@@ -221,3 +221,38 @@ def walk_settings(path='settings.registersettings'):
                 raise SettingError, "load schedule error:%s" % e
             else:
                 add_schedule_class(schedule_path, schedule)
+
+def gcd(*args):
+    """gcd algorith
+
+        Args:
+            args: list, int
+        Returns:
+            gcd: int, gcd of list
+    """
+    if len(args) >= 3:
+        return gcd(args[0], gcd(*args[1:]))
+    elif len(args) == 2:
+        if args[1] == 0:
+            return args[0]
+        else:
+            if args[1] >= args[0]:
+                copy_args = args[::-1]
+                return gcd(copy_args[1], copy_args[0] % copy_args[1])
+            else:
+                return gcd(args[1], args[0])
+
+def lcm(*args):
+    """
+
+    """
+    t = 1
+    gcd_count = gcd(args)
+
+    for arg in args:
+        t *= arg
+
+    for x in xrange(len(args)):
+        t /= gcd_count
+
+    return t
