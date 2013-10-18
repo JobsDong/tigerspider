@@ -225,6 +225,7 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_ad
                     method="POST", body=post_xml, connect_timeout=20, request_timeout=180,
                     headers={"SOAPAction": "http://ctrip.com/Request",
                             "Content-Type": "text/xml; charset=utf-8"})
+    print "fff"
     return HttpTask(http_request, callback="HotelParser", max_fail_count=5,
                     kwargs={"citycode": city_code, "chinesename": chinese_name, "address": hotel_addresses})
 
@@ -297,5 +298,6 @@ def convert_hotel_info_item_2_dict(hotel_info_item):
         "images": hotel_info_item.image_list,
         "preview": preview,
         "rooms": hotel_info_item.room_list,
+        "address": hotel_info_item.address,
     }
     return hotel_dict

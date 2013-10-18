@@ -111,7 +111,9 @@ class HotelListParser(BaseParser):
                     hotel_ctrip_city_code = property_elem.attrib['HotelCityCode'] \
                         if property_elem.attrib.has_key('HotelCityCode') else None
 
-                    hotel_address = xpath_namespace(property_elem, "Address/AddressLine/text()")
+                    hotel_address = flist(property_elem.xpath("*[local-name()='Address']/*[local-name()='AddressLine']/text()"))
+                    if isinstance(hotel_address, unicode):
+                        hotel_address = hotel_address.encode("utf-8")
 
                     if hotel_code and hotel_ctrip_city_code:
                         hotel_url = build_hotel_url(hotel_code)
@@ -155,6 +157,7 @@ class HotelParser(BaseParser):
                 self.logger.error("not complete xml:%s" % e)
                 raise ParserError("not complete xml")
 
+            hotel_address_dict = task.kwargs.get('address')
             soap_elems = xpath_namespace(soap_tree,
                             "/soap:Envelope/soap:Body/RequestResponse/RequestResult")
             xml_str = soap_elems[0].text
@@ -252,7 +255,8 @@ class HotelParser(BaseParser):
                                             room_bed_type, room_breakfast, room_area)
                                 yield room_item
 
-                        item_hotel_address = task.kwargs
+                        item_hotel_address = "" if not hotel_address_dict.has_key(item_hotel_code) \
+                            else  hotel_address_dict.get(item_hotel_code)
                         hotel_item = HotelInfoItem(item_hotel_code, item_hotel_city_code, item_hotel_name,
                                            item_hotel_brand_id, item_hotel_latitude, item_hotel_longitude,
                                            item_hotel_service, item_room_service, item_hotel_star, item_hotel_rate,
@@ -260,7 +264,7 @@ class HotelParser(BaseParser):
 
                         yield hotel_item
                     except Exception, e:
-                        self.logger.error("one hotel extract error:%s")
+                        self.logger.error("one hotel extract error:%s" % e)
         except Exception, e:
             raise e
         finally:
