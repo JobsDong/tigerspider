@@ -18,17 +18,15 @@ from core.datastruct import Item
 class CityItem(Item):
     """City Item
     """
-    def __init__(self, chinese_name, english_name, ctrip_code, city_code):
+    def __init__(self, chinese_name, ctrip_code, city_code):
         """init method
 
             Args:
                 chinese_name: str, chinese name of city
-                english_name: str, english name of city
                 ctrip_code: str, city code of ctrip
                 city_code: str, city code of tigerknows
         """
         self.chinese_name = chinese_name
-        self.english_name = english_name
         self.ctrip_code = ctrip_code
         self.city_code = city_code
 

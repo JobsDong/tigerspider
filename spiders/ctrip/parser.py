@@ -17,8 +17,7 @@ from core.spider.parser import BaseParser
 from core.util import remove_white, xpath_namespace, flist
 from core.spider.parser import ParserError
 
-from spiders.ctrip.util import (is_needed_for_city,HOTEL_SERVICE_CODES,
-                                ROOM_SERVICE_CODES,get_city_code,
+from spiders.ctrip.util import (HOTEL_SERVICE_CODES,ROOM_SERVICE_CODES,
                                 build_hotels_task_for_city,build_rooms_task_for_hotel,
                                 build_hotel_url)
 from spiders.ctrip.items import (CityItem, RoomInfoItem,
@@ -44,24 +43,17 @@ class CityParser(BaseParser):
 
             elems = tree.xpath("//CityDetail")
             for elem in elems:
-                chinese_name = remove_white(elem.findtext("CityName"))
-                english_name = remove_white(elem.findtext("CityEName"))
-                ctrip_code = remove_white(elem.findtext("City"))
+                chinese_name = remove_white(elem.findtext("CityName", ""))
+                city_code = remove_white(elem.findtext("CityCode", ""))
+                ctrip_code = remove_white(elem.findtext("City", ""))
 
-                if len(chinese_name) <= 0 or len(english_name) <= 0 or len(ctrip_code) <= 0:
-                    self.logger.debug("invaliade city chinese_name:%s english_name:%s ctrip_code:%s"
-                                      % (chinese_name, english_name, ctrip_code))
+                if len(chinese_name) <= 0 or len(city_code) <= 0 or len(ctrip_code) <= 0:
+                    self.logger.debug("invaliade city chinese_name:%s citycode:%s ctrip_code:%s"
+                                      % (chinese_name, city_code, ctrip_code))
                     continue
 
-                if not is_needed_for_city(english_name):
-                    self.logger.debug("no need city english_name:%s" % english_name)
-                    continue
-
-                city_code = get_city_code(english_name)
-
-                if city_code:
-                    yield build_hotels_task_for_city(ctrip_code, city_code, chinese_name)
-                    yield CityItem(chinese_name, english_name, ctrip_code, city_code)
+                yield build_hotels_task_for_city(ctrip_code, city_code, chinese_name)
+                yield CityItem(chinese_name, ctrip_code, city_code)
 
         except Exception, e:
             self.logger.error("city parser extract error:%s" % e)
@@ -174,10 +166,11 @@ class HotelParser(BaseParser):
                                 "/Response/HotelResponse/OTA_HotelDescriptiveInfoRS/"
                                 "HotelDescriptiveContents/HotelDescriptiveContent")
                 for content_elem in content_elems:
+                    item_hotel_code = None
+                    item_hotel_city_code = task.kwargs.get('citycode')
                     try:
                         item_hotel_code = content_elem.attrib.get('HotelCode')
                         # item_hotel_city_ctrip = content_elem.attrib.get("HotelCityCode")
-                        item_hotel_city_code = task.kwargs.get('citycode')
                         item_hotel_name = content_elem.attrib.get('HotelName')
                         item_hotel_brand_id = content_elem.attrib.get('BrandCode')
 
@@ -189,13 +182,13 @@ class HotelParser(BaseParser):
 
                         service_elems = xpath_namespace(content_elem, "HotelInfo/Services/Service")
 
-                        item_hotel_service = ",".join(
+                        item_hotel_service = u"、".join(
                             [flist(service.xpath("*[local-name()='DescriptiveText']/text()"))
                             for service in service_elems
                             if service.attrib.has_key("Code")
                             and service.attrib["Code"] in HOTEL_SERVICE_CODES])
 
-                        item_room_service = ",".join(
+                        item_room_service = u"、".join(
                             [flist(service.xpath("*[local-name()='DescriptiveText']/text()"))
                             for service in service_elems
                             if service.attrib.has_key("Code")
@@ -264,9 +257,12 @@ class HotelParser(BaseParser):
 
                         yield hotel_item
                     except Exception, e:
-                        self.logger.error("one hotel extract error:%s" % e)
-        except Exception, e:
-            raise e
+                        self.logger.warn("one hotel extract error:%s" % e)
+                        if item_hotel_code is None:
+                            self.logger.error("i am sorry, i can do noting")
+                        else:
+                            chinese_name = task.kwargs.get('chinesename')
+                            yield build_rooms_task_for_hotel([item_hotel_code], item_hotel_city_code, chinese_name)
         finally:
             self.logger.debug("room parser end to parse")
 
