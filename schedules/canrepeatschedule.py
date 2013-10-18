@@ -3,9 +3,7 @@
 
 # Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
-"""定义的一个基于redis的独享式的schedule
-    RedisSchedule: 基于redis的独享式schedule
-
+"""定义的一个基于redis的独享式的可以重复的schedule
 """
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
@@ -17,8 +15,8 @@ from core.redistools import RedisQueue, RedisSet, RedisError
 from core.util import check_http_task_integrity
 from core.datastruct import FileTask, HttpTask
 
-class RedisSchedule(BaseSchedule):
-    """RedisSchedule是独享式的基于redis生成的schedule
+class RepeatRedisSchedule(BaseSchedule):
+    """PostRedisSchedule是独享式的基于redis生成的schedule
     """
     def __init__(self, namespace=None, host="localhost", port=6379, db=0,
                  interval=30, max_number=15):
@@ -90,12 +88,7 @@ class RedisSchedule(BaseSchedule):
         try:
             if isinstance(task, HttpTask):
                 if check_http_task_integrity(task):
-                    url = task.request.url if not isinstance(task.request.url, unicode) \
-                        else task.request.url.encode("utf-8")
-                    if not self._processed_url_set.exist(url):
-                        self._prepare_to_process_queue.push(task)
-                    else:
-                        self.logger.debug("request haven been done before.")
+                    self._prepare_to_process_queue.push(task)
                 else:
                     self.logger.warn("task is not integrate:%s" % task)
 
@@ -113,15 +106,7 @@ class RedisSchedule(BaseSchedule):
             Raises:
                 ScheduleError: 当发生错误的时候
         """
-        if self._is_stopped:
-            return
-        try:
-            # convert unicode to str
-            if isinstance(url, unicode):
-                url = url.encode("utf-8")
-            self._processed_url_set.add(url)
-        except RedisError, e:
-            raise ScheduleError("redis error:%s" % e)
+        pass
 
     def handle_error_task(self, task):
         """处理失败的task,

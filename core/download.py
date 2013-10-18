@@ -15,9 +15,9 @@ import logging
 from tornado import gen, httpclient
 from tornado.httpclient import HTTPRequest
 
-from core.util import coroutine_wrap
 from core.datastruct import HttpTask
 from core.resolver import DNSResolver, ResolveError
+from core.proxy import ProxyManager, ProxyError
 
 httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
 
@@ -37,7 +37,6 @@ _cookie_is_buildings = set()
 
 logger = logging.getLogger(__name__)
 
-
 DEFAULT_USER_AGENT = r"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36"
 DEFAULT_ACCEPT_ENCODING = r"gzip,deflate,sdch"
 DEFAULT_ACCEPT = r"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
@@ -46,7 +45,6 @@ class GetPageError(Exception):
     '''
     get page exeception
     '''
-
 @gen.coroutine
 def fetch(http_task):
     """根据任务要求进行下载
@@ -57,34 +55,76 @@ def fetch(http_task):
             resp:Response, 下载的HTTP结果
     """
     http_request = http_task.request
+
     # get cookie if needed
     if http_task.cookie_host:
-        cookie = yield coroutine_wrap(get_cookie_sy,
-                                      http_task.cookie_host,
-                                      http_task.cookie_count)
-        if cookie:
-            http_request.headers = {"Cookie": cookie} if not http_request.headers \
-                else http_request.update({"Cookie": cookie})
+        add_cookie_for_request(http_request, http_task.cookie_host,
+                               http_task.cookie_count)
 
     # client
-    if not http_task.request.headers.has_key('User-Agent'):
-        http_task.request.headers['User-Agent'] = DEFAULT_USER_AGENT
-    if not http_task.request.headers.has_key('Accept-Encoding'):
-        http_task.request.headers['Accept-Encoding'] = DEFAULT_ACCEPT_ENCODING
-    if not http_task.request.headers.has_key('Accept'):
-        http_task.request.headers['Accept'] = DEFAULT_ACCEPT
+    add_universal_headers_for_request(http_request)
 
     # 使用dns resolver
     if http_task.dns_need:
-        try:
-            ip_addr = DNSResolver.instance().resolve(http_request.url)
-        except ResolveError, e:
-            logger.warn("dns error:%s, error:%s" % (http_request.host, e))
-        else:
-            http_request.url = ip_addr
+        resovle_dns_for_request(http_request)
 
+    # 使用proxy
+    if http_task.proxy_need:
+        add_proxy_for_request(http_request)
     resp = yield gen.Task(client.fetch, http_request)
     raise gen.Return(resp)
+
+def add_cookie_for_request(http_request, cookie_host, cookie_count):
+    """add cookie for request
+        Args:
+            http_request:HttpRequest, request
+            cookie_host: str, cookie_host
+    """
+    cookie = get_cookie_sy(cookie_host, cookie_count)
+    if cookie:
+        http_request.headers = {"Cookie": cookie} if not http_request.headers \
+                else http_request.update({"Cookie": cookie})
+
+def add_universal_headers_for_request(http_request):
+    """add universal headers for request
+        Args:
+            http_reques:HttpRequest, request
+    """
+    if not http_request.headers.has_key('User-Agent'):
+        http_request.headers['User-Agent'] = DEFAULT_USER_AGENT
+    if not http_request.headers.has_key('Accept-Encoding'):
+        http_request.headers['Accept-Encoding'] = DEFAULT_ACCEPT_ENCODING
+    if not http_request.headers.has_key('Accept'):
+        http_request.headers['Accept'] = DEFAULT_ACCEPT
+
+def resovle_dns_for_request(http_request):
+    """resolve dns for request
+        Args:
+            http_request:HttpRequest, request
+    """
+    try:
+        ip_addr = DNSResolver.instance().resolve(http_request.url)
+    except ResolveError, e:
+        logger.warn("dns error:%s, error:%s" % (http_request.host, e))
+    else:
+        http_request.url = ip_addr
+
+def add_proxy_for_request(http_request):
+    """add proxy for request
+        Args:
+            http_request:HttpRequest, request
+    """
+    try:
+        proxy = ProxyManager.instance().get_an_avaliable_proxy()
+    except ProxyError, e:
+        logger.warn("proxy error:%s, error:%s" % (http_request.url, e))
+    else:
+        if proxy is not None:
+            http_request.proxy_host = str(proxy.host)
+            http_request.proxy_port = proxy.port
+            if proxy.is_need_passwd:
+                http_request.proxy_username = proxy.username
+                http_request.proxy_password = proxy.passwd
 
 def _get_page_sy(http_task, cookie):
     """以同步方式获取网页内容

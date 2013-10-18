@@ -16,6 +16,7 @@ spiders = [
     'spiders.nuomi.spider.NuomiSpider',
     'spiders.mtime.spider.MtimeSpider',
     'spiders.ganji.spider.GanjiSpider',
+    'spiders.ctrip.spider.CtripSpider',
     # 'spiders.baiduoffset.spider.BaiduoffsetSpider',
     # 'spiders.baiduoffset1.spider.BaiduoffsetSpider',
     # 'spiders.baiduoffset2.spider.BaiduoffsetSpider',
@@ -25,5 +26,6 @@ spiders = [
 
 schedules = [
     'schedules.schedules.RedisSchedule',
+    'schedules.canrepeatschedule.RepeatRedisSchedule',
     # 'schedules.nostoreschedule.NostoreSchedule',
 ]

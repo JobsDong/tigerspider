@@ -295,3 +295,144 @@ class RedisSet(object):
             self._db.delete(self.namespace)
         except Exception, e:
             raise RedisError("redis error:%s" % e)
+
+
+class RedisPriorityQueue(object):
+    """priority queue use redis
+    """
+
+    def __init__(self, namespace, **kwargs):
+        """init redis priority queue
+            Args:
+                namespace: str, namespace for redis
+                kwargs: dict, param dict
+        """
+        try:
+            self._db = redis.Redis(**kwargs)
+            self.namespace = namespace
+        except Exception, e:
+            raise RedisError(e)
+
+    def size(self):
+        """size of priority queue
+            Returns:
+                size: int, queue size
+        """
+        try:
+            return self._db.zcard(self.namespace)
+        except Exception, e:
+            raise RedisError(e)
+
+    def pop(self):
+        """弹出一个对象
+            Returns:
+                obj, object, 一个python对象，类型取决于压入的类型
+                score, double, value score
+            Raises:
+                RedisError: 当发生错误的时候
+        """
+        try:
+            items = self._db.zrevrange(self.namespace, 0, 1, withscores=True)
+            if len(items) <= 0:
+                item, score = None, None
+            else:
+                (item, score) = items[0]
+                self._db.zrem(self.namespace, item)
+        except Exception, e:
+            raise RedisError("redis error:%s " % e)
+        try:
+            return (item, score) if item is None else PickleDeocoder().decode(item), score
+        except Exception, e:
+            raise RedisError("pickle decode error:%s" % e)
+
+    def push(self, value, score):
+        """压入一个对象
+            Args:
+                value: object, 一个python对象，can not be file object
+                score: double, value score
+
+            Raises:
+                RedisError: 当发生错误的时候
+        """
+        try:
+            encodedvalue = PickleEncoder().encode(value)
+        except Exception, e:
+            raise RedisError("encode error:%s" % e)
+
+        try:
+            self._db.zadd(self.namespace, encodedvalue, score)
+        except Exception, e:
+            raise RedisError("redis error:%s" % e)
+
+    def reset_score(self, value, score):
+        """set score of value
+            Args:
+                value: object, value
+                score: double, score of the value
+            Raises:
+                RedisError: error
+        """
+        try:
+            encodedvalue = PickleEncoder().encode(value)
+        except Exception, e:
+            raise RedisError("encode error:%s" % e)
+
+        try:
+            self._db.zadd(self.namespace, encodedvalue, score)
+        except Exception, e:
+            raise RedisError("redis error:%s" % e)
+
+    def incre_score(self, value):
+        try:
+            encodedvalue = PickleEncoder().encode(value)
+        except Exception, e:
+            raise RedisError("encode error:%s" % e)
+
+        try:
+            self._db.zincrby(self.namespace, encodedvalue, 1)
+        except Exception, e:
+            raise RedisError("redis error:%s" % e)
+
+
+    def decre_score(self, value):
+        """decre score of value
+            Args:
+                value: object, value
+        """
+        try:
+            encodedvalue = PickleEncoder().encode(value)
+        except Exception, e:
+            raise RedisError("encode error:%s" % e)
+
+        try:
+            self._db.zincrby(self.namespace, encodedvalue, -1)
+        except Exception, e:
+            raise RedisError("redis error:%s" % e)
+
+    def get_score(self, value):
+        """get score of value
+            Args:
+                value: object, value
+            Returns:
+                score: double, score of value
+        """
+        try:
+            encodedvalue = PickleEncoder().encode(value)
+        except Exception, e:
+            raise RedisError("encode error:%s" % e)
+
+        try:
+            score = self._db.zscore(self.namespace, encodedvalue)
+            return score
+        except Exception, e:
+            raise RedisError("redis error:%s" % e)
+
+    def clear(self):
+        """清除队列中的所有对象
+            Raises:
+                RedisError: 当发生错误的时候
+        """
+        try:
+            self._db.delete(self.namespace)
+        except Exception, e:
+            raise RedisError("delete error:%s" % e)
