@@ -11,7 +11,7 @@ from tornado.httpclient import HTTPRequest, AsyncHTTPClient
 from tornado.gen import coroutine, Task
 from tornado.ioloop import IOLoop
 
-from core.redistools import RedisQueue
+from core.redistools import RedisPriorityQueue
 from core.proxy import Proxy, DEFAULT_PROXY_NAMESPACE
 
 from spiders.common.proxy import it173, itmop
@@ -20,11 +20,13 @@ AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
 proxy_logger = logging.getLogger("spiders-common-proxy")
 client = AsyncHTTPClient()
 
-def operate(operate_name="help"):
+def operate(options):
     """operate command parser for proxy
         Args:
             operate_name: str, operate name
     """
+    operate_name = options.operate
+
     if operate_name == "help":
         print "--operate operate name for mtime"
         print "   loadtask: load start task for mtime"
@@ -34,6 +36,12 @@ def operate(operate_name="help"):
         update_proxys()
         proxy_logger.info("update proxy list end")
         print "update proxy list end"
+    elif operate_name == "add":
+        print "add proxy begin"
+        proxy_logger.info("add proxy begin")
+        add_proxy(options.host, options.port, options.score)
+        proxy_logger.info("add proxy end")
+        print "add proxy end"
     else:
         print "error operate for proxy"
 
@@ -70,13 +78,15 @@ def update_proxys():
 
 def _push_proxys_to_redis(proxys, namespace=DEFAULT_PROXY_NAMESPACE, host="localhost", port=6379, db=0):
     try:
-        queue = RedisQueue(namespace, host=host, port=port, db=db)
+        queue = RedisPriorityQueue(namespace, host=host, port=port, db=db)
         for proxy in proxys:
             if isinstance(proxy, Proxy):
-                queue.push(proxy)
+                queue.push(proxy, proxy.score)
     except Exception, e:
         proxy_logger.error("get former proxys failed:%s" % e)
 
+def add_proxy(host, port, score=10):
+    _push_proxys_to_redis([Proxy(host, port, score=10)])
 
 def _get_former_proxy_from_redis(namespace=DEFAULT_PROXY_NAMESPACE, host="localhost", port=6379, db=0):
     """get former proxys from redis
@@ -90,9 +100,9 @@ def _get_former_proxy_from_redis(namespace=DEFAULT_PROXY_NAMESPACE, host="localh
     """
     former_proxys = []
     try:
-        queue = RedisQueue(namespace, host=host, port=port, db=db)
+        queue = RedisPriorityQueue(namespace, host=host, port=port, db=db)
         while queue.size() > 0:
-            proxy = queue.pop()
+            proxy, score = queue.pop()
             former_proxys.append(proxy)
     except Exception, e:
         proxy_logger.error("get former proxys failed:%s" % e)

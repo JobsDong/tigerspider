@@ -122,6 +122,7 @@ def add_proxy_for_request(http_request):
         if proxy is not None:
             http_request.proxy_host = str(proxy.host)
             http_request.proxy_port = proxy.port
+            print "request:", http_request.proxy_host, http_request.proxy_port
             if proxy.is_need_passwd:
                 http_request.proxy_username = proxy.username
                 http_request.proxy_password = proxy.passwd

@@ -107,6 +107,9 @@ if __name__ == "__main__":
     #     if i == 9:
     #         print "fuck"
     # print "max:", max_count, "min:", min_count, "min2:", min2_count
-
-    from core.util import gcd
-    print gcd(1,3), gcd(2,4), gcd(5, 15, 25)
+    #
+    #from core.util import gcd
+    #print gcd(1,3), gcd(2,4), gcd(5, 15, 25)
+    from core.proxy import ProxyManager
+    proxy = ProxyManager.instance().get_an_avaliable_proxy()
+    print proxy.host, proxy.port, proxy.score

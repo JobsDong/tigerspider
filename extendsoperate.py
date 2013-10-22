@@ -17,6 +17,11 @@ from spiders.mtime import mtimeoperate
 define('operate', default='help', type=str, help="operate:")
 define('service', default=None, type=str, help="spider:")
 
+# proxy
+define('host', default="127.0.0.1", type=str, help="host:")
+define('port', default='8087', type=str, help="port:")
+define('score', default=10, type=int, help="score:")
+
 logging.config.fileConfig("logging.conf")
 
 if __name__ == "__main__":
@@ -26,7 +31,7 @@ if __name__ == "__main__":
         mtimeoperate.operate(options.operate)
 
     elif options.service == "proxy":
-        proxyoperate.operate(options.operate)
+        proxyoperate.operate(options)
 
     else:
         print "error service"

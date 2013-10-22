@@ -58,10 +58,9 @@ def build_http_task(city_code, cinema_id, district_str):
     url = r"%s/%s/%s/" % ("http://theater.mtime.com",
                         district_str, cinema_id,)
     return HttpTask(HTTPRequest(url, connect_timeout=10, request_timeout=20),
-                callback='RealInfoParser', max_fail_count=3, proxy_need=True, kwargs={'citycode':city_code,
-                                                   'cinemaid':cinema_id,
-                                                   'district': district_str,
-                                                   'requesturl': url})
+                callback='RealInfoParser', max_fail_count=3, proxy_need=True,
+                kwargs={'citycode':city_code,'cinemaid':cinema_id,
+                        'district': district_str,'requesturl': url})
 
 def load_tasks(namespace=DEFAULT_NAMESPACE, city_codes=None, host="localhost", port=6379, db=0, path=DEFAULT_PATH):
     key = "%s:%s" % (namespace, "prepare")

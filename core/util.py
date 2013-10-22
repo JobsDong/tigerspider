@@ -241,11 +241,20 @@ def gcd(*args):
                 return gcd(copy_args[1], copy_args[0] % copy_args[1])
             else:
                 return gcd(args[1], args[0])
+    else:
+        return args[0]
 
 def lcm(*args):
-    """
+    """least common multiply
 
+        Args:
+            args: list, init list
+        Returns:
+            lcm: int, lcm
     """
+    if len(args) == 1:
+        return args[0]
+
     t = 1
     gcd_count = gcd(args)
 
@@ -255,4 +264,5 @@ def lcm(*args):
     for x in xrange(len(args)):
         t /= gcd_count
 
+    print t
     return t
