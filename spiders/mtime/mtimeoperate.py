@@ -58,12 +58,21 @@ def build_http_task(city_code, cinema_id, district_str):
     url = r"%s/%s/%s/" % ("http://theater.mtime.com",
                         district_str, cinema_id,)
     return HttpTask(HTTPRequest(url, connect_timeout=10, request_timeout=20),
-                callback='RealInfoParser', max_fail_count=3, proxy_need=True,
+                callback='RealInfoParser', max_fail_count=3,
                 kwargs={'citycode':city_code,'cinemaid':cinema_id,
                         'district': district_str,'requesturl': url})
 
-def load_tasks(namespace=DEFAULT_NAMESPACE, city_codes=None, host="localhost", port=6379, db=0, path=DEFAULT_PATH):
+def load_tasks_for_redisSchedule(namespace=DEFAULT_NAMESPACE, city_codes=None, host="localhost", port=6379, db=0, path=DEFAULT_PATH):
     key = "%s:%s" % (namespace, "prepare")
+    que = RedisQueue(key, host=host, port=port, db=db)
+
+    for city_code, cinema_path in build_cinema_path(city_codes=city_codes, path=path):
+        for cinema_id, district_str in read_cinema_file(cinema_path):
+            task = build_http_task(city_code, cinema_id, district_str)
+            que.push(task)
+
+def load_tasks_for_mtimeSchedule(namespace=DEFAULT_NAMESPACE, city_codes=None, host="localhost", port=6379, db=0, path=DEFAULT_PATH):
+    key = "%s:%s" % (namespace, "prepare-html",)
     que = RedisQueue(key, host=host, port=port, db=db)
 
     for city_code, cinema_path in build_cinema_path(city_codes=city_codes, path=path):
@@ -74,10 +83,15 @@ def load_tasks(namespace=DEFAULT_NAMESPACE, city_codes=None, host="localhost", p
 def operate(operate_name="help"):
     if operate_name == "help":
         print "--operate operate name for mtime"
-        print "   loadtask: load start task for mtime"
-    elif operate_name == "loadtask":
+        print "   loadtaskwithmtime: load start task for mtime with mtimeSchedule"
+        print "   loadtaskwithredis: load start task for mtime with redisSchedule"
+    elif operate_name == "loadtaskwithredis":
         print "start to load task for mtime"
-        load_tasks()
+        load_tasks_for_redisSchedule()
+        print "load task for mtime success"
+    elif operate_name == "loadtaskwithmtime":
+        print "start to load task for mtime"
+        load_tasks_for_mtimeSchedule()
         print "load task for mtime success"
     else:
         print "error operate for mtime"

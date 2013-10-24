@@ -5,8 +5,6 @@
 
 """用于完成额外的操作，但不属于webspider中的功能
 """
-from spiders.common.proxy import proxyoperate
-
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import logging.config
@@ -29,9 +27,6 @@ if __name__ == "__main__":
 
     if options.service == "mtime":
         mtimeoperate.operate(options.operate)
-
-    elif options.service == "proxy":
-        proxyoperate.operate(options)
 
     else:
         print "error service"

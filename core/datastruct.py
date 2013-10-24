@@ -15,7 +15,7 @@ class HttpTask(object):
     '''
     def __init__(self, request, callback, fail_count=0, reason=None,
                  cookie_host=None, cookie_count=20, dns_need=False,
-                 proxy_need=False, max_fail_count=2, kwargs=None):
+                max_fail_count=2, kwargs=None):
         if kwargs == None:
             self.kwargs = dict()
         else:
@@ -29,7 +29,6 @@ class HttpTask(object):
         self.cookie_count = cookie_count
         self.max_fail_count = max_fail_count
         self.dns_need = dns_need
-        self.proxy_need = proxy_need
 
 class FileTask(object):
     """file task

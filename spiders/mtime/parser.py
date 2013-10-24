@@ -57,8 +57,9 @@ class RealInfoParser(BaseParser):
                 date = _filter_date_from_url(new_url)
                 headers = {'Accept-Language': r'en-US,en;q=0.5','Accept': r'*/*'}
                 http_request = HTTPRequest(_build_ajax_url(cinema_id, district_str, date, new_url),
-                                           connect_timeout=10, request_timeout=20, headers=headers)
-                new_task = HttpTask(http_request, callback='JSParser', max_fail_count=4, proxy_need=True,
+                                           connect_timeout=10, request_timeout=20, headers=headers,
+                                           proxy_host="127.0.0.1", proxy_port=2345)
+                new_task = HttpTask(http_request, callback='JSParser', max_fail_count=4,
                             kwargs={'citycode':task.kwargs.get('citycode'),
                                     'cinemaid':cinema_id,
                                     'district': task.kwargs.get('district'),
