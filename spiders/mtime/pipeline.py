@@ -18,7 +18,7 @@ class MovieInfoPipeline(BasePipeline):
     """处理MovieInfo的pipeline
     """
     def __init__(self, namespace, db_host="192.168.11.195", db_port=5432,
-                 db_user="postgres", db_password="titps4gg", db_base="test",
+                 db_user="postgres", db_password="titps4gg", db_base="swift",
                  server_host="192.168.11.195", server_port=5432, server_user="postgres",
                  server_password="titps4gg", server_db="swift"):
         """初始化函数
