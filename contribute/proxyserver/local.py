@@ -13,7 +13,7 @@ port = 2345
 urls = [
     "http://findyourfather.sinaapp.com",
     "http://findyourbother.sinaapp.com",
-    # "http://findyourfather.duapp.com",
-    # "http://findyourbother.duapp.com",
+    "http://findyourfather.duapp.com",
+    "http://findyourbother.duapp.com",
 ]
 

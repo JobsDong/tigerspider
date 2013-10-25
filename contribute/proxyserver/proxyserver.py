@@ -26,19 +26,20 @@ class ProxyHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self):
-
         def handle_response(response):
-            print response.headers
             if response.code not in httplib.responses:
                 self.set_status(500, "local server:%s,%s" % (response.code , response.reason))
             else:
                 self.set_status(response.code, response.reason)
             for header in response.headers.keys():
                 v = response.headers.get(header)
-                if header not in unsupport_headers and \
-                    header not in ("content-encoding", "transfer-encoding",
-                                   "content-length", "content-type"):
+                source = "sae" if response.request.url.rfind("sinaapp.com") != -1 \
+                    else "bae"
+                print header
+                if is_need_header(header, source):
+                    print "..", header
                     self.set_header(header, v)
+
             if response.body:
                 self.write(response.body)
             self.finish()
@@ -116,15 +117,30 @@ def build_request_for_app(req):
                                      request_timeout=12000)
     return new_req
 
+def is_need_header(header_name, proxy_source):
+    lower_header_name = header_name.lower()
+    if lower_header_name in unsupport_headers:
+        return False
+    if lower_header_name in ["content-length"]:
+        return False
+    if proxy_source == "sae":
+        if lower_header_name in ["content-encoding"]:
+            return False
+    return True
+
 def handle_request(req):
     return build_request_for_app(req)
+
+settings = {
+    "debug": True
+}
 
 def run_proxy(port=2345):
     """run proxy on the specified port
     """
 
     app = web.Application(
-        [(r".*", ProxyHandler)]
+        [(r".*", ProxyHandler)], **settings
     )
     app.listen(port)
     ioloop.IOLoop.instance().start()
