@@ -36,8 +36,8 @@ class ProxyHandler(web.RequestHandler):
             for header in response.headers.keys():
                 v = response.headers.get(header)
                 if header not in unsupport_headers and \
-                    header not in ("Content-Encoding", "Transfer-Encoding",
-                                   "Content-Length", "Content-Type"):
+                    header not in ("content-encoding", "transfer-encoding",
+                                   "content-length", "content-type"):
                     self.set_header(header, v)
             if response.body:
                 self.write(response.body)
