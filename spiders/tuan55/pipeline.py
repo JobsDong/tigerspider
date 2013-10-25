@@ -131,8 +131,8 @@ class WebItemPipeline(BasePipeline):
                 self.item_db.execute_update(insertsql, {'city_code': item.city_code,
                     'type': 90002003, 'start_time': datetime.datetime.strptime(
                                                 item.start_time, "%Y-%m-%d %H:%M:%S"),
-                    'end_time': datetime.datetime.fromtimestamp(
-                                                float(item.end_time)),
+                    'end_time': datetime.datetime.striptime(
+                                                item.end_time, "%Y-%m-%d %H:%M:%S"),
                     'info': encodestr,'url': item.url,
                     'source': '55tuan','update_time': datetime.datetime.now(),
                     'add_time': datetime.datetime.now()})
