@@ -122,7 +122,7 @@ class JSParser(BaseParser):
 
         content = input_file.read()
         if isinstance(content, str):
-            content = unicode(content, encoding="utf-8")
+            content = unicode(content)
         content = content.replace(ur'\"', ur'"')
         tree = html.parse(StringIO.StringIO(content))
         fruits = tree.xpath("//dl[@class='s_cinamelist']/node()")

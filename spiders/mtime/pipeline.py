@@ -68,16 +68,6 @@ class MovieInfoPipeline(BasePipeline):
             self.item_db.execute_update(insertsql, {'cityname': item.cityname,
                     'shopurl': item.shopurl})
 
-            # a litter operation for server db
-            server_db = DB(host=self.server_host, port=self.server_port,user=self.server_user,
-                              password=self.server_password, database=self.server_db)
-            try:
-                server_db.execute_update(insertsql, {'cityname': item.cityname,
-                                                 'shopurl': item.shopurl})
-            finally:
-                server_db.close()
-
-
 
 class RealInfoPipeline(BasePipeline):
     """处理realInfo的pipeline
