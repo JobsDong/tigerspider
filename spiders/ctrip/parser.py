@@ -44,7 +44,7 @@ class CityParser(BaseParser):
             elems = tree.xpath("//CityDetail")
             for elem in elems:
                 chinese_name = remove_white(elem.findtext("CityName", ""))
-                city_code = remove_white(get_city_code(elem.findtext("CityName", "")))
+                city_code = get_city_code(remove_white(elem.findtext("CityName", "")))
                 ctrip_code = remove_white(elem.findtext("City", ""))
 
                 if len(chinese_name) <= 0 or not city_code or \

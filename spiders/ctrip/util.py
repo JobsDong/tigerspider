@@ -170,18 +170,18 @@ def read_city_codes_from_file():
 
 
 def get_city_code(chinese_name):
-     """get city code
+    """get city code
 
-         Args:
+        Args:
              chinese_name: str, chinese name for city
-         Returns:
+        Returns:
              city_code: str, city code for city
-     """
-     if not hasattr(read_city_codes_from_file, "hasbeenread"):
-         read_city_codes_from_file()
-         setattr(read_city_codes_from_file, "hasbeenread", True)
-
-     return _city2code.get(chinese_name, None)
+    """
+    if not hasattr(read_city_codes_from_file, "hasbeenread"):
+        read_city_codes_from_file()
+        setattr(read_city_codes_from_file, "hasbeenread", True)
+    print chinese_name, type(chinese_name)
+    return _city2code.get(chinese_name.encode("utf-8"), None)
 
 def _create_signature(timestamp, alliance, sid, request_type, api_key):
     """create signature for ctrip
