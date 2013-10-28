@@ -193,6 +193,8 @@ class DealParser(BaseParser):
             item_price = data_elem.findtext("price").strip()
             item_city_code = get_city_code_from_chinese(
                 data_elem.findtext("division_name").strip())
+            if not item_city_code:
+                continue
             item_url = data_elem.findtext("deal_web_url").strip()
             item_dealid = data_elem.findtext("id").strip()
             item_name = u""

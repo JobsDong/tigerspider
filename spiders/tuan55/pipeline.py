@@ -97,7 +97,7 @@ class WebItemPipeline(BasePipeline):
                     deal_item.discount_type = item.discount_type
                     # if len(item.deadline) > 0:
                     #     deal_item.deadline = item.deadline
-                    if deal_item.discount_type is not None:
+                    if deal_item.discount_type is not None and deal_item.city_code is not None:
                         self._store_item(deal_item)
 
     def _store_item(self, item):
@@ -131,7 +131,7 @@ class WebItemPipeline(BasePipeline):
                 self.item_db.execute_update(insertsql, {'city_code': item.city_code,
                     'type': 90002003, 'start_time': datetime.datetime.strptime(
                                                 item.start_time, "%Y-%m-%d %H:%M:%S"),
-                    'end_time': datetime.datetime.striptime(
+                    'end_time': datetime.datetime.strptime(
                                                 item.end_time, "%Y-%m-%d %H:%M:%S"),
                     'info': encodestr,'url': item.url,
                     'source': '55tuan','update_time': datetime.datetime.now(),
