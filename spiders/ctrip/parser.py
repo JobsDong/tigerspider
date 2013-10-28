@@ -19,7 +19,7 @@ from core.spider.parser import ParserError
 
 from spiders.ctrip.util import (HOTEL_SERVICE_CODES,ROOM_SERVICE_CODES,
                                 build_hotels_task_for_city,build_rooms_task_for_hotel,
-                                build_hotel_url)
+                                build_hotel_url, get_city_code)
 from spiders.ctrip.items import (CityItem, RoomInfoItem,
                                  HotelInfoItem, HotelCodeItem,
                                  ImageItem)
@@ -44,10 +44,11 @@ class CityParser(BaseParser):
             elems = tree.xpath("//CityDetail")
             for elem in elems:
                 chinese_name = remove_white(elem.findtext("CityName", ""))
-                city_code = remove_white(elem.findtext("CityCode", ""))
+                city_code = remove_white(get_city_code(elem.findtext("CityName", "")))
                 ctrip_code = remove_white(elem.findtext("City", ""))
 
-                if len(chinese_name) <= 0 or len(city_code) <= 0 or len(ctrip_code) <= 0:
+                if len(chinese_name) <= 0 or not city_code or \
+                    len(city_code) <= 0 or len(ctrip_code) <= 0:
                     self.logger.debug("invaliade city chinese_name:%s citycode:%s ctrip_code:%s"
                                       % (chinese_name, city_code, ctrip_code))
                     continue

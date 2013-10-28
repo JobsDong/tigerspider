@@ -33,6 +33,8 @@ SID = 254296
 API_URL = "openapi.ctrip.com"
 API_KEY = "823266C3-DCDE-4F3C-B20B-9EFD6C2BC7BD"
 
+CITY_CODE_FILE_PATH = "/home/wuyadong/Documents/ctrip/city_code.csv"
+
 # _chinese_city2code = {
 #     u"北京": "110000",
 #     u"长春": "220100",
@@ -156,16 +158,30 @@ ROOM_SERVICE_CODES = ('75','76','77','78','79','80','81','82','83','84',
 #     else:
 #         return False
 #
-# def get_city_code(english_name):
-#     """get city code
-#
-#         Args:
-#             english_name: str, english name for city
-#         Returns:
-#             city_code: str, city code for city
-#     """
-#     lower = english_name.lower()
-#     return _city2code.get(lower)
+_city2code = dict()
+
+def read_city_codes_from_file():
+    """read city code files into dict
+    """
+    with open(CITY_CODE_FILE_PATH, "rb") as in_file:
+        for line in in_file:
+            _, chinese, city_code = line.split(",")
+            _city2code[chinese] = city_code
+
+
+def get_city_code(chinese_name):
+     """get city code
+
+         Args:
+             chinese_name: str, chinese name for city
+         Returns:
+             city_code: str, city code for city
+     """
+     if not hasattr(read_city_codes_from_file, "hasbeenread"):
+         read_city_codes_from_file()
+         setattr(read_city_codes_from_file, "hasbeenread", True)
+
+     return _city2code.get(chinese_name, None)
 
 def _create_signature(timestamp, alliance, sid, request_type, api_key):
     """create signature for ctrip
