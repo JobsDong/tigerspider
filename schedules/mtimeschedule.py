@@ -169,6 +169,9 @@ class MtimeSchedule(BaseSchedule):
                         return True
                     else:
                         if task.callback == "JSParser":
+                            if task.request.proxy_host is not None:
+                                task.request.proxy_host = None
+                                task.request.proxy_port = None
                             self._prepare_to_process_queue_js.push(task)
                         else:
                             self._prepare_to_process_queue_html.push(task)
