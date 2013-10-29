@@ -17,6 +17,7 @@ def read_citycode_file():
     with open(CITY_CODE_FILE_PATH, "rb") as in_file:
         for line in in_file:
             english, chinese, code = line.split(",")
+            print chinese, type(chinese)
             _city2code[chinese] = code.strip()
 
 
@@ -221,7 +222,6 @@ def get_city_code(city_chinese_name):
         setattr(read_citycode_file, "hasbeenread", True)
     clone_name = city_chinese_name if not isinstance(city_chinese_name, unicode) \
         else city_chinese_name.encode("utf-8")
-
     return _city2code.get(clone_name, None)
 
 def get_subcate_by_category(category):

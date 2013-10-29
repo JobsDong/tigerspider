@@ -48,12 +48,12 @@ class CityParser(BaseParser):
         self.logger.debug("CityParser start")
         try:
             tree = etree.parse(input_file)
-            elements = tree.xpath("//url")
+            elements = tree.xpath("//division")
 
             for city_element in elements:
-                english_name = city_element[1].text
-                city_item = CityItem(city_element[0].text,
-                                get_city_code(city_element[0].text))
+                english_name = city_element[0].text
+                city_item = CityItem(city_element[1].text,
+                                get_city_code(city_element[1].text))
                 if city_item.chinese_name and city_item.city_code and english_name:
                     yield city_item
                     http_request = HTTPRequest(url=build_url_by_city_name(english_name)
