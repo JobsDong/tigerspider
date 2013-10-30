@@ -291,11 +291,12 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_ad
                % escape(request_xml)
 
     http_request = HTTPRequest("http://%s/Hotel/OTA_HotelDescriptiveInfo.asmx" % API_URL,
-                    method="POST", body=post_xml, connect_timeout=20, request_timeout=180,
+                    method="POST", body=post_xml, connect_timeout=20, request_timeout=360,
                     headers={"SOAPAction": "http://ctrip.com/Request",
                             "Content-Type": "text/xml; charset=utf-8"})
     return HttpTask(http_request, callback="HotelParser", max_fail_count=5,
-                    kwargs={"citycode": city_code, "chinesename": chinese_name, "address": hotel_addresses})
+                    kwargs={"citycode": city_code, "chinesename": chinese_name,
+                            "address": hotel_addresses})
 
 def build_hotel_url(hotel_id):
     """build hotel url

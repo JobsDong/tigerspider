@@ -238,8 +238,8 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         for spider_name, interval_dict in work_statistic.get_average_fetch_interval().\
             iteritems():
             out_file.write("spider name: %s\n" % spider_name)
-            for start_time, interval in interval_dict.iteritems():
-                out_file.write("%s: %s\n" % (start_time, interval))
+            for start_time in sorted(interval_dict.keys()):
+                out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
             out_file.write("\n")
         out_file.write("\n\n")
 
@@ -247,8 +247,8 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         for spider_name, interval_dict in work_statistic.get_average_extract_interval()\
             .iteritems():
             out_file.write("spider name:%s\n" % spider_name)
-            for start_time, interval in interval_dict.iteritems():
-                out_file.write("%s: %s\n" % (start_time, interval))
+            for start_time in sorted(interval_dict.keys()):
+                out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
             out_file.write("\n")
         out_file.write("\n\n")
 
@@ -256,8 +256,8 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         for item_name, interval_dict in work_statistic.get_average_handle_interval()\
             .iteritems():
             out_file.write("handle item name:%s\n" % item_name)
-            for start_time, interval in interval_dict.iteritems():
-                out_file.write("%s: %s\n" % (start_time, interval))
+            for start_time in sorted(interval_dict.keys()):
+                out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
             out_file.write("\n")
         out_file.write("\n\n")
         out_file.write("---------------------------------------------------------------------------------------\n")

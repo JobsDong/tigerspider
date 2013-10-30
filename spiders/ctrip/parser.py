@@ -66,7 +66,7 @@ class HotelListParser(BaseParser):
     """parse hotel result
     """
 
-    def __init__(self, namespace, batch_count=50):
+    def __init__(self, namespace, batch_count=20):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init HotelListParser")
         self.batch_count = batch_count
