@@ -17,7 +17,6 @@ def read_citycode_file():
     with open(CITY_CODE_FILE_PATH, "rb") as in_file:
         for line in in_file:
             english, chinese, code = line.split(",")
-            print chinese, type(chinese)
             _city2code[chinese] = code.strip()
 
 

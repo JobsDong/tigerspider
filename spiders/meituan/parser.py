@@ -64,7 +64,7 @@ class CityParser(BaseParser):
                 else:
                     self.logger.warn("this item's property is none(chinese:%s, "
                                      "english:%s, citycode:%s)" %
-                                     (city_item.chinese_name, city_item.english_name,
+                                     (city_item.chinese_name, english_name,
                                       city_item.city_code))
 
         except Exception, e:
