@@ -180,7 +180,6 @@ def get_city_code(chinese_name):
     if not hasattr(read_city_codes_from_file, "hasbeenread"):
         read_city_codes_from_file()
         setattr(read_city_codes_from_file, "hasbeenread", True)
-    print chinese_name, type(chinese_name)
     return _city2code.get(chinese_name.encode("utf-8"), None)
 
 def _create_signature(timestamp, alliance, sid, request_type, api_key):
