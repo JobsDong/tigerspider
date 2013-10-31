@@ -107,6 +107,7 @@ class HotelListParser(BaseParser):
                     hotel_address = flist(property_elem.xpath("*[local-name()='Address']/*[local-name()='AddressLine']/text()"))
                     if isinstance(hotel_address, unicode):
                         hotel_address = hotel_address.encode("utf-8")
+                    hotel_address = str(hotel_address)
 
                     if hotel_code and hotel_ctrip_city_code:
                         hotel_url = build_hotel_url(hotel_code)
