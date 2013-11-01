@@ -90,7 +90,10 @@ class HotelListParser(BaseParser):
             tree = etree.fromstring(xml_str)
             elems = tree.xpath("/Response/Header")
             header = elems[0]
-            if header.attrib.has_key("ResultCode") and header.attrib['ResultCode'] == "Success":
+            if not header.attrib.has_key("ResultCode") or header.attrib['ResultCode'] != "Success":
+                self.logger.error("not has resultcode or resultcode is not success")
+                raise ParserError("ResultCode error")
+            else:
                 # success
                 property_elems = xpath_namespace(tree, "/Response/HotelResponse/OTA_HotelSearchRS/Properties/Property")
                 city_code = task.kwargs.get('citycode')

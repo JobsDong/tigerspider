@@ -166,7 +166,7 @@ def read_city_codes_from_file():
     with open(CITY_CODE_FILE_PATH, "rb") as in_file:
         for line in in_file:
             _, chinese, city_code = line.split(",")
-            _city2code[chinese] = city_code
+            _city2code[chinese] = city_code.strip()
 
 
 def get_city_code(chinese_name):
