@@ -17,11 +17,8 @@ from tornado.httpclient import HTTPRequest
 
 from core.datastruct import HttpTask
 from core.resolver import DNSResolver, ResolveError
-from core.proxy import ProxyManager, ProxyError
 
 httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=50)
-
-client = httpclient.AsyncHTTPClient()
 
 _host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=1; "
                 r"abt=1378729480.0%7CBDF; rvct=1; rvd=8190998;"
@@ -54,24 +51,27 @@ def fetch(http_task):
         Returns:
             resp:Response, 下载的HTTP结果
     """
-    http_request = http_task.request
+    try:
+        http_request = http_task.request
 
-    # get cookie if needed
-    if http_task.cookie_host:
-        add_cookie_for_request(http_request, http_task.cookie_host,
-                               http_task.cookie_count)
+        # get cookie if needed
+        if http_task.cookie_host:
+            add_cookie_for_request(http_request, http_task.cookie_host,
+                                   http_task.cookie_count)
 
-    # client
-    add_universal_headers_for_request(http_request)
+        # client
+        add_universal_headers_for_request(http_request)
 
-    # 使用dns resolver
-    if http_task.dns_need:
-        resovle_dns_for_request(http_request)
+        # 使用dns resolver
+        if http_task.dns_need:
+            resovle_dns_for_request(http_request)
 
-    # 使用proxy
-    if http_task.proxy_need:
-        add_proxy_for_request(http_request)
-    resp = yield gen.Task(client.fetch, http_request)
+    except Exception, e:
+        resp = e
+    else:
+        client = httpclient.AsyncHTTPClient()
+        resp = yield gen.Task(client.fetch, http_request)
+
     raise gen.Return(resp)
 
 def add_cookie_for_request(http_request, cookie_host, cookie_count):
@@ -108,23 +108,6 @@ def resovle_dns_for_request(http_request):
         logger.warn("dns error:%s, error:%s" % (http_request.host, e))
     else:
         http_request.url = ip_addr
-
-def add_proxy_for_request(http_request):
-    """add proxy for request
-        Args:
-            http_request:HttpRequest, request
-    """
-    try:
-        proxy = ProxyManager.instance().get_an_avaliable_proxy()
-    except ProxyError, e:
-        logger.warn("proxy error:%s, error:%s" % (http_request.url, e))
-    else:
-        if proxy is not None:
-            http_request.proxy_host = str(proxy.host)
-            http_request.proxy_port = proxy.port
-            if proxy.is_need_passwd:
-                http_request.proxy_username = proxy.username
-                http_request.proxy_password = proxy.passwd
 
 def _get_page_sy(http_task, cookie):
     """以同步方式获取网页内容
@@ -224,4 +207,3 @@ def get_cookie_sy(host, flushcount=20):
         return _host_cookies.get(host)
     else:
         return None
-

@@ -34,6 +34,7 @@ nosetests.xml
 .project
 .pydevproject
 
+data/
 data/logs/*
 data/fails/*
 # pycharm
