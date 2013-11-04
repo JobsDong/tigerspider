@@ -15,7 +15,7 @@ import os
 from tornado.httpclient import HTTPRequest
 from lxml import etree, html
 
-from core.spider.parser import BaseParser
+from core.spider.parser import BaseParser, ParserError
 from core.datastruct import HttpTask
 from core.util import remove_white
 
@@ -86,13 +86,19 @@ class DealParser(BaseParser):
                 input_file: File, 文件对象
         """
         self.logger.debug("deal parse start to parse")
-        tree = etree.parse(input_file)
+        try:
+            tree = etree.parse(input_file)
+        except Exception, e:
+            self.logger.error("not complete xml:%s" % e)
+            raise ParserError("not complete xml")
+
         for data_element in tree.xpath("//data"):
             item_price = data_element.findtext("price").strip()
             item_city_code = task.kwargs.get('citycode')
             item_url = data_element.findtext("url").strip()
             item_dealid = data_element.findtext("dealid").strip()
             item_name = data_element.findtext("title").strip()
+            item_tiny = data_element.findtext("tinyurl").strip()
             item_discount_type = get_subcate_by_category(
                 data_element.findtext("types/type").strip())
             if not item_discount_type:
@@ -130,7 +136,7 @@ class DealParser(BaseParser):
                                  content_pic=item_content_pic, purchased_number=item_purchased_number,
                                  m_url=item_m_url, appointment=item_appointment, place=item_place,
                                  save=item_save, remaining=item_remaining, limit=item_limit,
-                                 refund=item_refund, contact=item_contact)
+                                 refund=item_refund, contact=item_contact, tiny=item_tiny)
             yield deal_item
 
     def _check_and_execute_picture(self, picture_url):
@@ -185,7 +191,8 @@ class DealParser(BaseParser):
                 temp_texts.append(last_text)
 
         if len(temp_texts) > 0:
-            texts = [u"-"].extend(temp_texts)
+            texts = [u"-"]
+            texts.extend(temp_texts)
             return "".join(texts)
         else:
             return ""

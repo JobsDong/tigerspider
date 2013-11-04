@@ -37,7 +37,7 @@ class NuomiSpider(BaseSpider):
         HttpTask(HTTPRequest(url='http://www.nuomi.com/help/api',
                          connect_timeout=10, request_timeout=20),
                          callback='CityParser', max_fail_count=8, kwargs={}),
-        # Task(HTTPRequest(url='http://www.nuomi.com/api/tiger?city=nanchang',
+        #HttpTask(HTTPRequest(url='http://www.nuomi.com/api/tiger?city=nanchang',
         #                  connect_timeout=10, request_timeout=120),
         #                 callback='DealParser', kwargs={'citycode':360100})
     ]

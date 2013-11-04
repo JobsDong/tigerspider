@@ -33,11 +33,12 @@ class DealItem(Item):
     def __init__(self, price, city_code, dealid, url, name, discount_type, start_time,
                  end_time, discount, original_price, noticed, pictures, description,
                  deadline, short_desc, content_text, content_pic, purchased_number,
-                 m_url, appointment, place, save, remaining, limit, refund, contact):
+                 m_url, appointment, place, save, remaining, limit, refund, contact, tiny):
         """初始化函数
             Args:
                 略
         """
+        self.tiny = tiny
         self.save = save
         self.remaining = remaining
         self.limit = limit
