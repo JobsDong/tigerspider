@@ -36,7 +36,7 @@ class MeituanSpider(BaseSpider):
         # HttpTask(HTTPRequest(url='http://www.meituan.com/api/v2/nanchang/deals',
         #                  connect_timeout=3, request_timeout=99),
         #      callback='DealParser', max_fail_count = 5, kwargs={'citycode':"360100"}),
-        HttpTask(HTTPRequest(url='http://api.union.meituan.com/data/citylist',
+        HttpTask(HTTPRequest(url='http://www.meituan.com/api/v1/divisions',
         connect_timeout=10, request_timeout=60), callback='CityParser',
         max_fail_count=8, kwargs={}),
     ]

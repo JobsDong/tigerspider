@@ -115,8 +115,7 @@ def get_city_code_from_chinese(city_chinese_name):
         Returns:
             city_code: str, 城市id
     """
-    return None if not _chinese_city2code.has_key(city_chinese_name)\
-        else _chinese_city2code[city_chinese_name]
+    return _chinese_city2code.get(city_chinese_name, None)
 
 
 
