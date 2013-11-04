@@ -38,7 +38,7 @@ class CtripSpider(BaseSpider):
     }
 
     start_tasks = [
-        FileTask("/home/wuyadong/mfs/ctrip/ctrip_city.xml",
+        FileTask("/home/wuyadong/Documents/ctrip/ctrip_city.xml",
                  callback="CityParser", max_fail_count=8)
         # build_hotels_task_for_city("1", "110000", "北京"),
         # build_hotels_task_for_city("39", "650100", "乌鲁木齐"),

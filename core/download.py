@@ -19,7 +19,7 @@ from core.datastruct import HttpTask
 from core.resolver import DNSResolver, ResolveError
 from core.proxy import ProxyManager, ProxyError
 
-httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
+httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=50)
 
 client = httpclient.AsyncHTTPClient()
 
