@@ -19,7 +19,7 @@ from tornado.httpclient import HTTPRequest
 
 from core.spider.parser import BaseParser
 from core.datastruct import HttpTask
-from core.util import remove_white
+from core.util import remove_white, flist
 from spiders.tuan55.items import DealItem, WebItem, PictureItem
 from spiders.tuan55.util import (get_city_code_from_chinese,
                                  get_subcate_by_category,
@@ -391,20 +391,20 @@ class WebParser(BaseParser):
             Returns:
                 places:list, 地址列表
         """
-        elem = tree.xpath('//div[@class="sp_list"]//li')
+        elem = tree.xpath('//div[@id="sp_list"]//li')
         places = []
         for li_elem in elem:
             a_place = {}
-            place_names = li_elem.xpath("h3/a/text()")
-            a_place['place_name'] = remove_white(place_names[0]) if place_names else ""
-            place_address = li_elem.xpath("p/span[1]/text()")
-            a_place['address'] = remove_white(place_address[0]) if place_address else ""
-            place_phones = li_elem.xpath("p/span[2]/text()")
-            a_place['place_phone'] = remove_white(place_phones[0]) if place_phones else ""
+            a_place['place_name'] = remove_white(flist(
+                li_elem.xpath("h2/span/text()")))
+            a_place['address'] = remove_white(flist(
+                li_elem.xpath("div/div[@class='mes']/span[@name='address']/text()")))
+            a_place['place_phone'] = remove_white(flist(
+                li_elem.xpath("div/div[@class='mes']/span[@name='phone']/text()")))
             a_place['longitude'] = u""
             a_place['latitude'] = u""
-            open_times = li_elem.xpath("p/span[3]/text()")
-            a_place['open_time'] = remove_white(open_times[0]) if open_times else ""
+            a_place['open_time'] = remove_white(flist(
+                li_elem.xpath("div/div[@class='mes sj']/span[@name='businessHours']/text()")))
             places.append(a_place)
         return places
 

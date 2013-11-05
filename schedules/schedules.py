@@ -29,6 +29,7 @@ class RedisSchedule(BaseSchedule):
             Raises:
                 ScheduleError: 当发生错误的时候
         """
+        BaseSchedule.__init__(self, interval, max_number)
         self._is_stopped = False
         try:
             if isinstance(interval, str):
@@ -56,7 +57,6 @@ class RedisSchedule(BaseSchedule):
         self._kwargs = {'namespace': self._namespace, "host": host,
                         "port": port, "db": db, "interval":interval,
                         "max_number": max_number,}
-        BaseSchedule.__init__(self, interval, max_number)
 
     @property
     def schedule_kwargs(self):
