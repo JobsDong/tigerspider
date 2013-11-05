@@ -4,10 +4,9 @@ __author__ = 'wuyadong'
 from core.datastruct import Item
 
 class CityItem(Item):
-    def __init__(self, chinese_name, english_name, city_code):
+    def __init__(self, chinese_name, city_code):
         self.city_code = city_code
         self.chinese_name = chinese_name
-        self.english_name = english_name
 
 class DealItem(Item):
     def __init__(self, price, city_code, dealid, url, name, discount_type, start_time,

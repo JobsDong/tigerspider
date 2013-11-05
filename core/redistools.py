@@ -341,7 +341,10 @@ class RedisPriorityQueue(object):
         except Exception, e:
             raise RedisError("redis error:%s " % e)
         try:
-            return (item, score) if item is None else PickleDeocoder().decode(item), score
+            if item is None:
+                return item, score
+            else:
+                return PickleDeocoder().decode(item), score
         except Exception, e:
             raise RedisError("pickle decode error:%s" % e)
 

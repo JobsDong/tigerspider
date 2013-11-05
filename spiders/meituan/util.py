@@ -9,52 +9,66 @@ import datetime
 
 from core.util import remove_white
 
-_city2code = {
-    "beijing": "110000",
-    "all": "000000",
-    "changchun": "220100",
-    "changsha": "430100",
-    "chengdu": "510100",
-    "chongqing": "500000",
-    "dalian": "210200",
-    "dongguan": "441900",
-    "foshan": "440600",
-    "fuzhou": "350100",
-    "guangzhou": "440100",
-    "guiyang": "520100",
-    "haerbin": "230100",
-    "haikou": "460100",
-    "hangzhou": "330100",
-    "hefei": "340100",
-    "huhehaote": "150100",
-    "jinan": "370100",
-    "kunming": "530100",
-    "lanzhou": "620100",
-    "nanchang": "360100",
-    "nanjing": "320100",
-    "nanning": "450100",
-    "ningbo": "330200",
-    "qingdao": "370200",
-    "shanghai": "310000",
-    "shantou": "440500",
-    "shenyang": "210100",
-    "shenzhen": "440300",
-    "shijiazhuang": "130100",
-    "suzhou": "320500",
-    "taiyuan": "140100",
-    "tianjin": "120000",
-    "wenzhou": "330300",
-    "wuhan": "420100",
-    "wulumuqi": "650100",
-    "wuxi": "320200",
-    "xiamen": "350200",
-    "xian": "610100",
-    "yangzhou": "321000",
-    "yantai": "370600",
-    "zhengzhou": "410100",
-    "zhuhai": "440400",
-    "huizhou": "441300",
-}
+CITY_CODE_FILE_PATH = "/home/wuyadong/Documents/meituan/city_code.csv"
+
+_city2code = dict()
+
+def read_citycode_file():
+    with open(CITY_CODE_FILE_PATH, "rb") as in_file:
+        for line in in_file:
+            english, chinese, code = line.split(",")
+            _city2code[chinese] = code.strip()
+
+
+#_city2code = {
+#    "beijing": "110000",
+#    "all": "000000",
+#    "changchun": "220100",
+#    "changsha": "430100",
+#    "chengdu": "510100",
+#    "chongqing": "500000",
+#    "dalian": "210200",
+#    "dongguan": "441900",
+#    "foshan": "440600",
+#    "fuzhou": "350100",
+#    "guangzhou": "440100",
+#    "guiyang": "520100",
+#    "haerbin": "230100",
+#    "haikou": "460100",
+#    "hangzhou": "330100",
+#    "hefei": "340100",
+#    "huhehaote": "150100",
+#    "jinan": "370100",
+#    "kunming": "530100",
+#    "lanzhou": "620100",
+#    "nanchang": "360100",
+#    "nanjing": "320100",
+#    "nanning": "450100",
+#    "ningbo": "330200",
+#    "qingdao": "370200",
+#    "shanghai": "310000",
+#    "shantou": "440500",
+#    "shenyang": "210100",
+#    "shenzhen": "440300",
+#    "shijiazhuang": "130100",
+#    "suzhou": "320500",
+#    "taiyuan": "140100",
+#    "tianjin": "120000",
+#    "wenzhou": "330300",
+#    "wuhan": "420100",
+#    "wulumuqi": "650100",
+#    "wuxi": "320200",
+#    "xiamen": "350200",
+#    "xian": "610100",
+#    #+
+#    "xining": "630100",
+#    #+
+#    "yangzhou": "321000",
+#    "yantai": "370600",
+#    "zhengzhou": "410100",
+#    "zhuhai": "440400",
+#    "huizhou": "441300"
+#}
 
 _mt2tiger = {
     u"KTV": u"KTV",
@@ -195,14 +209,19 @@ _mt2tiger = {
     u"密室逃脱":u"休闲娱乐",
 }
 
-def get_city_code(city_pname):
+def get_city_code(city_chinese_name):
     """获得对应城市的code
         Args:
-            city_pname: str, 城市英文名字
+            city_pname: str, 城市中文名字
         Returns:
             code: str, 如果不存在就返回None
     """
-    return None if not _city2code.has_key(city_pname) else _city2code[city_pname]
+    if not hasattr(read_citycode_file, "hasbeenread"):
+        read_citycode_file()
+        setattr(read_citycode_file, "hasbeenread", True)
+    clone_name = city_chinese_name if not isinstance(city_chinese_name, unicode) \
+        else city_chinese_name.encode("utf-8")
+    return _city2code.get(clone_name, None)
 
 def get_subcate_by_category(category):
     """将meituan分类映射到对应的类别

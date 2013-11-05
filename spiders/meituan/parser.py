@@ -48,23 +48,23 @@ class CityParser(BaseParser):
         self.logger.debug("CityParser start")
         try:
             tree = etree.parse(input_file)
-            elements = tree.xpath("//url")
+            elements = tree.xpath("//division")
 
             for city_element in elements:
-                city_item = CityItem(city_element[0].text,
-                                     city_element[1].text,
-                                     get_city_code(city_element[1].text))
-                if city_item.chinese_name and city_item.english_name and city_item.city_code:
+                english_name = city_element[0].text
+                city_item = CityItem(city_element[1].text,
+                                get_city_code(city_element[1].text))
+                if city_item.chinese_name and city_item.city_code and english_name:
                     yield city_item
-                    http_request = HTTPRequest(url=build_url_by_city_name(city_item.english_name)
+                    http_request = HTTPRequest(url=build_url_by_city_name(english_name)
                         , connect_timeout=20, request_timeout=240)
                     new_task = HttpTask(http_request, callback='DealParser', max_fail_count=5,
-                                    kwargs={'citycode':city_item.city_code})
+                                        kwargs={'citycode':city_item.city_code})
                     yield new_task
                 else:
                     self.logger.warn("this item's property is none(chinese:%s, "
                                      "english:%s, citycode:%s)" %
-                                     (city_item.chinese_name, city_item.english_name,
+                                     (city_item.chinese_name, english_name,
                                       city_item.city_code))
 
         except Exception, e:

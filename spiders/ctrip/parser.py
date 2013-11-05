@@ -19,7 +19,7 @@ from core.spider.parser import ParserError
 
 from spiders.ctrip.util import (HOTEL_SERVICE_CODES,ROOM_SERVICE_CODES,
                                 build_hotels_task_for_city,build_rooms_task_for_hotel,
-                                build_hotel_url)
+                                build_hotel_url, get_city_code)
 from spiders.ctrip.items import (CityItem, RoomInfoItem,
                                  HotelInfoItem, HotelCodeItem,
                                  ImageItem)
@@ -44,10 +44,11 @@ class CityParser(BaseParser):
             elems = tree.xpath("//CityDetail")
             for elem in elems:
                 chinese_name = remove_white(elem.findtext("CityName", ""))
-                city_code = remove_white(elem.findtext("CityCode", ""))
+                city_code = get_city_code(remove_white(elem.findtext("CityName", "")))
                 ctrip_code = remove_white(elem.findtext("City", ""))
 
-                if len(chinese_name) <= 0 or len(city_code) <= 0 or len(ctrip_code) <= 0:
+                if len(chinese_name) <= 0 or not city_code or \
+                    len(city_code) <= 0 or len(ctrip_code) <= 0:
                     self.logger.debug("invaliade city chinese_name:%s citycode:%s ctrip_code:%s"
                                       % (chinese_name, city_code, ctrip_code))
                     continue
@@ -65,7 +66,7 @@ class HotelListParser(BaseParser):
     """parse hotel result
     """
 
-    def __init__(self, namespace, batch_count=50):
+    def __init__(self, namespace, batch_count=20):
         BaseParser.__init__(self, namespace)
         self.logger.debug("init HotelListParser")
         self.batch_count = batch_count
@@ -89,7 +90,10 @@ class HotelListParser(BaseParser):
             tree = etree.fromstring(xml_str)
             elems = tree.xpath("/Response/Header")
             header = elems[0]
-            if header.attrib.has_key("ResultCode") and header.attrib['ResultCode'] == "Success":
+            if not header.attrib.has_key("ResultCode") or header.attrib['ResultCode'] != "Success":
+                self.logger.error("not has resultcode or resultcode is not success")
+                raise ParserError("ResultCode error")
+            else:
                 # success
                 property_elems = xpath_namespace(tree, "/Response/HotelResponse/OTA_HotelSearchRS/Properties/Property")
                 city_code = task.kwargs.get('citycode')
@@ -106,6 +110,7 @@ class HotelListParser(BaseParser):
                     hotel_address = flist(property_elem.xpath("*[local-name()='Address']/*[local-name()='AddressLine']/text()"))
                     if isinstance(hotel_address, unicode):
                         hotel_address = hotel_address.encode("utf-8")
+                    hotel_address = str(hotel_address)
 
                     if hotel_code and hotel_ctrip_city_code:
                         hotel_url = build_hotel_url(hotel_code)

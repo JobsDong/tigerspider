@@ -18,8 +18,8 @@ class MovieInfoPipeline(BasePipeline):
     """处理MovieInfo的pipeline
     """
     def __init__(self, namespace, db_host="192.168.11.195", db_port=5432,
-                 db_user="postgres", db_password="titps4gg", db_base="test",
-                 server_host="211.151.180.126", server_port=5432, server_user="postgres",
+                 db_user="postgres", db_password="titps4gg", db_base="swift",
+                 server_host="192.168.11.195", server_port=5432, server_user="postgres",
                  server_password="titps4gg", server_db="swift"):
         """初始化函数
             Args:
@@ -67,16 +67,6 @@ class MovieInfoPipeline(BasePipeline):
 
             self.item_db.execute_update(insertsql, {'cityname': item.cityname,
                     'shopurl': item.shopurl})
-
-            # a litter operation for server db
-            server_db = DB(host=self.server_host, port=self.server_port,user=self.server_user,
-                              password=self.server_password, database=self.server_db)
-            try:
-                server_db.execute_update(insertsql, {'cityname': item.cityname,
-                                                 'shopurl': item.shorpurl})
-            finally:
-                server_db.close()
-
 
 
 class RealInfoPipeline(BasePipeline):

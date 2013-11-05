@@ -243,3 +243,47 @@ def walk_settings(path='settings.registersettings'):
 
 # lambda
 flist = lambda elems, default="": default if len(elems) <= 0 else elems[0]
+
+def gcd(*args):
+    """gcd algorith
+
+        Args:
+            args: list, int
+        Returns:
+            gcd: int, gcd of list
+    """
+    if len(args) >= 3:
+        return gcd(args[0], gcd(*args[1:]))
+    elif len(args) == 2:
+        if args[1] == 0:
+            return args[0]
+        else:
+            if args[1] >= args[0]:
+                copy_args = args[::-1]
+                return gcd(copy_args[1], copy_args[0] % copy_args[1])
+            else:
+                return gcd(args[1], args[0])
+    else:
+        return args[0]
+
+def lcm(*args):
+    """least common multiply
+
+        Args:
+            args: list, init list
+        Returns:
+            lcm: int, lcm
+    """
+    if len(args) == 1:
+        return args[0]
+
+    t = 1
+    gcd_count = gcd(*args)
+
+    for arg in args:
+        t *= arg
+
+    for x in xrange(len(args)):
+        t /= gcd_count
+
+    return t
