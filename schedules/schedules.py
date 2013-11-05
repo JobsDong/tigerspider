@@ -29,7 +29,6 @@ class RedisSchedule(BaseSchedule):
             Raises:
                 ScheduleError: 当发生错误的时候
         """
-        BaseSchedule.__init__(self, interval, max_number)
         self._is_stopped = False
         try:
             if isinstance(interval, str):
@@ -39,7 +38,7 @@ class RedisSchedule(BaseSchedule):
         except ValueError, e:
             self.logger.error("init redis schedule failed :%s" % e)
             raise ScheduleError("params error:%s" % e)
-
+        BaseSchedule.__init__(self, interval, max_number)
         self._namespace = str(uuid.uuid4()) if not namespace else namespace
         try:
             self._prepare_to_process_queue = RedisQueue("%s:%s" % (self._namespace, "prepare",),
@@ -57,6 +56,8 @@ class RedisSchedule(BaseSchedule):
         self._kwargs = {'namespace': self._namespace, "host": host,
                         "port": port, "db": db, "interval":interval,
                         "max_number": max_number,}
+
+
 
     @property
     def schedule_kwargs(self):

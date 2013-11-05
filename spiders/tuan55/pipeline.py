@@ -19,7 +19,7 @@ from core.spider.pipeline import BasePipeline
 from core.redistools import RedisDict, RedisError
 from core.db import DB, DBError
 
-from spiders.tuan55.items import  DealItem, WebItem, PictureItem
+from spiders.tuan55.items import DealItem, WebItem, PictureItem, AddressItem
 from spiders.tuan55.util import item2dict
 
 class DealItemPipeline(BasePipeline):
@@ -65,22 +65,19 @@ class WebItemPipeline(BasePipeline):
         try:
             temp_namespace = "%s:%s" % (namespace, "temp")
             self.temp_item_dict = RedisDict(temp_namespace, host=temp_host, port=temp_port, db=temp_db)
-            self.item_db = DB(host=db_host, port=db_port,user=db_user,
-                              password=db_password, database=db_base)
-        except DBError, e:
-            self.logger.error("db error %s" % e)
         except RedisError, e:
             self.logger.error("redis error %s" % e)
 
     def process_item(self, item, kwargs):
-        """处理WebItem
+        """use web item content complete deal item
+
             Args:
-                item:WebItem，解析后的结果
-                kwargs:dict, 参数字典
+                item: WebItem, item
+                kwargs: dict, param dict
         """
         if isinstance(item, WebItem):
             if not kwargs.has_key('url'):
-                self.logger.error("web item 'kwargs' lack of url")
+                self.logger.error("web item kwargs lack of url")
             else:
                 deal_item = self.temp_item_dict.get(kwargs['url'])
                 if deal_item is not None:
@@ -95,9 +92,49 @@ class WebItemPipeline(BasePipeline):
                     deal_item.save = item.save
                     deal_item.place = item.place
                     deal_item.discount_type = item.discount_type
-                    # if len(item.deadline) > 0:
-                    #     deal_item.deadline = item.deadline
                     if deal_item.discount_type is not None and deal_item.city_code is not None:
+                        self.temp_item_dict.set(kwargs['url'], deal_item)
+
+
+class AddressItemPipeline(BasePipeline):
+    """对应于AddressItem的处理累
+
+    """
+    def __init__(self, namespace, temp_host="localhost", temp_port=6379, temp_db=0,
+                 db_host="192.168.11.195", db_port=5432, db_user="postgres",
+                 db_password="titps4gg", db_base="test"):
+        """init method
+        """
+        BasePipeline.__init__(self, namespace)
+        temp_namespace = "%s:%s" % (namespace, "temp")
+        try:
+            self.temp_item_dict = RedisDict(temp_namespace, host=temp_host, port=temp_port,
+                                            db=temp_db)
+            self.item_db = DB(host=db_host, port=db_port,user=db_user,
+                              password=db_password, database=db_base)
+        except DBError, e:
+            self.logger.error("db error %s" % e)
+        except RedisError, e:
+            self.logger.error("redis error %s" % e)
+
+        self.logger.debug("init 55tuan AddressItemPipeline")
+
+    def process_item(self, item, kwargs):
+        """处理WebItem
+            Args:
+                item:AddressItem，解析后的结果
+                kwargs:dict, 参数字典
+        """
+        if isinstance(item, AddressItem):
+            if not kwargs.has_key('url'):
+                self.logger.error("address item 'kwargs' lack of url")
+            else:
+                deal_item = self.temp_item_dict.get(kwargs['url'])
+                if deal_item is not None:
+                    self.temp_item_dict.delete(kwargs['url'])
+                    deal_item.place = item.address_list
+                    if deal_item.discount_type is not None and deal_item.city_code is not None \
+                        and len(deal_item.place) > 0:
                         self._store_item(deal_item)
 
     def _store_item(self, item):

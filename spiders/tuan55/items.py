@@ -27,6 +27,18 @@ class CityItem(Item):
         self.chinese_name = chinese_name
         self.english_name = english_name
 
+class AddressItem(Item):
+    """地址信息
+    """
+
+    def __init__(self, url, address_list):
+        """初始化函数
+            Args:
+                略
+        """
+        self.url = url
+        self.address_list = address_list
+
 class DealItem(Item):
     """团购信息类
     """
@@ -34,13 +46,14 @@ class DealItem(Item):
     def __init__(self, price, city_code, dealid, url, name, discount_type, start_time,
                  end_time, discount, original_price, noticed, pictures, description,
                  deadline, short_desc, content_text, content_pic, purchased_number,
-                 m_url, appointment, place, save, remaining, limit, refund, contact):
+                 m_url, appointment, place, save, remaining, limit, refund, contact, tiny):
         """初始化函数
             Args:
                 略
         """
         self.save = save
         self.remaining = remaining
+        self.tiny = tiny
         self.limit = limit
         self.refund = refund
         self.price = price

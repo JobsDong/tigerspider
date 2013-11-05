@@ -37,7 +37,7 @@ class MtimeSchedule(BaseSchedule):
         except ValueError, e:
             self.logger.error("init Mtime schedule failed :%s" % e)
             raise ScheduleError("params error:%s" % e)
-
+        BaseSchedule.__init__(self, interval, max_number)
         self._namespace = str(uuid.uuid4()) if not namespace else namespace
         try:
             self._prepare_to_process_queue_js = RedisQueue("%s:%s" % (self._namespace, "prepare-js",),
@@ -57,7 +57,7 @@ class MtimeSchedule(BaseSchedule):
         self._kwargs = {'namespace': self._namespace, "host": host,
                         "port": port, "db": db, "interval":interval,
                         "max_number": max_number,}
-        BaseSchedule.__init__(self, interval, max_number)
+
 
     @property
     def schedule_kwargs(self):

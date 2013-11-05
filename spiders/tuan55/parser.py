@@ -14,13 +14,14 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 
 import os
+import json
 from lxml import etree, html
 from tornado.httpclient import HTTPRequest
 
 from core.spider.parser import BaseParser
 from core.datastruct import HttpTask
 from core.util import remove_white, flist
-from spiders.tuan55.items import DealItem, WebItem, PictureItem
+from spiders.tuan55.items import DealItem, WebItem, PictureItem, AddressItem
 from spiders.tuan55.util import (get_city_code_from_chinese,
                                  get_subcate_by_category,
                                   extract_dl, extract_table)
@@ -219,6 +220,7 @@ class DealParser(BaseParser):
             item_limit = u""
             item_noticed = u""
             item_contact = u""
+            item_tiny = u""
             item_pictures, picture_task = self._check_and_execute_picture(picture_url)
 
             deal_item = DealItem(item_price, item_city_code, item_dealid,
@@ -230,18 +232,18 @@ class DealParser(BaseParser):
                                 item_content_pic, item_purchased_number, item_m_url,
                                 item_appointment, item_place,
                                 item_save, item_remaining, item_limit, item_refund,
-                                item_contact)
+                                item_contact, item_tiny)
             yield deal_item
+
             http_request = HTTPRequest(url=deal_item.url, connect_timeout=5,
                                            request_timeout=10)
             new_task = HttpTask(http_request, callback='WebParser',
                                 cookie_host='http://www.55tuan.com', cookie_count=10,
                                 kwargs={'url': deal_item.url})
             yield new_task
+
             if picture_task:
                 yield picture_task
-
-            data_elem.clear()
 
 
     def _check_and_execute_picture(self, picture_url):
@@ -268,7 +270,43 @@ class DealParser(BaseParser):
         else:
             return (pictures, None)
 
+class AddressParser(BaseParser):
+    """用于解析地址信息的parser
+    """
 
+    def __init__(self, namespace):
+        """初始化
+            Args:
+                namespace: str, 来自spider的名字空间
+        """
+        BaseParser.__init__(self, namespace)
+        self.logger.debug("init tuan55 AddressParser")
+
+    def parse(self, task, input_file):
+        """解析address函数
+            Args:
+                http://shop.55tuan.com/s/getShopsByGoodsId.do?cityI
+                d=11&goodsId=6995a21ca7edc75e&type=shoplist
+                task:Task, 任务描述
+                input_file: File, 文件对象
+            Yields:
+                item: Item, 解析结果
+        """
+        self.logger.debug("address parse start to parse")
+        address_list = json.loads(input_file.read())
+        addresses = []
+        for address in address_list:
+            address_dict = {
+                "place_name": address.get("shopName", ""),
+                "address": address.get("addr", ""),
+                "place_phone": address.get("telMsg", ""),
+                "longitude": address.get("lon", ""),
+                "latitude": address.get("lat", ""),
+                "open_time": address.get("businessHours", ""),
+            }
+            addresses.append(address_dict)
+
+        yield AddressItem(task.kwargs.get("url", ""), addresses)
 
 class WebParser(BaseParser):
     """用于解析网页的parser
@@ -298,7 +336,8 @@ class WebParser(BaseParser):
         item_save = remove_white(saves[0].replace(u"¥", "")) if saves else ""
         item_description = self._extract_description(tree)
         item_short_desc = item_description
-        item_place = self._extract_place(tree)
+        item_place = []
+        address_url = str(flist(tree.xpath("//input[@id='bigMapDataUrl']/@value")))
         item_refund = self._extract_refund(tree)
         item_noticed = self._extract_noticed(tree)
         item_content_pic = u""
@@ -310,6 +349,10 @@ class WebParser(BaseParser):
                                item_content_text, item_content_pic, item_refund, item_save,
                                item_place, item_deadline, item_discount_type)
         yield web_item
+
+        if len(address_url) > 0:
+            yield HttpTask(HTTPRequest(address_url, connect_timeout=10, request_timeout=30),
+                callback="AddressParser", max_fail_count=3, kwargs={"url": task.kwargs.get('url', "")})
 
     def _extract_deadline(self, tree, notice):
         """解析出deadline信息
@@ -384,29 +427,29 @@ class WebParser(BaseParser):
             content = u"不支持退款"
         return content
 
-    def _extract_place(self, tree):
-        """解析出地址
-            Args:
-                tree:Etree, 节点
-            Returns:
-                places:list, 地址列表
-        """
-        elem = tree.xpath('//div[@id="sp_list"]//li')
-        places = []
-        for li_elem in elem:
-            a_place = {}
-            a_place['place_name'] = remove_white(flist(
-                li_elem.xpath("h2/span/text()")))
-            a_place['address'] = remove_white(flist(
-                li_elem.xpath("div/div[@class='mes']/span[@name='address']/text()")))
-            a_place['place_phone'] = remove_white(flist(
-                li_elem.xpath("div/div[@class='mes']/span[@name='phone']/text()")))
-            a_place['longitude'] = u""
-            a_place['latitude'] = u""
-            a_place['open_time'] = remove_white(flist(
-                li_elem.xpath("div/div[@class='mes sj']/span[@name='businessHours']/text()")))
-            places.append(a_place)
-        return places
+    #def _extract_place(self, tree):
+    #    """解析出地址
+    #        Args:
+    #            tree:Etree, 节点
+    #        Returns:
+    #            places:list, 地址列表
+    #    """
+    #    elem = tree.xpath('//div[@id="sp_list"]//li')
+    #    places = []
+    #    for li_elem in elem:
+    #        a_place = {}
+    #        a_place['place_name'] = remove_white(flist(
+    #            li_elem.xpath("h2/span/text()")))
+    #        a_place['address'] = remove_white(flist(
+    #            li_elem.xpath("div/div[@class='mes']/span[@name='address']/text()")))
+    #        a_place['place_phone'] = remove_white(flist(
+    #            li_elem.xpath("div/div[@class='mes']/span[@name='phone']/text()")))
+    #        a_place['longitude'] = u""
+    #        a_place['latitude'] = u""
+    #        a_place['open_time'] = remove_white(flist(
+    #            li_elem.xpath("div/div[@class='mes sj']/span[@name='businessHours']/text()")))
+    #        places.append(a_place)
+    #    return places
 
     def _extract_noticed(self, tree):
         """从网页中解析出notice
