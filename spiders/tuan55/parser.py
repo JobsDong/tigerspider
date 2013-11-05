@@ -290,6 +290,7 @@ class WebParser(BaseParser):
             Yields:
                 item: Item, 解析结果
         """
+        print 'wori'
         self.logger.debug("web parse start to parse")
         tree = html.parse(input_file)
         names = tree.xpath("//*[@id='content']/div[4]/div[@class='con_left clearfix']/p/text()[last()]")

@@ -9,8 +9,9 @@
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
+from tornado.httpclient import HTTPRequest
 
-from core.datastruct import FileTask
+from core.datastruct import FileTask, HttpTask
 from core.spider.spider import BaseSpider
 
 from spiders.tuan55.parser import WebParser, DealParser, PictureParser
@@ -35,10 +36,10 @@ class Tuan55Spider(BaseSpider):
          # Task(HTTPRequest(url='http://www.55tuan.com/city.xml',
          #                  connect_timeout=10, request_timeout=20),
          #      dns_need=False, max_fail_count=8,callback='CityParser', kwargs={}),
-         # Task(HTTPRequest(url='http://www.55tuan.com/openAPI.do?city=shanghai',
+         #HttpTask(HTTPRequest(url='http://www.55tuan.com/openAPI.do?city=shanghai',
          #                 connect_timeout=1, request_timeout=1), callback='DealParser',
          #      max_fail_count=5, kwargs={'citycode':360100})
-         # HttpTask(HTTPRequest(url='http://dalian.55tuan.com/goods-92d9c592242770cf.html'),
-         #     callback='WebParser')
+         #HttpTask(HTTPRequest(url='http://dalian.55tuan.com/goods-92d9c592242770cf.html'),
+         #     callback='WebParser', kwargs={'url': http://dalian.55tuan.com/goods-92d9c592242770cf.html})
         FileTask("/home/wuyadong/Downloads/55tuan_mobile.xml", callback='DealParser')
     ]
