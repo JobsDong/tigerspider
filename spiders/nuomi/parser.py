@@ -173,8 +173,8 @@ class DealParser(BaseParser):
         """
         content_text = data_element.findtext("content_text")
         content_text = content_text.replace("-", "")\
-            .replace("<br />", "N_Line-")\
-            .replace("<br/>", "N_Line-")
+            .replace("<br />", "N_line")\
+            .replace("<br/>", "N_line")
 
         tree = etree.HTML(content_text)
         temp_texts = []
@@ -185,17 +185,21 @@ class DealParser(BaseParser):
 
         if len(temp_texts) > 0:
             last_text = temp_texts.pop()
-            if last_text.endswith("N_Line-") and len(last_text) > 7:
-                temp_texts.append(last_text[:-7])
+            if last_text.endswith("N_line") and len(last_text) > 6:
+                temp_texts.append(last_text[:-6])
             else:
                 temp_texts.append(last_text)
 
         if len(temp_texts) > 0:
             texts = [u"-"]
             texts.extend(temp_texts)
-            return "".join(texts)
+            complete_texts = "".join(texts)
         else:
-            return ""
+            complete_texts = ""
+
+        new_text = complete_texts.replace("N_line", "N_line-")
+        print new_text
+        return new_text
 
     def _extract_place(self, data_element):
         """从api中解析出地址信息列表
