@@ -23,7 +23,7 @@ from spiders.nuomi.items import CityItem, DealItem, PictureItem
 from spiders.nuomi.util import (get_city_code, build_url_by_city_name,
                                 get_subcate_by_category)
 
-DEFAULT_PICTURE_DIR = u"/home/wuyadong/swift_crawler"
+DEFAULT_PICTURE_DIR = u"/home/wuyadong/swift_crawler/"
 DEFAULT_PICTURE_HOST = u"fruit-pictures/"
 
 class CityParser(BaseParser):
