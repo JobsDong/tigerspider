@@ -40,10 +40,26 @@ class DealItem(Item):
         self.refund = refund
         self.contact = contact
 
+    def __repr__(self):
+        return """{'price':%s, 'city_code':%s, 'dealid':%s, 'url':%s, 'name':%s,
+                'discount_type':%s, 'start_time':%s,
+                 'end_time':%s, 'discount':%s, 'original_price':%s, 'noticed':%s,
+                 'pictures':%s, 'description':%s,
+                 'deadline':%s, 'short_desc':%s, 'content_pic':%s, 'purchased_number':%s,
+                 'm_url':%s, 'appointment':%s, 'place':%s, 'save':%s, 'remaining':%s,
+                 'limit':%s, 'refund':%s, 'contact':%s}""" % (self.price, self.city_code, self.dealid,
+                self.url, self.name, self.discount_type, self.start_time, self.end_time, self.discount,
+                self.original_price, self.noticed, self.pictures, self.description, self.deadline, self.short_desc,
+                self.content_pic, self.purchased_number, self.m_url, self.appointment, self.place, self.save,
+                self.remaining, self.limit, self.refund, self.contact)
+
 class WebItem(Item):
     def __init__(self, refund, content_text):
         self.refund = refund
         self.content_text = content_text
+
+    def __repr__(self):
+        return "{'refund':%s,'content_text':%s}" % (self.refund, self.content_text)
 
 class PictureItem(Item):
     def __init__(self, picture, path):

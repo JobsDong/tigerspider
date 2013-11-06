@@ -293,10 +293,8 @@ class AddressParser(BaseParser):
                 item: Item, 解析结果
         """
         self.logger.debug("address parse start to parse")
-        content = ""
         try:
-            content = input_file.read()
-            address_list = json.loads(content)
+            address_list = json.loads(input_file.read())
             addresses = []
             for address in address_list:
                 address_dict = {
@@ -309,9 +307,7 @@ class AddressParser(BaseParser):
                 }
                 addresses.append(address_dict)
         except Exception, e:
-            self.logger.error("address parser error:%s,url:%s, content:%s"
-                              % (e, task.kwargs.get('url', ''), content))
-            raise ParserError("address error")
+            self.logger.error("address error:%s for %s" % (e, task.kwargs.get('url')))
         else:
             yield AddressItem(task.kwargs.get("url", ""), addresses)
 
@@ -324,6 +320,7 @@ class WebParser(BaseParser):
                 namespace: str, 来自spider的名字空间
         """
         BaseParser.__init__(self, namespace)
+        self._category_set = set()
         self.logger.debug("init tuan55 WebParser")
 
     def parse(self, task, input_file):
@@ -351,6 +348,11 @@ class WebParser(BaseParser):
         item_deadline = self._extract_deadline(tree, item_noticed)
         item_content_text = self._extract_content_text(tree)
         category_texts = tree.xpath("//p[@class='Crumbs']/a/text()")
+        category = "".join(category_texts)
+
+        if category in self._category_set:
+            self._category_set.add(category)
+
         item_discount_type = get_subcate_by_category(category_texts)
         web_item = WebItem(item_name, item_noticed, item_description, item_short_desc,
                                item_content_text, item_content_pic, item_refund, item_save,
@@ -485,6 +487,11 @@ class WebParser(BaseParser):
             text_splits.pop()
         notice_content = u"".join(text_splits)
         return notice_content
+
+    def clear_all(self):
+        with open("/home/wuyadong/Documents/tuan55/category.dat", "wb") as out_file:
+            for item in self._category_set:
+                out_file.write(item + "\n")
 
 def extract_help(elem, text_splits):
     """解析notice文档

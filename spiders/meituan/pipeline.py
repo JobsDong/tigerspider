@@ -163,7 +163,7 @@ class WebItemPipeline(BasePipeline):
                     'add_time': datetime.datetime.now()})
 
         except Exception, e:
-            self.logger.warn("sql error:%s" % e)
+            self.logger.warn("sql error:%s, item:%s" % (e, item))
             raise e
 
     def clear_all(self):

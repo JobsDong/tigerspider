@@ -84,7 +84,7 @@ def add_cookie_for_request(http_request, cookie_host, cookie_count):
     cookie = get_cookie_sy(cookie_host, cookie_count)
     if cookie:
         http_request.headers = {"Cookie": cookie} if not http_request.headers \
-                else http_request.update({"Cookie": cookie})
+                else http_request.headers.update({"Cookie": cookie})
 
 def add_universal_headers_for_request(http_request):
     """add universal headers for request

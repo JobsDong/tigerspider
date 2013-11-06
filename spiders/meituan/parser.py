@@ -81,6 +81,7 @@ class DealParser(BaseParser):
                  picture_host=DEFAULT_PICTURE_HOST):
         self._picture_dir = picture_dir
         self._picture_host = picture_host
+        self._category_set = set()
         BaseParser.__init__(self, namespace)
         self.logger.debug("init meituan.DealParser")
 
@@ -99,8 +100,10 @@ class DealParser(BaseParser):
                 item_dealid = date_element.findtext("deal/deal_id").strip()
                 item_url = date_element.findtext("deal/deal_url").strip()
                 item_name = remove_white(date_element.findtext("deal/deal_seller"))
-                item_discount_type = get_subcate_by_category(
-                    date_element.findtext("deal/deal_subcate").strip())
+                deal_category = date_element.findtext("deal/deal_subcate").strip()
+                item_discount_type = get_subcate_by_category(deal_category)
+                if deal_category not in self._category_set:
+                    self._category_set.add(deal_category)
 
                 if not item_discount_type:
                     continue
@@ -180,6 +183,11 @@ class DealParser(BaseParser):
             return (pictures, picture_task)
         else:
             return (pictures, None)
+
+    def clear_all(self):
+        with open("/home/wuyadong/Documents/meituan/all_category.dat", "wb") as out_file:
+            for category in self._category_set:
+                out_file.write(category + "\n")
 
 
 class WebParser(BaseParser):
