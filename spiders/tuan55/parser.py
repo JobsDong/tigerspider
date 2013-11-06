@@ -293,8 +293,10 @@ class AddressParser(BaseParser):
                 item: Item, 解析结果
         """
         self.logger.debug("address parse start to parse")
+        content = ""
         try:
-            address_list = json.loads(input_file.read())
+            content = input_file.read()
+            address_list = json.loads(content)
             addresses = []
             for address in address_list:
                 address_dict = {
@@ -307,7 +309,8 @@ class AddressParser(BaseParser):
                 }
                 addresses.append(address_dict)
         except Exception, e:
-            self.logger.error("address parser error:%s" % e)
+            self.logger.error("address parser error:%s,url:%s, content:%s"
+                              % (e, task.kwargs.get('url', ''), content))
             raise ParserError("address error")
         else:
             yield AddressItem(task.kwargs.get("url", ""), addresses)

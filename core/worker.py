@@ -228,17 +228,19 @@ class Worker(object):
             fetch_time = datetime.datetime.now() - fetch_start_time
             self.worker_statistic.count_average_fetch_time(
                 task.callback, fetch_start_time,fetch_time)
-
-            if resp.code == 200 and resp.error is None:
-                self.logger.debug("fetch success")
-                self.worker_statistic.add_spider_success(task.callback + "-fetch")
-                self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
-                self.extract(task, StringIO.StringIO(resp.body))
+            if isinstance(resp, Exception):
+                self.logger.error("down loader error:%s, url:%s" % (resp, task.request.url))
             else:
-                self.logger.error("fetch request failed, code:%s error:%s url:%s" %
-                                (resp.code, resp.error, task.request.url))
-                task.reason = "fetch error, code:%s " % (resp.code, )
-                self.handle_fail_task(task, "fetch-" + task.callback)
+                if resp.code == 200 and resp.error is None:
+                    self.logger.debug("fetch success")
+                    self.worker_statistic.add_spider_success(task.callback + "-fetch")
+                    self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
+                    self.extract(task, StringIO.StringIO(resp.body))
+                else:
+                    self.logger.error("fetch request failed, code:%s error:%s url:%s" %
+                                    (resp.code, resp.error, task.request.url))
+                    task.reason = "fetch error, code:%s " % (resp.code, )
+                    self.handle_fail_task(task, "fetch-" + task.callback)
         except Exception, e:
             self.logger.error("fetch and extract error:%s" % e)
             raise e
