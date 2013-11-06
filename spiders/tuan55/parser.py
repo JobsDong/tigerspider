@@ -18,7 +18,7 @@ import json
 from lxml import etree, html
 from tornado.httpclient import HTTPRequest
 
-from core.spider.parser import BaseParser
+from core.spider.parser import BaseParser, ParserError
 from core.datastruct import HttpTask
 from core.util import remove_white, flist
 from spiders.tuan55.items import DealItem, WebItem, PictureItem, AddressItem
@@ -293,20 +293,24 @@ class AddressParser(BaseParser):
                 item: Item, 解析结果
         """
         self.logger.debug("address parse start to parse")
-        address_list = json.loads(input_file.read())
-        addresses = []
-        for address in address_list:
-            address_dict = {
-                "place_name": address.get("shopName", ""),
-                "address": address.get("addr", ""),
-                "place_phone": address.get("telMsg", ""),
-                "longitude": address.get("lon", ""),
-                "latitude": address.get("lat", ""),
-                "open_time": address.get("businessHours", ""),
-            }
-            addresses.append(address_dict)
-
-        yield AddressItem(task.kwargs.get("url", ""), addresses)
+        try:
+            address_list = json.loads(input_file.read())
+            addresses = []
+            for address in address_list:
+                address_dict = {
+                    "place_name": address.get("shopName", ""),
+                    "address": address.get("addr", ""),
+                    "place_phone": address.get("telMsg", ""),
+                    "longitude": address.get("lon", ""),
+                    "latitude": address.get("lat", ""),
+                    "open_time": address.get("businessHours", ""),
+                }
+                addresses.append(address_dict)
+        except Exception, e:
+            self.logger.error("address parser error:%s" % e)
+            raise ParserError("address error")
+        else:
+            yield AddressItem(task.kwargs.get("url", ""), addresses)
 
 class WebParser(BaseParser):
     """用于解析网页的parser

@@ -68,6 +68,7 @@ def fetch(http_task):
 
     except Exception, e:
         resp = e
+        logger.error("fetch method error:%s" % e)
     else:
         client = httpclient.AsyncHTTPClient()
         resp = yield gen.Task(client.fetch, http_request)
