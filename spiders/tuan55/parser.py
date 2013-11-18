@@ -212,7 +212,7 @@ class DealParser(BaseParser):
             item_content_text = u""
             item_purchased_number = data_elem.findtext("quantity_sold").strip()
             item_m_url = data_elem.findtext("deal_url").strip()
-            item_appointment = u""
+            item_appointment = u"0"
             item_place = u""
             item_refund = u""
             item_save = u""
@@ -224,19 +224,19 @@ class DealParser(BaseParser):
             item_pictures, picture_task = self._check_and_execute_picture(picture_url)
 
             deal_item = DealItem(item_price, item_city_code, item_dealid,
-                                item_url, item_name, item_discount_type,
-                                item_start_time, item_end_time, item_discount,
-                                item_original_price, item_noticed,
-                                item_pictures, item_description, item_deadline,
-                                item_short_desc, item_content_text,
-                                item_content_pic, item_purchased_number, item_m_url,
-                                item_appointment, item_place,
-                                item_save, item_remaining, item_limit, item_refund,
-                                item_contact, item_tiny)
+                                 item_url, item_name, item_discount_type,
+                                 item_start_time, item_end_time, item_discount,
+                                 item_original_price, item_noticed,
+                                 item_pictures, item_description, item_deadline,
+                                 item_short_desc, item_content_text,
+                                 item_content_pic, item_purchased_number, item_m_url,
+                                 item_appointment, item_place,
+                                 item_save, item_remaining, item_limit, item_refund,
+                                 item_contact, item_tiny)
             yield deal_item
 
             http_request = HTTPRequest(url=deal_item.url, connect_timeout=5,
-                                           request_timeout=10)
+                                       request_timeout=10)
             new_task = HttpTask(http_request, callback='WebParser',
                                 cookie_host='http://www.55tuan.com', cookie_count=10,
                                 kwargs={'url': deal_item.url})
@@ -244,7 +244,6 @@ class DealParser(BaseParser):
 
             if picture_task:
                 yield picture_task
-
 
     def _check_and_execute_picture(self, picture_url):
         """檢查圖片是否存在，並且生成task和改造path
@@ -256,7 +255,7 @@ class DealParser(BaseParser):
         if picture_url:
             picture_path = picture_url.replace(u"http://", self._picture_host)\
                 .replace(u"\\s+|", "")\
-                .replace(u"\\.jpg\\\\.*$",u".jpg")\
+                .replace(u"\\.jpg\\\\.*$", u".jpg")\
                 .lower()
             pictures.append(picture_path)
 
@@ -264,11 +263,12 @@ class DealParser(BaseParser):
             picture_request = HTTPRequest(url=str(picture_url), connect_timeout=10,
                                           request_timeout=60)
             picture_task = HttpTask(picture_request, callback='PictureParser',
-                                cookie_host='http://www.55tuan.com', cookie_count=20,
-                                kwargs={'picturepath':self._picture_dir + pictures[0]})
-            return (pictures, picture_task)
+                                    cookie_host='http://www.55tuan.com', cookie_count=20,
+                                    kwargs={'picturepath': self._picture_dir + pictures[0]})
+            return pictures, picture_task
         else:
-            return (pictures, None)
+            return pictures, None
+
 
 class AddressParser(BaseParser):
     """用于解析地址信息的parser
@@ -312,6 +312,7 @@ class AddressParser(BaseParser):
         else:
             yield AddressItem(task.kwargs.get("url", ""), addresses)
 
+
 class WebParser(BaseParser):
     """用于解析网页的parser
     """
@@ -338,99 +339,103 @@ class WebParser(BaseParser):
         item_name = remove_white(names[0].replace(">", "")) if names else ""
         saves = tree.xpath("//li[@class='shopprice']/span[6]/text()")
         item_save = remove_white(saves[0].replace(u"¥", "")) if saves else ""
-        item_description = self._extract_description(tree)
+        item_description = _extract_description(tree)
         item_short_desc = item_description
         item_place = []
         address_url = str(flist(tree.xpath("//input[@id='bigMapDataUrl']/@value")))
-        item_refund = self._extract_refund(tree)
-        item_noticed = self._extract_noticed(tree)
+        item_refund = _extract_refund(tree)
+        item_noticed = _extract_noticed(tree)
         item_content_pic = u""
-        item_deadline = self._extract_deadline(tree, item_noticed)
-        item_content_text = self._extract_content_text(tree)
+        item_deadline = _extract_deadline(tree, item_noticed)
+        item_content_text = _extract_content_text(tree)
         category_texts = tree.xpath("//p[@class='Crumbs']/a/text()")
 
         item_discount_type = get_subcate_by_category(category_texts)
         web_item = WebItem(item_name, item_noticed, item_description, item_short_desc,
-                               item_content_text, item_content_pic, item_refund, item_save,
-                               item_place, item_deadline, item_discount_type)
+                           item_content_text, item_content_pic, item_refund, item_save,
+                           item_place, item_deadline, item_discount_type)
         yield web_item
 
         if len(address_url) > 0:
             yield HttpTask(HTTPRequest(address_url, connect_timeout=10, request_timeout=30),
-                callback="AddressParser", max_fail_count=3, kwargs={"url": task.kwargs.get('url', "")})
+                           callback="AddressParser", max_fail_count=3, kwargs={"url": task.kwargs.get('url', "")})
 
-    def _extract_deadline(self, tree, notice):
-        """解析出deadline信息
-            Args:
-                tree, Etree, 树节点
-            Returns:
-                deadline：str, 截止信息
-        """
-        if notice.rfind(u"有效期：") != -1 or notice.rfind(u"有效日期") != -1:
-            return ""
-        else:
-            deadlines = tree.xpath(u"//*/text()[contains(., '窝窝券有效期')]")
-            deadline = remove_white(deadlines[0]).replace(u"窝窝券有效期：", "")\
-                if len(deadlines) > 0 else ""
-            return deadline
 
-    def _extract_description(self, tree):
-        """解析description值
-            Args:
-                tree:Etree, 树节点
-            Returns:
-                description: str, 提取的内容
+def _extract_deadline(tree, notice):
+    """解析出deadline信息
+        Args:
+            tree, Etree, 树节点
+        Returns:
+            deadline：str, 截止信息
+    """
+    if notice.rfind(u"有效期：") != -1 or notice.rfind(u"有效日期") != -1:
+        return ""
+    else:
+        deadlines = tree.xpath(u"//*/text()[contains(., '窝窝券有效期')]")
+        deadline = remove_white(deadlines[0]).replace(u"窝窝券有效期：", "")\
+            if len(deadlines) > 0 else ""
+        return deadline
 
-        """
-        # type one web page
-        descriptions = tree.xpath("//p[@class='details-p']/text()")
+
+def _extract_description(tree):
+    """解析description值
+        Args:
+            tree:Etree, 树节点
+        Returns:
+            description: str, 提取的内容
+
+    """
+    # type one web page
+    descriptions = tree.xpath("//p[@class='details-p']/text()")
+    description = remove_white(descriptions[0]) if len(descriptions) > 0 else ""
+    # type two web page
+    if len(description) <= 0:
+        descriptions = tree.xpath("//div[@class='details-ui clearfix']"
+                                  "/h2[@class='details-h2old']/text()")
         description = remove_white(descriptions[0]) if len(descriptions) > 0 else ""
-        # type two web page
-        if len(description) <= 0:
-            descriptions = tree.xpath("//div[@class='details-ui clearfix']"
-                                      "/h2[@class='details-h2old']/text()")
-            description = remove_white(descriptions[0]) if len(descriptions) > 0 else ""
-        return description
+    return description
 
-    def _extract_content_text(self, tree):
-        """解析出content_text值
-            Args:
-                tree:Etree, 树节点
-            Returns:
-                content_text, str, 提取出来的内容
-        """
-        goods_elems = tree.xpath("//div[@id='goodsAll_info_div']//div[@class='xqtext-table']")
-        temp_texts = []
-        if goods_elems is not None and len(goods_elems) > 0:
-            for good_elem in goods_elems:
-                for child_elem in good_elem:
-                    if child_elem.tag == "table":
-                        extract_table(child_elem, temp_texts)
-                    else:
-                        for text in child_elem.itertext():
-                            stripped_text = remove_white(text)
-                            if len(stripped_text) > 0:
-                                temp_texts.append("-")
-                                temp_texts.append(" " + stripped_text)
-                                temp_texts.append("N_line")
 
-        if len(temp_texts) > 1:
-            temp_texts.pop()
-        content_text = u"".join(temp_texts)
-        return content_text
+def _extract_content_text(tree):
+    """解析出content_text值
+        Args:
+            tree:Etree, 树节点
+        Returns:
+            content_text, str, 提取出来的内容
+    """
+    goods_elems = tree.xpath("//div[@id='goodsAll_info_div']//div[@class='xqtext-table']")
+    temp_texts = []
+    if goods_elems is not None and len(goods_elems) > 0:
+        for good_elem in goods_elems:
+            for child_elem in good_elem:
+                if child_elem.tag == "table":
+                    extract_table(child_elem, temp_texts)
+                else:
+                    for text in child_elem.itertext():
+                        stripped_text = remove_white(text)
+                        if len(stripped_text) > 0:
+                            temp_texts.append("-")
+                            temp_texts.append(" " + stripped_text)
+                            temp_texts.append("N_line")
 
-    def _extract_refund(self, tree):
-        """解析出refund
-            Args:
-                tree:Etree, 树节点
-            Returns:
-                content:str, refund值
-        """
-        contents = tree.xpath(u"//a[@title='支持未消费退款' or @title='不支持未消费退款']/@title")
-        content = remove_white(contents[0]) if contents else ""
-        if content == u"不支持未消费退款":
-            content = u"不支持退款"
-        return content
+    if len(temp_texts) > 1:
+        temp_texts.pop()
+    content_text = u"".join(temp_texts)
+    return content_text
+
+
+def _extract_refund(tree):
+    """解析出refund
+        Args:
+            tree:Etree, 树节点
+        Returns:
+            content:str, refund值
+    """
+    contents = tree.xpath(u"//a[@title='支持未消费退款' or @title='不支持未消费退款']/@title")
+    content = remove_white(contents[0]) if contents else ""
+    if content == u"不支持未消费退款":
+        content = u"不支持退款"
+    return content
 
     #def _extract_place(self, tree):
     #    """解析出地址
@@ -456,33 +461,34 @@ class WebParser(BaseParser):
     #        places.append(a_place)
     #    return places
 
-    def _extract_noticed(self, tree):
-        """从网页中解析出notice
-            特殊情况没有处理55tuan.com/goods-ca3c096c967ddc87.html
-            http://changsha.55tuan.com/goods-21150d55e8496018.html
-            http://www.55tuan.com/goods-ada26875586dae46.html
-            Args:
-                tree: Etree
-            Returns:
-                text: str,
-        """
-        text_splits = []
-        noticed_elem = tree.xpath("//div[@class='xqtext_clue']")
-        extract_dl(noticed_elem, text_splits)
 
-        if len(text_splits) < 1:
-            elems = tree.xpath("//div[@id='goodsAll_info_div']/p|div")
-            for elem in elems:
-                extract_help(elem, text_splits)
+def _extract_noticed(tree):
+    """从网页中解析出notice
+        特殊情况没有处理55tuan.com/goods-ca3c096c967ddc87.html
+        http://changsha.55tuan.com/goods-21150d55e8496018.html
+        http://www.55tuan.com/goods-ada26875586dae46.html
+        Args:
+            tree: Etree
+        Returns:
+            text: str,
+    """
+    text_splits = []
+    noticed_elem = tree.xpath("//div[@class='xqtext_clue']")
+    extract_dl(noticed_elem, text_splits)
 
-            elems_more = tree.xpath("//div[@id='goodsAll_info_div']/div//div")
-            for elem in elems_more:
-                extract_help(elem, text_splits)
+    if len(text_splits) < 1:
+        elems = tree.xpath("//div[@id='goodsAll_info_div']/p|div")
+        for elem in elems:
+            extract_help(elem, text_splits)
 
-        if len(text_splits) > 1:
-            text_splits.pop()
-        notice_content = u"".join(text_splits)
-        return notice_content
+        elems_more = tree.xpath("//div[@id='goodsAll_info_div']/div//div")
+        for elem in elems_more:
+            extract_help(elem, text_splits)
+
+    if len(text_splits) > 1:
+        text_splits.pop()
+    notice_content = u"".join(text_splits)
+    return notice_content
 
 
 def extract_help(elem, text_splits):
@@ -496,23 +502,24 @@ def extract_help(elem, text_splits):
 
     for text in elem.itertext():
         stripped_text = remove_white(text)
-        if len(stripped_text) > 1 :
+        if len(stripped_text) > 1:
             temp_texts.append(" " + stripped_text)
             temp_texts.append("N_line")
             if stripped_text.rfind(u"小编紧箍咒") != -1 or \
-                stripped_text.rfind(u"小编碎碎念") != -1 or \
-                stripped_text.rfind(u"窝窝温馨提示") != -1 or \
-                stripped_text.rfind(u"窝窝小贴士") != -1 or \
-                stripped_text.rfind(u"有话要说") != -1 or \
-                stripped_text.rfind(u"窝窝提示") != -1 or \
-                stripped_text.rfind(u"小编提示") != -1 or \
-                stripped_text.rfind(u"温馨提示") != -1 or \
-                stripped_text.rfind(u"小编絮叨ING") != -1 or \
-                stripped_text.rfind(u"小编紧箍咒") != -1 :
+                    stripped_text.rfind(u"小编碎碎念") != -1 or \
+                    stripped_text.rfind(u"窝窝温馨提示") != -1 or \
+                    stripped_text.rfind(u"窝窝小贴士") != -1 or \
+                    stripped_text.rfind(u"有话要说") != -1 or \
+                    stripped_text.rfind(u"窝窝提示") != -1 or \
+                    stripped_text.rfind(u"小编提示") != -1 or \
+                    stripped_text.rfind(u"温馨提示") != -1 or \
+                    stripped_text.rfind(u"小编絮叨ING") != -1 or \
+                    stripped_text.rfind(u"小编紧箍咒") != -1 :
                 is_noticed_text = True
 
     if is_noticed_text:
         text_splits.extend(temp_texts)
+
 
 class PictureParser(BaseParser):
     """用于处理图片下载请求
@@ -522,6 +529,6 @@ class PictureParser(BaseParser):
         self.logger.debug("init PictureParser")
 
     def parse(self, task, input_file):
-        if task.kwargs.has_key('picturepath'):
+        if 'picturepath' in task.kwargs:
             picture_item = PictureItem(input_file.read(), task.kwargs.get('picturepath'))
             yield picture_item
