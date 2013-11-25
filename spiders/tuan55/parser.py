@@ -335,8 +335,8 @@ class WebParser(BaseParser):
         """
         self.logger.debug("web parse start to parse")
         tree = html.parse(input_file)
-        names = tree.xpath("//*[@id='content']/div[4]/div[@class='con_left clearfix']/p/text()[last()]")
-        item_name = remove_white(names[0].replace(">", "")) if names else ""
+        names = tree.xpath("//p[@class='Crumbs']/text()")
+        item_name = remove_white(names[len(names)-1].replace(">", "")) if names else ""
         saves = tree.xpath("//li[@class='shopprice']/span[6]/text()")
         item_save = remove_white(saves[0].replace(u"¥", "")) if saves else ""
         item_description = _extract_description(tree)
