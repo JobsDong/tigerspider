@@ -11,8 +11,9 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import logging.config
 from core.util import walk_settings
 from web.service import WebService
+import os
 
-logging.config.fileConfig("logging.conf")
+logging.config.fileConfig(os.path[0] + "/logging.conf")
 
 if __name__ == "__main__":
     walk_settings()
