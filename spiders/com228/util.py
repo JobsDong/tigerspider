@@ -3,7 +3,11 @@
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-_entance_city = {
+
+from tornado.httpclient import HTTPRequest
+from core.datastruct import HttpTask
+
+_entrance_city = {
     u"北京": {
         "code": 110000,
         "abbreviation": 'bj',
@@ -54,7 +58,7 @@ _entance_city = {
     }
 }
 
-_type = {
+_types = {
     u"演唱会": 'yanchanghui',
     u"话剧舞台剧": 'huajuwutaiju',
     u"音乐会": 'yinyuehui',
@@ -65,10 +69,46 @@ _type = {
     u"休闲娱乐": 'xiuxianyule',
 }
 
-_c
 
-def create_city_type_task():
+def create_City_Type_task(city_name, city_code, abbreviation, _type, tag):
+    """根据参数构建CityTypeTask
+        Args:
+            city_name: str, 城市中文名
+            city_code: int, 城市code
+            abbreviation: str, 城市拼音缩写
+            _type: str, 类型名
+            tag: str, 标签
+        Returns:
+            task: HttpTask, 任务
+    """
+    url = "http://www.228.com.cn/s/%s-%s/" % (abbreviation, _type)
+    cookie_host = "http://www.228.com.cn/%s/" % abbreviation
+    http_request = HTTPRequest(url=url, connect_timeout=2, request_timeout=5)
+    task = HttpTask(http_request, callback="DealParser", max_fail_count=8,
+                    cookie_host=cookie_host, cookie_count=20, kwargs={'city_code': city_code,
+                                                                      'city_name': city_name,
+                                                                      'tag': tag,
+                                                                      'cookie_host': cookie_host,
+                                                                      'cookie_count': 20})
+    return task
+
+
+def create_city_type_tasks(city_names=None):
     """用于创建入口Task的函数
+        Args:
+            city_names: list, 城市中文名的列表
         Returns:
             tasks: list, [CityTypeTask]
     """
+    if city_names is None:
+        city_names = _entrance_city.keys()
+
+    tasks = []
+    for city_name in city_names:
+        if city_name in _entrance_city:
+            code, abbre = _entrance_city[city_name]['code'], _entrance_city[city_name]['abbreviation']
+            for tag, _type in _types.iteritems():
+                task = create_City_Type_task(city_name, code, abbre, _type, tag)
+                tasks.append(task)
+
+    return tasks
