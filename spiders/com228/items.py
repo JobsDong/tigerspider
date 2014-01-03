@@ -10,17 +10,15 @@ from core.datastruct import Item
 class ActivityItem(Item):
     """描述活动的Item
     """
-    def __init__(self, order, name, url, start_time, end_time, address, price,
-                 pic_url, description, tag, city_code):
+    def __init__(self, order, name, url, start_time, end_time, place_name, price,
+                 tag, city_code):
         self.order = order
         self.name = name
         self.url = url
         self.start_time = start_time
         self.end_time = end_time
-        self.address = address
+        self.place_name = place_name
         self.price = price
-        self.pic_url = pic_url
-        self.description = description
         self.tag = tag
         self.city_code = city_code
 
@@ -28,10 +26,10 @@ class ActivityItem(Item):
 class WebItem(Item):
     """描述活动详情页提取出来的数据
     """
-    def __init__(self, order, description, pic_url, time_info):
+    def __init__(self, order, description, picture_path, time_info):
         self.order = order
         self.description = description
-        self.pic_url = pic_url
+        self.picture_path = picture_path
         self.time_info = time_info
 
 
