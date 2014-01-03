@@ -15,7 +15,7 @@ from spiders.com228.items import PictureItem, ActivityItem, WebItem
 class ActivityItemPipeline(BasePipeline):
     """用于处理ActivityItem的pipeline
     """
-    def __init__(self, namesapce, redis_host, redis_port, redis_db):
+    def __init__(self, namesapce, redis_host='192.168.11.108', redis_port=6379, redis_db=0):
         BasePipeline.__init__(self, namesapce)
         self.logger.info("init activity item pipline finished")
         try:
@@ -42,8 +42,9 @@ class ActivityItemPipeline(BasePipeline):
 class WebItemPipeline(BasePipeline):
     """WebItem处理器
     """
-    def __init__(self, namespace, redis_host, redis_port, redis_db, db_host, db_port, db_user,
-                 db_password, db_base):
+    def __init__(self, namespace, redis_host='192.168.11.108', redis_port=6379,
+                 redis_db=0, db_host='192.168.11.195', db_port=5432, db_user='postgres',
+                 db_password='titps4gg', db_base='test'):
         BasePipeline.__init__(self, namespace)
         try:
             redis_namespace = "%s:%s" % (namespace, "temp")
@@ -106,7 +107,7 @@ class WebItemPipeline(BasePipeline):
                 DBError
         """
         selectsql = "SELECT * FROM rt_crawl WHERE url=%(url)s and source=%(source)s LIMIT 1"
-        info_str = json.dumps(info, ensure_ascii=True)
+        info_str = json.dumps(info, ensure_ascii=False)
         if len(self._db.execute_query(selectsql, {'url': url, 'source': '228com'})) >= 1:
             # update
             updatesql = "UPDATE rt_crawl SET city_code=%(city_code)s, type=%(type)s," \
@@ -157,23 +158,24 @@ def _convert(activity_item, web_item):
     start_time = activity_item.start_time
     end_time = activity_item.end_time
     _type = "90003001"
-    url = activity_item.url.encode('utf-8')
+    url = activity_item.url
+
     info = {
         "name": activity_item.name,
         "place": [{"place_name": activity_item.place_name, "address": ""}],
         "tag": activity_item.tag,
-        "pictures": [web_item.picture_path.encode('utf-8')],
-        "description": web_item.description.encode('utf-8'),
+        "pictures": [web_item.picture_path],
+        "description": web_item.description,
         "longitude": "",
         "latitude": "",
-        "price": activity_item.price.encode("utf-8"),
-        "order": activity_item.order.encode('utf-8'),
+        "price": activity_item.price,
+        "order": activity_item.order,
         "contact": "",
         "organizer_class": "",
         "organizer_name": "",
         "interested_user": "",
         "joined_user": "",
-        "time_info": web_item.time_info.encode('utf-8'),
+        "time_info": web_item.time_info,
     }
     return start_time, end_time, city_code, info, _type, url
 

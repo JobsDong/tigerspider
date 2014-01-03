@@ -37,23 +37,22 @@ class DealParser(BaseParser):
         tree = html.parse(input_file)
         self.logger.info("deal parser start to handle")
         elems = tree.xpath("//dl[@class='search-cont-listdl']")
+        tag = task.kwargs.get('tag')
+        city_code = task.kwargs.get('city_code')
+        cookie_host = task.kwargs.get('cookie_host')
+        cookie_count = task.kwargs.get('cookie_count')
         for elem in elems:
             try:
                 info_elem = flist(elem.xpath("dd[@class='search-cont-listdd clearfloat']"))
                 url, name, start_time, end_time, place_name, price, order = _extract_info_elem(info_elem)
                 # 存储Activity Item
-                tag = task.kwargs.get('tag')
-                city_code = task.kwargs.get('city_code')
                 yield ActivityItem(order, name, url, start_time, end_time, place_name, price,
                                    tag, city_code)
-                cookie_host = task.kwargs.get('cookie_host')
-                cookie_count = task.kwargs.get('cookie_count')
-                request = HTTPRequest(url, connect_timeout=2, request_timeout=5)
+                request = HTTPRequest(url, connect_timeout=5, request_timeout=10)
                 task = HttpTask(request, callback="ActivityParser",
                                 cookie_host=cookie_host, cookie_count=cookie_count,
                                 max_fail_count=3, kwargs={"order": order, "cookie_host": cookie_host,
                                                           "cookie_count": cookie_count})
-                # 抛出新的Task
                 yield task
             except Exception, e:
                 self.logger.warn("extract one element failed error:%s" % e)
@@ -71,9 +70,10 @@ def _extract_info_elem(info_elem):
     start_end_time = unicode(flist(info_elem.xpath(
         "ul[@class='search-cont-listdd-a']/li[1]/text()"), default=u""))
     start_time, end_time = _extract_time(start_end_time)
-    place_name = unicode(flist(info_elem.xpath("ul[@class='search-cont-listdd-a']/li[2]/text()"),
-                               default=u"")).replace(u"场馆:", u"")
+    place_name = unicode(flist(info_elem.xpath("ul[@class='search-cont-listdd-a']/li[2]/a/text()"),
+                               default=u""))
     price = unicode(flist(info_elem.xpath("ul[@class='search-cont-listdd-a']/li[3]/text()"), default=u""))
+    price = price.replace(u",", u"/")
     order = _extract_order(url)
     return url, name, start_time, end_time, place_name, price, order
 
@@ -85,17 +85,18 @@ def _extract_time(start_end_time):
         Returns:
             start_time, end_time: tuple, 开始和结束日期(datetime, datetime)
     """
-    s_e = start_end_time.replace(u"时间：", u"").split(u"~")
+    s_e = start_end_time.split(u"~")
     if len(s_e) >= 2:
-        start_time_unicode, end_time_unicode = s_e[0], s_e[1]
+        start_time_unicode, end_time_unicode = s_e[0].strip(), s_e[1].strip()
     else:
-        start_time_unicode, end_time_unicode = s_e[0], s_e[1]
+        start_time_unicode, end_time_unicode = s_e[0].strip(), s_e[0].strip()
+
     try:
-        start_time = datetime.datetime.strptime(start_time_unicode, "")
+        start_time = datetime.datetime.strptime(start_time_unicode, "%Y-%m-%d")
     except ValueError:
         start_time = None
     try:
-        end_time = datetime.datetime.strptime(end_time_unicode, "")
+        end_time = datetime.datetime.strptime(end_time_unicode, "%Y-%m-%d")
     except ValueError:
         end_time = None
 
