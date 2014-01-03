@@ -48,7 +48,7 @@ class DealParser(BaseParser):
                 # 存储Activity Item
                 yield ActivityItem(order, name, url, start_time, end_time, place_name, price,
                                    tag, city_code)
-                request = HTTPRequest(url, connect_timeout=5, request_timeout=10)
+                request = HTTPRequest(url, connect_timeout=10, request_timeout=15)
                 task = HttpTask(request, callback="ActivityParser",
                                 cookie_host=cookie_host, cookie_count=cookie_count,
                                 max_fail_count=3, kwargs={"order": order, "cookie_host": cookie_host,
@@ -173,6 +173,7 @@ class ActivityParser(BaseParser):
                                           request_timeout=60)
             picture_task = HttpTask(picture_request, callback='PictureParser',
                                     cookie_host=cookie_host, cookie_count=cookie_count,
+                                    max_fail_count=2,
                                     kwargs={'picturepath': self._picture_dir + picture_path})
             return picture_path, picture_task
         else:

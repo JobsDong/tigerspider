@@ -64,9 +64,9 @@ _types = {
     u"音乐会": 'yinyuehui',
     u"舞蹈芭蕾": 'wudaobalei',
     u"戏曲综艺": 'xiquzongyi',
-    u"体育赛事": 'tiyusaishi',
+    # u"体育赛事": 'tiyusaishi',
     u"儿童亲子": 'ertongqinzi',
-    u"休闲娱乐": 'xiuxianyule',
+    # u"休闲娱乐": 'xiuxianyule',
 }
 
 
@@ -83,7 +83,7 @@ def create_City_Type_task(city_name, city_code, abbreviation, _type, tag):
     """
     url = "http://www.228.com.cn/s/%s-%s/" % (abbreviation, _type)
     cookie_host = "http://www.228.com.cn/%s/" % abbreviation
-    http_request = HTTPRequest(url=url, connect_timeout=8, request_timeout=20)
+    http_request = HTTPRequest(url=url, connect_timeout=10, request_timeout=25)
     task = HttpTask(http_request, callback="DealParser", max_fail_count=8,
                     cookie_host=cookie_host, cookie_count=20, kwargs={'city_code': city_code,
                                                                       'city_name': city_name,
