@@ -24,38 +24,38 @@ _entrance_city = {
         "code": 440300,
         "abbreviation": 'sz',
     },
-    u"天津": {
-        "code": 120000,
-        "abbreviation": 'tj',
-    },
-    u"南京": {
-        "code": 320100,
-        "abbreviation": 'nj',
-    },
+    # u"天津": {
+    #     "code": 120000,
+    #     "abbreviation": 'tj',
+    # },
+    # u"南京": {
+    #     "code": 320100,
+    #     "abbreviation": 'nj',
+    # },
     u"成都": {
         "code": 510100,
         "abbreviation": 'cd',
     },
-    u"重庆": {
-        "code": 500000,
-        "abbreviation": 'cq',
-    },
-    u"郑州": {
-        "code": 410100,
-        "abbreviation": 'zz',
-    },
-    u"西安": {
-        "code": 610100,
-        "abbreviation": 'xa',
-    },
-    u"武汉": {
-        "code": 420100,
-        "abbreviation": 'wh',
-    },
-    u"长沙": {
-        "code": 430100,
-        "abbreviation": 'cs',
-    }
+    # u"重庆": {
+    #     "code": 500000,
+    #     "abbreviation": 'cq',
+    # },
+    # u"郑州": {
+    #     "code": 410100,
+    #     "abbreviation": 'zz',
+    # },
+    # u"西安": {
+    #     "code": 610100,
+    #     "abbreviation": 'xa',
+    # },
+    # u"武汉": {
+    #     "code": 420100,
+    #     "abbreviation": 'wh',
+    # },
+    # u"长沙": {
+    #     "code": 430100,
+    #     "abbreviation": 'cs',
+    # }
 }
 
 _types = {
