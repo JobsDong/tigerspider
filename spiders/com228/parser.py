@@ -44,9 +44,9 @@ class DealParser(BaseParser):
         for elem in elems:
             try:
                 info_elem = flist(elem.xpath("dd[@class='search-cont-listdd clearfloat']"))
-                url, name, start_time, end_time, place_name, price, order = _extract_info_elem(info_elem)
+                url, name, start_time, end_time, place_name, order = _extract_info_elem(info_elem)
                 # 存储Activity Item
-                yield ActivityItem(order, name, url, start_time, end_time, place_name, price,
+                yield ActivityItem(order, name, url, start_time, end_time, place_name,
                                    tag, city_code)
                 request = HTTPRequest(url, connect_timeout=10, request_timeout=15)
                 task = HttpTask(request, callback="ActivityParser",
@@ -63,7 +63,7 @@ def _extract_info_elem(info_elem):
         Args:
             info_elem: Element, 节点元数
         Returns:
-            url, name, start_time, end_time, address, price: tuple, url 和name
+            url, name, start_time, end_time, address, : tuple, url 和name
     """
     url = unicode(flist(info_elem.xpath("h2/a/@href"), default=u""))
     # 正规化url(如果是80端口，就去除端口号)
@@ -74,10 +74,8 @@ def _extract_info_elem(info_elem):
     start_time, end_time = _extract_time(start_end_time)
     place_name = unicode(flist(info_elem.xpath("ul[@class='search-cont-listdd-a']/li[2]/a/text()"),
                                default=u""))
-    price = unicode(flist(info_elem.xpath("ul[@class='search-cont-listdd-a']/li[3]/text()"), default=u""))
-    price = price.replace(u",", u"/")
     order = _extract_order(url)
-    return url, name, start_time, end_time, place_name, price, order
+    return url, name, start_time, end_time, place_name, order
 
 
 def _extract_time(start_end_time):
@@ -143,6 +141,13 @@ class ActivityParser(BaseParser):
         desc_elems = tree.xpath("//div[@class='product-detail-alla-cont']")
         description = _extract_desc_elems(desc_elems)
         date_elems = tree.xpath("//ul[@class='productnew-header-pricea2-ul clearfloat']/li/@d")
+        telephone = flist(tree.xpath("//div[@class='top-w']//li[@class='tel']/span/text()"), default=u"")
+        price_elems = tree.xpath("//ul[@class='productnew-header-pricec2-ul productnew-"
+                                 "header-pricec3-ul productnew-header-pricec2-cq']/li/@title")
+        price_infos = []
+        for price_elem in price_elems:
+            price_infos.append(price_elem)
+        price_info = u"/".join(price_infos)
         time_infos = []
         for date_elem in date_elems:
             time_infos.append(date_elem)
@@ -152,7 +157,7 @@ class ActivityParser(BaseParser):
         cookie_count = task.kwargs.get('cookie_count')
         pictures, pic_task = self._check_and_execute_picture(pic_url, cookie_host, cookie_count)
         # 保存详情信息
-        yield WebItem(order, description, pictures, time_info)
+        yield WebItem(order, description, pictures, time_info, price_info, telephone)
         # 抛出picTask
         if pic_task is not None:
             yield pic_task
