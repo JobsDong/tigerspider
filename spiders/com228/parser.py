@@ -66,6 +66,8 @@ def _extract_info_elem(info_elem):
             url, name, start_time, end_time, address, price: tuple, url 和name
     """
     url = unicode(flist(info_elem.xpath("h2/a/@href"), default=u""))
+    # 正规化url(如果是80端口，就去除端口号)
+    url = url.replace(":80/", "/")
     name = unicode(flist(info_elem.xpath("h2/a/text()"), default=u""))
     start_end_time = unicode(flist(info_elem.xpath(
         "ul[@class='search-cont-listdd-a']/li[1]/text()"), default=u""))
