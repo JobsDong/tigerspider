@@ -145,10 +145,12 @@ class ActivityParser(BaseParser):
         telephone = telephone.replace(u"-", u"")
         price_elems = tree.xpath("//ul[@class='productnew-header-pricec2-ul productnew-"
                                  "header-pricec3-ul productnew-header-pricec2-cq']/li/@title")
-        price_infos = []
+        price_infos = set()
         for price_elem in price_elems:
-            price_infos.append(price_elem)
+            if unicode(price_elem) not in price_infos:
+                price_infos.add(unicode(price_elem))
         price_info = u"/".join(price_infos)
+
         time_infos = []
         for date_elem in date_elems:
             time_infos.append(date_elem)
