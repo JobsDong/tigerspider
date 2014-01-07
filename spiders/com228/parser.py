@@ -149,7 +149,7 @@ class ActivityParser(BaseParser):
         for price_elem in price_elems:
             if unicode(price_elem) not in price_infos:
                 price_infos.add(unicode(price_elem))
-        price_info = u"/".join(price_infos)
+        price_info = u"/".join(sorted(price_infos))
 
         time_infos = []
         for date_elem in date_elems:
