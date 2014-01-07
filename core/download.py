@@ -31,6 +31,7 @@ _host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=
                 r" __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall"}
 _cookie_used_counts = {"http://www.meituan.com": 0}
 _cookie_is_buildings = set()
+_host_ip_cache = {}
 
 logger = logging.getLogger(__name__)
 
@@ -91,6 +92,8 @@ def add_universal_headers_for_request(http_request):
         Args:
             http_reques:HttpRequest, request
     """
+    if http_request.headers is None:
+        http_request.headers = {}
     if not http_request.headers.has_key('User-Agent'):
         http_request.headers['User-Agent'] = DEFAULT_USER_AGENT
     if not http_request.headers.has_key('Accept-Encoding'):
@@ -168,6 +171,7 @@ def _build_cookie_sy(host):
         Args:
             host: str, 主页地址
     """
+    global _host_cookies
     cookie_http_task = HttpTask(HTTPRequest(host), callback="None")
     cookie = None if not _host_cookies.has_key(host) else _host_cookies[host]
 
@@ -197,6 +201,10 @@ def get_cookie_sy(host, flushcount=20):
         Returns:
             cookie: str, cookie字符串 （如果失败返回None）
     """
+    global _host_cookies
+    global _cookie_used_counts
+    global _host_cookies
+
     if not _host_cookies.has_key(host):
         _build_cookie_sy(host)
     else:
