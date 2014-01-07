@@ -44,14 +44,14 @@ class DealParser(BaseParser):
         for elem in elems:
             try:
                 info_elem = flist(elem.xpath("dd[@class='search-cont-listdd clearfloat']"))
-                url, name, start_time, end_time, place_name, order = _extract_info_elem(info_elem)
+                url, name, start_time, end_time, place_name = _extract_info_elem(info_elem)
                 # 存储Activity Item
-                yield ActivityItem(order, name, url, start_time, end_time, place_name,
+                yield ActivityItem(name, url, start_time, end_time, place_name,
                                    tag, city_code)
                 request = HTTPRequest(url, connect_timeout=10, request_timeout=15)
                 task = HttpTask(request, callback="ActivityParser",
                                 cookie_host=cookie_host, cookie_count=cookie_count,
-                                max_fail_count=3, kwargs={"order": order, "cookie_host": cookie_host,
+                                max_fail_count=3, kwargs={"url": url, "cookie_host": cookie_host,
                                                           "cookie_count": cookie_count})
                 yield task
             except Exception, e:
@@ -74,8 +74,7 @@ def _extract_info_elem(info_elem):
     start_time, end_time = _extract_time(start_end_time)
     place_name = unicode(flist(info_elem.xpath("ul[@class='search-cont-listdd-a']/li[2]/a/text()"),
                                default=u""))
-    order = _extract_order(url)
-    return url, name, start_time, end_time, place_name, order
+    return url, name, start_time, end_time, place_name
 
 
 def _extract_time(start_end_time):
@@ -101,19 +100,6 @@ def _extract_time(start_end_time):
         end_time = None
 
     return start_time, end_time
-
-
-def _extract_order(url):
-    """提取出orderid
-        Args:
-            url: unicode, html url
-        Returns:
-            order: unicode, order id
-    """
-    start_index = url.index(u"ticket-")
-    end_index = url.index(u".html")
-    order = url[start_index + 7: end_index]
-    return order
 
 
 class ActivityParser(BaseParser):
@@ -154,12 +140,12 @@ class ActivityParser(BaseParser):
         for date_elem in date_elems:
             time_infos.append(date_elem)
         time_info = u";".join(time_infos)
-        order = task.kwargs.get('order')
+        url = task.kwargs.get('url')
         cookie_host = task.kwargs.get('cookie_host')
         cookie_count = task.kwargs.get('cookie_count')
         pictures, pic_task = self._check_and_execute_picture(pic_url, cookie_host, cookie_count)
         # 保存详情信息
-        yield WebItem(order, description, pictures, time_info, price_info, telephone)
+        yield WebItem(url, telephone, description, pictures, time_info, price_info, u"")
         # 抛出picTask
         if pic_task is not None:
             yield pic_task

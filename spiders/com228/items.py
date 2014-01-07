@@ -10,9 +10,8 @@ from core.datastruct import Item
 class ActivityItem(Item):
     """描述活动的Item
     """
-    def __init__(self, order, name, url, start_time, end_time, place_name,
+    def __init__(self, name, url, start_time, end_time, place_name,
                  tag, city_code):
-        self.order = order
         self.name = name
         self.url = url
         self.start_time = start_time
@@ -25,13 +24,14 @@ class ActivityItem(Item):
 class WebItem(Item):
     """描述活动详情页提取出来的数据
     """
-    def __init__(self, order, description, picture_path, time_info, price, telephone):
+    def __init__(self, url, order, description, picture_path, time_info, price, contact):
+        self.url = url
         self.order = order
         self.description = description
         self.picture_path = picture_path
         self.time_info = time_info
         self.price = price
-        self.telephone = telephone
+        self.contact = contact
 
 
 class PictureItem(Item):

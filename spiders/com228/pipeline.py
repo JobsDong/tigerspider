@@ -33,7 +33,7 @@ class ActivityItemPipeline(BasePipeline):
                 kwargs: dict, 参数字典
         """
         if isinstance(item, ActivityItem):
-            self.temp_item_dict.set(item.order, item)
+            self.temp_item_dict.set(item.url, item)
 
     def clear_all(self):
         pass
@@ -66,15 +66,15 @@ class WebItemPipeline(BasePipeline):
                 kwargs: dict, 参数字典
         """
         if isinstance(item, WebItem):
-            if self._temp_redis_dict.has_key(item.order):
+            if self._temp_redis_dict.has_key(item.url):
                 # 合并数据，并保存到数据库中
-                activity_item = self._temp_redis_dict.get(item.order)
+                activity_item = self._temp_redis_dict.get(item.url)
                 if activity_item is not None:
-                    self._temp_redis_dict.delete(item.order)
+                    self._temp_redis_dict.delete(item.url)
                     self._store_complete_item(activity_item, item)
 
             else:
-                self.logger.warn("redis dict not has activity item order:%s" % item.order)
+                self.logger.warn("redis dict not has activity item url:%s" % item.url)
 
     def _store_complete_item(self, activity_item, web_item):
         """用于保存完整的item到数据库中
@@ -169,8 +169,8 @@ def _convert(activity_item, web_item):
         "longitude": "",
         "latitude": "",
         "price": web_item.price,
-        "order": activity_item.order,
-        "contact": web_item.telephone,
+        "order": web_item.order,
+        "contact": web_item.contact,
         "organizer_class": "",
         "organizer_name": "",
         "interested_user": "",
