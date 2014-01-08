@@ -129,6 +129,8 @@ class ActivityParser(BaseParser):
         date_elems = tree.xpath("//ul[@class='productnew-header-pricea2-ul clearfloat']/li/@d")
         telephone = flist(tree.xpath("//div[@class='top-w']//li[@class='tel']/span/text()"), default=u"")
         telephone = telephone.replace(u"-", u"")
+        if len(telephone) == 0:
+            telephone = u"4006228228"
         price_elems = tree.xpath("//ul[@class='productnew-header-pricec2-ul productnew-"
                                  "header-pricec3-ul productnew-header-pricec2-cq']/li/@title")
         price_infos = list()
