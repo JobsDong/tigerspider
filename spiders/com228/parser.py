@@ -4,6 +4,7 @@
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import os.path
+import urlparse
 import datetime
 from lxml import html
 from tornado.httpclient import HTTPRequest
@@ -15,6 +16,7 @@ from spiders.com228.items import ActivityItem, WebItem, PictureItem
 
 DEFAULT_PICTURE_DIR = u"/home/wuyadong/swift_crawler/"
 DEFAULT_PICTURE_HOST = u"fruit-pictures/"
+COM228_HOST = u"http://www.228.com.cn"
 
 
 class DealParser(BaseParser):
@@ -67,7 +69,7 @@ def _extract_info_elem(info_elem):
     """
     url = unicode(flist(info_elem.xpath("h2/a/@href"), default=u""))
     # 正规化url(如果是80端口，就去除端口号)
-    url = url.replace(":80/", "/")
+    url = urlparse.urljoin(COM228_HOST, url)
     name = unicode(flist(info_elem.xpath("h2/a/text()"), default=u""))
     start_end_time = unicode(flist(info_elem.xpath(
         "ul[@class='search-cont-listdd-a']/li[1]/text()"), default=u""))
