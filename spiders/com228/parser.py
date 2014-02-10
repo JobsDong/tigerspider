@@ -6,12 +6,14 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import os.path
 import urlparse
 import datetime
+import json
 from lxml import html
 from tornado.httpclient import HTTPRequest
 from core.util import flist
 from core.datastruct import HttpTask
 from core.spider.parser import BaseParser
 from spiders.com228.items import ActivityItem, WebItem, PictureItem
+from spiders.com228.util import create_product_url, create_city_type_task
 
 
 DEFAULT_PICTURE_DIR = u"/home/wuyadong/swift_crawler/"
@@ -28,7 +30,7 @@ class DealParser(BaseParser):
         self.logger.info("init Deal Parser finished")
 
     def parse(self, task, input_file):
-        """用于解析列表页面，
+        """用于解析列表页面(json数据)，
             Args:
                 task: HttpTask, 任务对象
                 input_file: File, 文件对象
@@ -36,46 +38,61 @@ class DealParser(BaseParser):
                 item: Item, 提取的对象
                 task: 新的Task
         """
-        tree = html.parse(input_file)
+        # 获取json数据
         self.logger.info("deal parser start to handle")
-        elems = tree.xpath("//dl[@class='search-cont-listdl']")
+        json_data = json.load(input_file)
+        elems = json_data.get('products')
+        page_size = json_data.get('pageSize', 1)
+        # 获取传递的参数
+        city_name = task.kwargs.get('city_name')
         tag = task.kwargs.get('tag')
+        current_page = task.kwargs.get('current_page')
         city_code = task.kwargs.get('city_code')
+        _type = task.kwargs.get('type')
+        abbreviation = task.kwargs.get('abbreviation')
         cookie_host = task.kwargs.get('cookie_host')
         cookie_count = task.kwargs.get('cookie_count')
-        for elem in elems:
-            try:
-                info_elem = flist(elem.xpath("dd[@class='search-cont-listdd clearfloat']"))
-                url, name, start_time, end_time, place_name = _extract_info_elem(info_elem)
-                # 存储Activity Item
-                yield ActivityItem(name, url, start_time, end_time, place_name,
-                                   tag, city_code)
-                request = HTTPRequest(url, connect_timeout=10, request_timeout=15)
-                task = HttpTask(request, callback="ActivityParser",
-                                cookie_host=cookie_host, cookie_count=cookie_count,
-                                max_fail_count=3, kwargs={"url": url, "cookie_host": cookie_host,
-                                                          "cookie_count": cookie_count})
-                yield task
-            except Exception, e:
-                self.logger.warn("extract one element failed error:%s" % e)
+        if elems is not None:
+            for elem in elems:
+                try:
+                    url, name, start_time, end_time, place_name = _extract_elem(elem)
+
+                    # 存储Activity Item
+                    yield ActivityItem(name, url, start_time, end_time, place_name,
+                                       tag, city_code)
+                    # 发起item请求
+                    request = HTTPRequest(url, connect_timeout=10, request_timeout=15)
+                    task = HttpTask(request, callback="ActivityParser",
+                                    cookie_host=cookie_host, cookie_count=cookie_count,
+                                    max_fail_count=3, kwargs={"url": url, "cookie_host": cookie_host,
+                                                              "cookie_count": cookie_count})
+                    yield task
+                except Exception, e:
+                    self.logger.warn("extract one element failed error:%s" % e)
+
+            # 发起下一页请求
+            if current_page < int(page_size):
+                next_page_task = create_city_type_task(city_name, city_code, abbreviation, _type,
+                                                       tag, page=current_page + 1)
+                yield next_page_task
+        else:
+            self.logger.warn("products is None, request url:%s" % task.request.url)
 
 
-def _extract_info_elem(info_elem):
-    """解析info element的函数
+def _extract_elem(json_elem):
+    """解析json element的函数
         Args:
-            info_elem: Element, 节点元数
+            json_elem: json, 节点元数
         Returns:
-            url, name, start_time, end_time, address, : tuple, url 和name
+            url, name, start_time, end_time, place_name : tuple
     """
-    url = unicode(flist(info_elem.xpath("h2/a/@href"), default=u""))
-    # 正规化url(如果是80端口，就去除端口号)
-    url = urlparse.urljoin(COM228_HOST, url)
-    name = unicode(flist(info_elem.xpath("h2/a/text()"), default=u""))
-    start_end_time = unicode(flist(info_elem.xpath(
-        "ul[@class='search-cont-listdd-a']/li[1]/text()"), default=u""))
-    start_time, end_time = _extract_time(start_end_time)
-    place_name = unicode(flist(info_elem.xpath("ul[@class='search-cont-listdd-a']/li[2]/a/text()"),
-                               default=u""))
+    product_id = json_elem.get('productid', '')
+    name = json_elem.get('name', '')
+    start_time = json_elem.get('begindate', '')
+    end_time = json_elem.get('enddate', '')
+    place_name = json_elem.get('vname', '')
+    url = create_product_url(product_id) if len(product_id.strip()) != 0 else ''
+
     return url, name, start_time, end_time, place_name
 
 

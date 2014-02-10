@@ -70,7 +70,17 @@ _types = {
 }
 
 
-def create_City_Type_task(city_name, city_code, abbreviation, _type, tag):
+def create_product_url(product_id):
+    """根据product id生成product url
+        Args:
+            product_id: str, product id
+        Returns:
+            product_url: str, product网页的url
+    """
+    return "http://www.228.com.cn/ticket-%s.html" % product_id
+
+
+def create_city_type_task(city_name, city_code, abbreviation, _type, tag, page=1, j=1):
     """根据参数构建CityTypeTask
         Args:
             city_name: str, 城市中文名
@@ -78,16 +88,21 @@ def create_City_Type_task(city_name, city_code, abbreviation, _type, tag):
             abbreviation: str, 城市拼音缩写
             _type: str, 类型名
             tag: str, 标签
+            page: int, 页码
+            j: int, 常数
         Returns:
             task: HttpTask, 任务
     """
-    url = "http://www.228.com.cn/s/%s-%s/" % (abbreviation, _type)
+    url = "http://www.228.com.cn/s/%s-%s/?j=%s&p=%s" % (abbreviation, _type, j, page)
     cookie_host = "http://www.228.com.cn/%s/" % abbreviation
     http_request = HTTPRequest(url=url, connect_timeout=10, request_timeout=25)
     task = HttpTask(http_request, callback="DealParser", max_fail_count=8,
-                    cookie_host=cookie_host, cookie_count=20, kwargs={'city_code': city_code,
+                    cookie_host=cookie_host, cookie_count=20, kwargs={'type': _type,
+                                                                      'abbreviation': abbreviation,
+                                                                      'city_code': city_code,
                                                                       'city_name': city_name,
                                                                       'tag': tag,
+                                                                      'current_page': page,
                                                                       'cookie_host': cookie_host,
                                                                       'cookie_count': 20})
     return task
@@ -108,7 +123,7 @@ def create_city_type_tasks(city_names=None):
         if city_name in _entrance_city:
             code, abbre = _entrance_city[city_name]['code'], _entrance_city[city_name]['abbreviation']
             for tag, _type in _types.iteritems():
-                task = create_City_Type_task(city_name, code, abbre, _type, tag)
+                task = create_city_type_task(city_name, code, abbre, _type, tag, page=1)
                 tasks.append(task)
 
     return tasks
