@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """主要用于记录历史记录，以及还原失败的worker，同时肩负着失败信息的记录(这个后面处理，可能使用到fs)
 """
@@ -13,6 +12,7 @@ import json
 
 WORKER_RECORD_PATH = "data/worker_record.dat"
 
+
 def record(worker_name, start_time, schedule_class_name,
            schedule_kwargs, spider_class_name, spider_kwargs):
     status = {"worker_name": worker_name,
@@ -22,6 +22,7 @@ def record(worker_name, start_time, schedule_class_name,
               "spider_class": spider_class_name,
               "spider_kwargs": spider_kwargs,}
     return status
+
 
 class RecorderManager(object):
     """专门用于记录，以及持久化，还原等操作的记录器

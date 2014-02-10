@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于描述解析的过程的组件
     ParserError: 与Parser有关的错误
@@ -12,9 +11,11 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import logging
 
+
 class ParserError(Exception):
     """Parser error
     """
+
 
 class BaseParser(object):
     """用于描述解析的基类

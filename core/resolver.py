@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """本地dns解析模块
     ResovleError: 解析错误类
@@ -16,10 +15,12 @@ import socket
 import urlparse
 from collections import deque
 
+
 class ResolveError(Exception):
     """
         域名解析错误
     """
+
 
 class LRUCache(object):
     """一个基于LRU算法的cache
@@ -65,6 +66,7 @@ class LRUCache(object):
         obj = self._dict.get(key)
         del self._dict[key]
         return obj
+
 
 class DNSResolver(object):
     """DNSResolver是一个用于解析域名的类

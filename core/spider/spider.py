@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """主要是描述公共抓取流程的类
     SpiderError: spider发生的内部错误
@@ -19,9 +18,11 @@ import logging
 from core.spider.parser import ParserError
 from core.spider.pipeline import PipelineError
 
+
 class SpiderError(Exception):
     """Spider error
     """
+
 
 class BaseSpider(object):
     """用于描述spider公共流程的类
@@ -100,7 +101,6 @@ class BaseSpider(object):
             self.logger.error("has no callback:%s" % task.callback)
             raise Exception("parser error:%s, callback:%s" % ("not exists callback", task.callback))
 
-
     def handle_item(self, item, kwargs):
         """处理item的函数
             Args:
@@ -156,6 +156,7 @@ def add_spider_class(path, clz):
 
     BaseSpider.spider_classes[path] = clz
 
+
 def get_all_spider_class():
     """获取所有的spider类
         Returns
@@ -169,6 +170,7 @@ def get_all_spider_class():
         spiders.append(temp_dict)
 
     return spiders
+
 
 def get_spider_class(path):
     """获取对应路径的类对象

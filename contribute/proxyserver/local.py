@@ -2,7 +2,6 @@
 #-*- coding=utf-8 -*-
 
 """setting files
-
 """
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 

@@ -1,6 +1,5 @@
 webspider
 =========
 
-a python webspider
+a python spider, use tornado, lxml, redis, postgreSQL
 
-Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.

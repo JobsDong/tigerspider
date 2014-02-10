@@ -15,8 +15,8 @@ from tornado import web, ioloop, httpclient, iostream
 
 import local
 
-unsupport_headers = ['connection', 'keep-alive', 'proxy-authenticate','upgrade'
-                    'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
+unsupport_headers = ['connection', 'keep-alive', 'proxy-authenticate', 'upgrade'
+                     'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
                      '']
 
 class ProxyHandler(web.RequestHandler):

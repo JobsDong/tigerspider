@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """定义的一个基于redis的独享式的schedule
     RedisSchedule: 基于redis的独享式schedule

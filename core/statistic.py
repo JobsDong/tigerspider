@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """
     WorkerStatistic: 用于记录worker的统计信息的类
@@ -19,6 +18,7 @@ WORKER_STATISTIC_PATH = "data/worker_statistic.dat"
 WORKER_FAIL_PATH = "data/fails/"
 
 logger = logging.getLogger("statistic")
+
 
 class WorkerStatistic(object):
     """用于统计worker的信息的类
@@ -74,13 +74,13 @@ class WorkerStatistic(object):
                 key_name: str, 对应的key
         """
         self._parser2success[key_name] = 1 if not self._parser2success.has_key(key_name) \
-        else self._parser2success[key_name] + 1
+            else self._parser2success[key_name] + 1
 
     @property
     def parser2success(self):
-        '''
+        """
         don't modify
-        '''
+        """
         return self._parser2success
 
     def add_spider_fail(self, key, reason):
@@ -98,9 +98,9 @@ class WorkerStatistic(object):
 
     @property
     def parser2fail(self):
-        '''
+        """
         don't modify
-        '''
+        """
         return self._parser2fail
 
     def add_spider_retry(self, key, reason):
@@ -113,9 +113,9 @@ class WorkerStatistic(object):
 
     @property
     def parser2retry(self):
-        '''
+        """
         don't modify
-        '''
+        """
         return self._parser2retry
 
     def count_average_fetch_time(self, parser_name, fetch_time, fetch_interval,
@@ -138,7 +138,7 @@ class WorkerStatistic(object):
             time2count[latest_fetch_time] += 1
 
     def count_average_extract_time(self, parser_name, extract_time,
-            extract_interval, default_interval=datetime.timedelta(minutes=10)):
+                                   extract_interval, default_interval=datetime.timedelta(minutes=10)):
         """extract one task's response. include handle time
         """
         if not self._parser2extractcount.has_key(parser_name):
@@ -159,7 +159,7 @@ class WorkerStatistic(object):
             time2count[latest_extract_time] += 1
 
     def count_average_handle_item_time(self, parser_name, handle_time, handle_interval,
-                                    default_interval=datetime.timedelta(minutes=10)):
+                                       default_interval=datetime.timedelta(minutes=10)):
         if not self._parser2handlecount.has_key(parser_name):
             self._parser2handlecount[parser_name] = {}
             self._parser2handleinterval[parser_name] = {}
@@ -178,9 +178,9 @@ class WorkerStatistic(object):
             time2count[latest_handle_time] += 1
 
     def get_average_fetch_interval(self, parser_name=""):
-        '''
+        """
         don't modify
-        '''
+        """
         if parser_name == "":
             return self._parser2fetchinterval
         else:
@@ -188,9 +188,9 @@ class WorkerStatistic(object):
                 else self._parser2fetchinterval[parser_name]
 
     def get_average_extract_interval(self, parser_name=""):
-        '''
+        """
         don't modify
-        '''
+        """
         if parser_name == "":
             return self._parser2extractinterval
         else:
@@ -203,6 +203,7 @@ class WorkerStatistic(object):
         else:
             return None if not self._parser2handleinterval.has_key(parser_name) \
                 else self._parser2handleinterval[parser_name]
+
 
 def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
     import core.util
@@ -225,7 +226,6 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
             out_file.write("\n")
         out_file.write("\n\n")
 
-
         out_file.write("spider retry count:\n")
         for spider_name, reason2count in work_statistic.parser2retry.iteritems():
             out_file.write("%s: \n" % spider_name)
@@ -235,8 +235,7 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         out_file.write("\n\n")
 
         out_file.write("spider fetch interval:\n")
-        for spider_name, interval_dict in work_statistic.get_average_fetch_interval().\
-            iteritems():
+        for spider_name, interval_dict in work_statistic.get_average_fetch_interval().iteritems():
             out_file.write("spider name: %s\n" % spider_name)
             for start_time in sorted(interval_dict.keys()):
                 out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
@@ -244,8 +243,7 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         out_file.write("\n\n")
 
         out_file.write("spider extract interval:\n")
-        for spider_name, interval_dict in work_statistic.get_average_extract_interval()\
-            .iteritems():
+        for spider_name, interval_dict in work_statistic.get_average_extract_interval().iteritems():
             out_file.write("spider name:%s\n" % spider_name)
             for start_time in sorted(interval_dict.keys()):
                 out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
@@ -253,8 +251,7 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         out_file.write("\n\n")
 
         out_file.write("spider handle item interval:\n")
-        for item_name, interval_dict in work_statistic.get_average_handle_interval()\
-            .iteritems():
+        for item_name, interval_dict in work_statistic.get_average_handle_interval().iteritems():
             out_file.write("handle item name:%s\n" % item_name)
             for start_time in sorted(interval_dict.keys()):
                 out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))

@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于封装redis的操作
     RedisError: 表示redis内部错误
@@ -15,11 +14,13 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import redis
 from core.util import PickleDeocoder, PickleEncoder
 
+
 class RedisError(Exception):
     """描述redis发生的错误
 
     """
     pass
+
 
 class RedisQueue(object):
     """Redis构成的队列
@@ -95,6 +96,7 @@ class RedisQueue(object):
             self._db.delete(self.namespace)
         except Exception, e:
             raise RedisError("delete error:%s" % e)
+
 
 class RedisDict(object):
     """使用redis技术实现的一个字典
@@ -395,7 +397,6 @@ class RedisPriorityQueue(object):
             self._db.zincrby(self.namespace, encodedvalue, 1)
         except Exception, e:
             raise RedisError("redis error:%s" % e)
-
 
     def decre_score(self, value):
         """decre score of value

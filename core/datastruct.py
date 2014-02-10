@@ -1,18 +1,16 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
-
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 
 class HttpTask(object):
-    '''
+    """
     task 中有三类参数：
     一类：request，表明http请求时的参数
     一类: 用于控制流程的控制标签
-    '''
+    """
     def __init__(self, request, callback, fail_count=0, reason=None,
                  cookie_host=None, cookie_count=20, dns_need=False,
                 max_fail_count=2, kwargs=None):
@@ -29,6 +27,7 @@ class HttpTask(object):
         self.cookie_count = cookie_count
         self.max_fail_count = max_fail_count
         self.dns_need = dns_need
+
 
 class FileTask(object):
     """file task

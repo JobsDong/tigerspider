@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """定义的一个基于redis的独享式的可以重复的schedule
 """
@@ -14,6 +13,7 @@ from core.schedule import BaseSchedule, ScheduleError
 from core.redistools import RedisQueue, RedisSet, RedisError
 from core.util import check_http_task_integrity
 from core.datastruct import FileTask, HttpTask
+
 
 class RepeatRedisSchedule(BaseSchedule):
     """PostRedisSchedule是独享式的基于redis生成的schedule
@@ -55,7 +55,6 @@ class RepeatRedisSchedule(BaseSchedule):
         self._kwargs = {'namespace': self._namespace, "host": host,
                         "port": port, "db": db, "interval":interval,
                         "max_number": max_number,}
-
 
     @property
     def schedule_kwargs(self):
@@ -143,7 +142,6 @@ class RepeatRedisSchedule(BaseSchedule):
         except RedisError, e:
             raise ScheduleError("fail queue push failed error:%s" % e)
 
-
     def fail_task_size(self):
         """get fail task size
 
@@ -151,7 +149,6 @@ class RepeatRedisSchedule(BaseSchedule):
                 size: int, fail task size
         """
         return self._fail_queue.size()
-
 
     #TODO opt ability
     def dumps_all_fail_task(self):

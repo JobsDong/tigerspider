@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """描述实际执行任务的worker的行为和属性。
  WorkerError: 与worker有关的错误
@@ -35,6 +34,7 @@ from core.statistic import (WorkerStatistic, output_statistic_file, WORKER_STATI
 from core.record import record, RecorderManager
 
 MAX_EMPTY_TASK_COUNT = 10  # worker最大能够获取的空Task个数
+
 
 class WorkerError(Exception):
     """当worker内部发生异常时，将抛出workerError
@@ -363,7 +363,6 @@ class Worker(object):
                     datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval * 2),
                     self.loop_get_and_execute)
 
-
     def handle_fail_task(self, task, key):
         """handle fail task
 
@@ -397,6 +396,7 @@ def _move_start_tasks_to_crawl_schedule(start_tasks, crawl_schedule):
     for task in start_tasks:
         crawl_schedule.push_new_task(task)
 
+
 def recover_worker(spider):
     """以恢复模式启动worker
         Args:
@@ -416,6 +416,7 @@ def recover_worker(spider):
         raise WorkerError("start worker error:%s" % e)
     else:
         Worker.workers[worker_name] = worker
+
 
 def start_worker(spider):
 
@@ -460,6 +461,7 @@ def start_worker(spider):
 #         Worker.workers[worker_name] = worker
 #         Worker.worker_index += 1
 
+
 def stop_worker(worker_name):
 
     """关闭一个worker
@@ -499,6 +501,7 @@ def suspend_worker(worker_name):
     except Exception, e:
         raise WorkerError("suspend worker error:%s" % e)
 
+
 def rouse_worker(worker_name):
 
     """唤醒worker
@@ -517,6 +520,7 @@ def rouse_worker(worker_name):
         worker.rouse()
     except Exception, e:
         raise WorkerError("rouse worker error:%s" % e)
+
 
 def get_all_workers():
 
@@ -544,6 +548,7 @@ def get_all_workers():
         workers.append(temp_worker)
 
     return workers
+
 
 def get_worker_statistic(worker_name):
 

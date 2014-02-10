@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于操作数据库的类
     DBError: exception, 关于db的错误类
@@ -13,10 +12,12 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import psycopg2
 import psycopg2.extras
 
+
 class DBError(Exception):
-    '''
+    """
     exception caused by database
-    '''
+    """
+
 
 class DB(object):
     def __init__(self, **kwargs):

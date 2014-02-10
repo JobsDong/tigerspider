@@ -1,8 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
-
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
@@ -60,6 +58,7 @@ def unicode2str_for_dict(dictionary):
         clone_dictionary[key] = value
     return clone_dictionary
 
+
 def log_exception_wrap(func):
     """记录函数所运行的错误,捕获所有错误
         包装器
@@ -75,6 +74,7 @@ def log_exception_wrap(func):
         else:
             return result
     return _wrap
+
 
 @gen.coroutine
 def coroutine_wrap(func, *args, **kwargs):
@@ -92,6 +92,7 @@ def coroutine_wrap(func, *args, **kwargs):
         result = e
 
     raise gen.Return(result)
+
 
 def xpath_namespace(tree, expr):
     """xpath with namespace
@@ -126,6 +127,7 @@ class PickleEncoder(object):
         encoded_value = pickle.dumps(o)
         return encoded_value
 
+
 class PickleDeocoder(object):
     """使用pickel的解码类
     """
@@ -140,6 +142,7 @@ class PickleDeocoder(object):
         obj = pickle.loads(value)
         return obj
 
+
 class ObjectEncoder(json.JSONEncoder):
     def default(self, o):
         d = {
@@ -148,6 +151,7 @@ class ObjectEncoder(json.JSONEncoder):
         }
         d.update(o.__dict__)
         return d
+
 
 class ObjectDecoder(json.JSONDecoder):
     def __init__(self):
@@ -165,6 +169,7 @@ class ObjectDecoder(json.JSONDecoder):
             inst = d
         return inst
 
+
 def check_http_task_integrity(http_task):
     if not isinstance(http_task, HttpTask):
         return False
@@ -173,6 +178,7 @@ def check_http_task_integrity(http_task):
             return True
         else:
             return False
+
 
 def get_class_path(claz):
     """获取claz对应的路径（这些路径是可以直接引入的）
@@ -209,10 +215,11 @@ def load_object(path):
 
     return obj
 
+
 def walk_settings(path='settings.registersettings'):
-    '''
+    """
     遍历path文件，把里面的spider和schedule注册到相应的route中
-    '''
+    """
     try:
         spiders = load_object(path + ".spiders")
     except Exception, e:
@@ -244,6 +251,7 @@ def walk_settings(path='settings.registersettings'):
 # lambda
 flist = lambda elems, default="": default if len(elems) <= 0 else elems[0]
 
+
 def gcd(*args):
     """gcd algorith
 
@@ -265,6 +273,7 @@ def gcd(*args):
                 return gcd(args[1], args[0])
     else:
         return args[0]
+
 
 def lcm(*args):
     """least common multiply

@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于描述item处理逻辑的组件
     PipelineError: 与pipeline有关的错误
@@ -13,9 +12,11 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import logging
 
+
 class PipelineError(Exception):
     """Pipeline error
     """
+
 
 class BasePipeline(object):
     """处理item的基类
