@@ -1,0 +1,159 @@
+2014-01-06 14:41:12,100 - ActivityParser - INFO - init Activity Parser finished
+2014-01-06 14:41:12,101 - DealParser - INFO - init Deal Parser finished
+2014-01-06 14:41:12,101 - PictureParser - INFO - init PictureParser finished
+2014-01-06 14:41:12,122 - WebItemPipeline - INFO - init web item pipeline finished
+2014-01-06 14:41:12,123 - ActivityItemPipeline - INFO - init activity item pipline finished
+2014-01-06 14:41:12,143 - Worker - INFO - start worker
+2014-01-06 14:41:19,262 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:19,599 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:20,188 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:20,331 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:20,704 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:21,023 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:24,317 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:24,346 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:24,730 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:25,253 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:25,721 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:26,210 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:29,488 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:29,519 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:29,916 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:30,382 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:30,887 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:31,403 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:34,871 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:34,921 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:35,226 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:35,726 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:36,249 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:36,709 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:40,262 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:40,384 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:40,643 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:41,015 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:41,565 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:42,055 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:43,776 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:43,826 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:44,116 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:44,504 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:44,988 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:45,494 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:49,806 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:49,821 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:50,167 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:50,689 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:51,161 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:51,655 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:53,331 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:53,338 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:53,676 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:54,168 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:54,668 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:55,171 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:56,814 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:56,946 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:57,388 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:57,782 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:58,302 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:58,792 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:41:59,937 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:00,001 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:00,723 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:00,945 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:01,298 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:01,802 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:05,598 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:05,621 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:06,120 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:06,443 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:06,938 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:07,414 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:08,890 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:08,913 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:09,285 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:09,782 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:10,248 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:42:10,733 - DealParser - INFO - deal parser start to handle
+2014-01-06 14:43:21,353 - WebItemPipeline - WARNING - redis dict not has activity item order:47822730
+2014-01-06 14:43:21,825 - WebItemPipeline - WARNING - redis dict not has activity item order:47822559
+2014-01-06 14:43:22,318 - WebItemPipeline - WARNING - redis dict not has activity item order:47822207
+2014-01-06 14:43:22,840 - WebItemPipeline - WARNING - redis dict not has activity item order:47822117
+2014-01-06 14:43:23,276 - WebItemPipeline - WARNING - redis dict not has activity item order:47621049
+2014-01-06 14:43:23,794 - WebItemPipeline - WARNING - redis dict not has activity item order:47620933
+2014-01-06 14:43:24,167 - WebItemPipeline - WARNING - redis dict not has activity item order:47434271
+2014-01-06 14:43:24,679 - WebItemPipeline - WARNING - redis dict not has activity item order:47434246
+2014-01-06 14:43:26,416 - WebItemPipeline - WARNING - redis dict not has activity item order:47434218
+2014-01-06 14:43:26,554 - WebItemPipeline - WARNING - redis dict not has activity item order:47434168
+2014-01-06 14:43:26,952 - WebItemPipeline - WARNING - redis dict not has activity item order:47432465
+2014-01-06 14:43:27,462 - WebItemPipeline - WARNING - redis dict not has activity item order:47432405
+2014-01-06 14:43:27,861 - WebItemPipeline - WARNING - redis dict not has activity item order:47431555
+2014-01-06 14:43:28,178 - WebItemPipeline - WARNING - redis dict not has activity item order:47431533
+2014-01-06 14:43:28,789 - WebItemPipeline - WARNING - redis dict not has activity item order:45218439
+2014-01-06 14:44:05,245 - WebItemPipeline - WARNING - redis dict not has activity item order:47822730
+2014-01-06 14:44:05,427 - WebItemPipeline - WARNING - redis dict not has activity item order:47822559
+2014-01-06 14:44:05,757 - WebItemPipeline - WARNING - redis dict not has activity item order:47822207
+2014-01-06 14:44:06,197 - WebItemPipeline - WARNING - redis dict not has activity item order:47822117
+2014-01-06 14:44:06,691 - WebItemPipeline - WARNING - redis dict not has activity item order:47621049
+2014-01-06 14:44:07,172 - WebItemPipeline - WARNING - redis dict not has activity item order:47620933
+2014-01-06 14:44:07,668 - WebItemPipeline - WARNING - redis dict not has activity item order:47434271
+2014-01-06 14:44:08,172 - WebItemPipeline - WARNING - redis dict not has activity item order:47434246
+2014-01-06 14:44:08,669 - WebItemPipeline - WARNING - redis dict not has activity item order:47434218
+2014-01-06 14:44:09,159 - WebItemPipeline - WARNING - redis dict not has activity item order:47434168
+2014-01-06 14:44:09,689 - WebItemPipeline - WARNING - redis dict not has activity item order:47432465
+2014-01-06 14:44:10,233 - WebItemPipeline - WARNING - redis dict not has activity item order:47432405
+2014-01-06 14:44:10,731 - WebItemPipeline - WARNING - redis dict not has activity item order:47431555
+2014-01-06 14:44:11,261 - WebItemPipeline - WARNING - redis dict not has activity item order:47431533
+2014-01-06 14:44:11,674 - WebItemPipeline - WARNING - redis dict not has activity item order:45218439
+2014-01-06 14:44:34,384 - WebItemPipeline - WARNING - redis dict not has activity item order:47822730
+2014-01-06 14:44:34,918 - WebItemPipeline - WARNING - redis dict not has activity item order:47822559
+2014-01-06 14:44:35,429 - WebItemPipeline - WARNING - redis dict not has activity item order:47822207
+2014-01-06 14:44:35,888 - WebItemPipeline - WARNING - redis dict not has activity item order:47822117
+2014-01-06 14:44:36,451 - WebItemPipeline - WARNING - redis dict not has activity item order:47621049
+2014-01-06 14:44:37,012 - WebItemPipeline - WARNING - redis dict not has activity item order:47620933
+2014-01-06 14:44:37,418 - WebItemPipeline - WARNING - redis dict not has activity item order:47434271
+2014-01-06 14:44:37,850 - WebItemPipeline - WARNING - redis dict not has activity item order:47434246
+2014-01-06 14:44:38,345 - WebItemPipeline - WARNING - redis dict not has activity item order:47434218
+2014-01-06 14:44:38,870 - WebItemPipeline - WARNING - redis dict not has activity item order:47434168
+2014-01-06 14:44:39,406 - WebItemPipeline - WARNING - redis dict not has activity item order:47432465
+2014-01-06 14:44:41,078 - WebItemPipeline - WARNING - redis dict not has activity item order:47432405
+2014-01-06 14:44:41,243 - WebItemPipeline - WARNING - redis dict not has activity item order:47431555
+2014-01-06 14:44:41,537 - WebItemPipeline - WARNING - redis dict not has activity item order:47431533
+2014-01-06 14:44:42,038 - WebItemPipeline - WARNING - redis dict not has activity item order:45218439
+2014-01-06 14:45:22,243 - WebItemPipeline - WARNING - redis dict not has activity item order:47822730
+2014-01-06 14:45:22,799 - WebItemPipeline - WARNING - redis dict not has activity item order:47822559
+2014-01-06 14:45:23,248 - WebItemPipeline - WARNING - redis dict not has activity item order:47822207
+2014-01-06 14:45:23,723 - WebItemPipeline - WARNING - redis dict not has activity item order:47822117
+2014-01-06 14:45:24,216 - WebItemPipeline - WARNING - redis dict not has activity item order:47621049
+2014-01-06 14:45:24,719 - WebItemPipeline - WARNING - redis dict not has activity item order:47620933
+2014-01-06 14:45:25,193 - WebItemPipeline - WARNING - redis dict not has activity item order:47434271
+2014-01-06 14:45:25,679 - WebItemPipeline - WARNING - redis dict not has activity item order:47434246
+2014-01-06 14:45:26,161 - WebItemPipeline - WARNING - redis dict not has activity item order:47434218
+2014-01-06 14:45:26,681 - WebItemPipeline - WARNING - redis dict not has activity item order:47434168
+2014-01-06 14:45:27,757 - WebItemPipeline - WARNING - redis dict not has activity item order:47432465
+2014-01-06 14:45:27,998 - WebItemPipeline - WARNING - redis dict not has activity item order:47432405
+2014-01-06 14:45:28,224 - WebItemPipeline - WARNING - redis dict not has activity item order:47431555
+2014-01-06 14:45:29,455 - WebItemPipeline - WARNING - redis dict not has activity item order:45218439
+2014-01-06 14:45:29,610 - WebItemPipeline - WARNING - redis dict not has activity item order:47431533
+2014-01-06 14:45:35,817 - WebItemPipeline - WARNING - redis dict not has activity item order:47822730
+2014-01-06 14:45:36,385 - WebItemPipeline - WARNING - redis dict not has activity item order:47822559
+2014-01-06 14:45:36,856 - WebItemPipeline - WARNING - redis dict not has activity item order:47822207
+2014-01-06 14:45:37,350 - WebItemPipeline - WARNING - redis dict not has activity item order:47822117
+2014-01-06 14:45:37,840 - WebItemPipeline - WARNING - redis dict not has activity item order:47621049
+2014-01-06 14:45:38,320 - WebItemPipeline - WARNING - redis dict not has activity item order:47620933
+2014-01-06 14:45:38,802 - WebItemPipeline - WARNING - redis dict not has activity item order:47434271
+2014-01-06 14:45:40,162 - WebItemPipeline - WARNING - redis dict not has activity item order:47434246
+2014-01-06 14:45:40,354 - WebItemPipeline - WARNING - redis dict not has activity item order:47434218
+2014-01-06 14:45:40,672 - WebItemPipeline - WARNING - redis dict not has activity item order:47434168
+2014-01-06 14:45:41,192 - WebItemPipeline - WARNING - redis dict not has activity item order:47432465
+2014-01-06 14:45:41,746 - WebItemPipeline - WARNING - redis dict not has activity item order:47432405
+2014-01-06 14:45:42,742 - WebItemPipeline - WARNING - redis dict not has activity item order:47431555
+2014-01-06 14:45:42,892 - WebItemPipeline - WARNING - redis dict not has activity item order:47431533
+2014-01-06 14:45:43,185 - WebItemPipeline - WARNING - redis dict not has activity item order:45218439
+2014-01-06 14:46:52,784 - Worker - ERROR - fetch request failed, code:500 error:HTTP 500: Internal Server Error url:http://www.228.com.cn/ticket-47932100.html
+2014-01-06 14:48:54,135 - WebItemPipeline - WARNING - redis dict not has activity item order:47821402
+2014-01-06 14:50:20,519 - WebItemPipeline - WARNING - redis dict not has activity item order:47343909
+2014-01-06 14:51:30,348 - Worker - ERROR - fetch request failed, code:500 error:HTTP 500: Internal Server Error url:http://www.228.com.cn/ticket-47932100.html
+2014-01-06 14:52:23,921 - Worker - ERROR - fetch request failed, code:500 error:HTTP 500: Internal Server Error url:http://www.228.com.cn/ticket-47932100.html
+2014-01-06 14:52:33,959 - Worker - INFO - stop worker

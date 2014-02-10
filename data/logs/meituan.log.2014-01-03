@@ -1,0 +1,113 @@
+2014-01-03 11:27:29,802 - ActivityParser - INFO - init Activity Parser finished
+2014-01-03 11:27:29,802 - DealParser - INFO - init Deal Parser finished
+2014-01-03 11:27:29,802 - PictureParser - INFO - init PictureParser finished
+2014-01-03 11:27:29,827 - WebItemPipeline - INFO - init web item pipeline finished
+2014-01-03 11:27:29,827 - ActivityItemPipeline - INFO - init activity item pipline finished
+2014-01-03 11:27:29,827 - Worker - INFO - start worker
+2014-01-03 11:27:50,889 - Worker - INFO - stop worker
+2014-01-03 11:28:30,788 - ActivityParser - INFO - init Activity Parser finished
+2014-01-03 11:28:30,789 - DealParser - INFO - init Deal Parser finished
+2014-01-03 11:28:30,789 - PictureParser - INFO - init PictureParser finished
+2014-01-03 11:28:30,809 - WebItemPipeline - INFO - init web item pipeline finished
+2014-01-03 11:28:30,809 - ActivityItemPipeline - INFO - init activity item pipline finished
+2014-01-03 11:28:30,810 - Worker - INFO - start worker
+2014-01-03 11:28:51,833 - Worker - INFO - stop worker
+2014-01-03 11:29:10,229 - ActivityParser - INFO - init Activity Parser finished
+2014-01-03 11:29:10,229 - DealParser - INFO - init Deal Parser finished
+2014-01-03 11:29:10,229 - PictureParser - INFO - init PictureParser finished
+2014-01-03 11:29:10,250 - WebItemPipeline - INFO - init web item pipeline finished
+2014-01-03 11:29:10,250 - ActivityItemPipeline - INFO - init activity item pipline finished
+2014-01-03 11:29:10,255 - Worker - INFO - start worker
+2014-01-03 11:29:14,586 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:16,468 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:16,469 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,469 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,469 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,470 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,470 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,470 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,470 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,471 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,471 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,471 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,471 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,471 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,474 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,474 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,475 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,475 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,475 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,475 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,476 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:16,476 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:17,558 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:18,664 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:18,664 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,665 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,665 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,667 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,667 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,668 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,668 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,668 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:18,669 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:19,518 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:19,519 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:20,758 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:20,764 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,628 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:21,629 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,629 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,630 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,630 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,631 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,631 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,631 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,631 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,632 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,632 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,633 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,633 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,633 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,633 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,634 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,634 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,634 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,636 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,636 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,636 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,636 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,636 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,637 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,637 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:21,637 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:29:22,571 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:29:43,352 - Worker - INFO - stop worker
+2014-01-03 11:31:42,565 - ActivityParser - INFO - init Activity Parser finished
+2014-01-03 11:31:42,565 - DealParser - INFO - init Deal Parser finished
+2014-01-03 11:31:42,565 - PictureParser - INFO - init PictureParser finished
+2014-01-03 11:31:42,585 - WebItemPipeline - INFO - init web item pipeline finished
+2014-01-03 11:31:42,585 - ActivityItemPipeline - INFO - init activity item pipline finished
+2014-01-03 11:31:42,587 - Worker - INFO - start worker
+2014-01-03 11:31:47,532 - DealParser - INFO - deal parser start to handle
+2014-01-03 11:31:47,532 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,533 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,533 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,533 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,533 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,534 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,534 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,534 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,534 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,535 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,535 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,535 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,538 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,538 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,538 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,538 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,539 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,539 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,540 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:31:47,540 - DealParser - WARNING - extract one element failed error:list index out of range
+2014-01-03 11:32:09,172 - Worker - INFO - stop worker

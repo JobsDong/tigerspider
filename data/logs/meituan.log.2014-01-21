@@ -1,0 +1,14 @@
+2014-01-20 15:34:27,295 - Worker - INFO - start worker
+2014-01-20 15:34:50,271 - HotelListParser - INFO - hotel parser begin to parse
+2014-01-20 15:34:53,711 - HotelListParser - INFO - hotel parse end to parse
+2014-01-20 15:35:33,751 - Worker - INFO - stop worker
+2014-01-20 15:35:47,672 - Worker - INFO - start worker
+2014-01-20 15:36:05,045 - HotelListParser - INFO - hotel parser begin to parse
+2014-01-20 15:36:07,612 - HotelListParser - INFO - hotel parse end to parse
+2014-01-20 15:36:47,685 - Worker - INFO - stop worker
+2014-01-21 09:56:44,518 - Worker - INFO - start worker
+2014-01-21 09:56:46,527 - Worker - ERROR - fetch request failed, code:599 error:HTTP 599: Operation timed out after 1040 milliseconds with 94027 out of -1 bytes received url:http://www.55tuan.com/openAPI.do?city=nanchang
+2014-01-21 09:56:48,520 - Worker - ERROR - open file： [Errno 2] No such file or directory: '/home/wuyadong/Downloads/55tuan_mobile.xml' failed
+2014-01-21 09:57:10,530 - Worker - INFO - stop worker
+2014-01-21 09:57:31,515 - Worker - INFO - start worker
+2014-01-21 09:57:53,524 - Worker - INFO - stop worker
