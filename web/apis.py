@@ -30,6 +30,7 @@ from core.worker import (start_worker, stop_worker, suspend_worker, WorkerError,
                          get_worker_statistic, get_all_workers, recover_worker)
 from core.statistic import output_statistic_dict
 from core.record import RecorderManager
+from core.proxy import reload_proxy
 
 
 class api_route(object):
@@ -62,6 +63,7 @@ class api_route(object):
         """
         return cls._api_methods
 
+
 def not_found(path):
     """返回notfound结果
         Args:
@@ -71,6 +73,7 @@ def not_found(path):
     """
     return result(code=404, message="not found", result={"path": path})
 
+
 def not_support_get(path):
     """返回不支持结果
         Args:
@@ -79,6 +82,7 @@ def not_support_get(path):
             result:Result
     """
     return result(code=404, message="not support get", result={"path": path})
+
 
 def check_params(params, *args):
     """检查参数params是否含有需要的key
@@ -100,6 +104,7 @@ def check_params(params, *args):
     else:
         return True, errors
 
+
 def result(code=200, message="success", result=""):
     """将计算的结果组织成json格式
         Args:
@@ -114,9 +119,11 @@ def result(code=200, message="success", result=""):
                                 ensure_ascii=False, encoding="utf8")
     return encoded_result
 
+
 @api_route(r"/api/dummy")
 def api_dummy(params):
     return result(200, "success", params)
+
 
 @api_route(r"/api/get_all_schedule_class")
 def api_get_all_schedule_class(params):
@@ -124,21 +131,23 @@ def api_get_all_schedule_class(params):
                                       ensure_ascii=False, encoding="utf-8")
     return result(200, "success", schedule_classes_str)
 
+
 @api_route(r"/api/get_all_spider_class")
 def api_get_all_spider_class(params):
     spider_classes_str = json.dumps(get_all_spider_class(),
                                     ensure_ascii=False, encoding="utf-8")
     return result(200, "success", spider_classes_str)
 
+
 @api_route(r"/api/start_worker")
 def api_start_worker(params):
-    '''
+    """
     启动一个worker，worker执行的内容spider，以及执行的规则
     schedule_path;
     spider_path,
     spider_..,...,...., 这里为已spider_开头的参数
     schedule_..,...,...,这里为以schedule_开头的参数
-    '''
+    """
     is_ok, errors = check_params(params, 'schedule_path', 'spider_path')
     if not is_ok:
         return result(400, "params error", str(errors))
@@ -164,12 +173,13 @@ def api_start_worker(params):
         else:
             return result(200, "start worker success", "success")
 
+
 @api_route(r"/api/stop_worker")
 def api_stop_worker(params):
-    '''
+    """
     worker_name:${worker_name}
     这个会停止worker，并且将worker对应的schedule清空，并存储统计信息
-    '''
+    """
     is_ok, errors = check_params(params, 'worker_name')
     if not is_ok:
         return result(400, "params error", str(errors))
@@ -181,6 +191,7 @@ def api_stop_worker(params):
             return result(400, "stop worker failed", str(e))
         else:
             return result(200, "stop worker success", "success")
+
 
 @api_route(r"/api/suspend_worker")
 def api_suspend_worker(params):
@@ -206,6 +217,7 @@ def api_suspend_worker(params):
     else:
         return result(200, "suspend worker success", "success")
 
+
 @api_route(r"/api/rouse_worker")
 def api_rouse_worker(params):
     """唤醒worker
@@ -225,6 +237,7 @@ def api_rouse_worker(params):
         return result(400, "rouse worker failed", str(e))
     else:
         return result(200, "rouse worker success", "success")
+
 
 @api_route(r"/api/get_worker_statistic")
 def api_get_worker_statistic(params):
@@ -252,6 +265,7 @@ def api_get_worker_statistic(params):
 
     return result(200, "success", str(worker_statistic_dict))
 
+
 @api_route(r"/api/get_all_worker")
 def api_get_all_worker(params):
     """获取所有的worker
@@ -261,6 +275,7 @@ def api_get_all_worker(params):
     workers = get_all_workers()
 
     return result(200, "success", str(workers))
+
 
 @api_route(r"/api/get_all_fail_worker")
 def api_get_all_fail_worker(params):
@@ -279,12 +294,13 @@ def api_get_all_fail_worker(params):
     else:
         return result(200, "success", last_fail_worker_str)
 
+
 @api_route(r"/api/recover_worker")
 def api_recover_worker(params):
-    '''以恢复模式启动一个worker
+    """以恢复模式启动一个worker
         Args:
             params: 字典, 参数字典:必须包括对应的worker_name
-    '''
+    """
 
     is_ok, errors = check_params(params, 'worker_name')
     if not is_ok:
@@ -314,6 +330,7 @@ def api_recover_worker(params):
             return result(500, "unsupported exception", result=str(e))
         else:
             return result(200, "recover worker success", "success")
+
 
 @api_route(r"/api/remove_fail_worker")
 def api_remove_fail_worker(params):
@@ -349,3 +366,17 @@ def api_remove_fail_worker(params):
                 return result(500, "unsupported exception", result=str(e))
             else:
                 return result(200, "success", "remove success")
+
+
+@api_route(r"/api/reload_proxy")
+def api_reload_proxy(params):
+    """reload proxy.dat file
+        Args:
+            params: dict, param dict
+    """
+    try:
+        reload_proxy()
+    except Exception, e:
+        return result(500, "reload proxy failed", str(e))
+    else:
+        return result(200, "success", "reload proxy success")

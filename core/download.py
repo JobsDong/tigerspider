@@ -17,32 +17,27 @@ from tornado.httpclient import HTTPRequest
 
 from core.datastruct import HttpTask
 from core.resolver import DNSResolver, ResolveError
+from core.proxy import get_proxy
 
 httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=50)
 
-_host_cookies = {"http://www.meituan.com": r"SID=id05a52uecv601av123577nmr3; ci=1; "
-                r"abt=1378729480.0%7CBDF; rvct=1; rvd=8190998;"
-                r" rus=1; uuid=32d702eebe3d05dd1ae5.1378729480.0.0.0;"
-                r" __utma=1.580685477.1378729555.1378729555.1378729555.1;"
-                r" __utmb=1.5.9.1378729597349; __utmc=1;"
-                r" __utmz=1.1378729555.1.1.utmcsr=(direct)|"
-                r"utmccn=(direct)|utmcmd=(none);"
-                r" __utmv=1.|1=city=beijing=1;"
-                r" __t=1378729597368.0.1378729597368.Bsanlitun.Ashoppingmall"}
-_cookie_used_counts = {"http://www.meituan.com": 0}
+_host_cookies = {}
+_cookie_used_counts = {}
 _cookie_is_buildings = set()
 _host_ip_cache = {}
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_USER_AGENT = r"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36"
+DEFAULT_USER_AGENT = r"Mozilla/5.0 (Windows NT 5.1)"
 DEFAULT_ACCEPT_ENCODING = r"gzip,deflate,sdch"
 DEFAULT_ACCEPT = r"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 
+
 class GetPageError(Exception):
-    '''
-    get page exeception
-    '''
+    """get page exception
+    """
+
+
 @gen.coroutine
 def fetch(http_task):
     """根据任务要求进行下载
@@ -67,6 +62,10 @@ def fetch(http_task):
         if http_task.dns_need:
             resovle_dns_for_request(http_request)
 
+        # 使用proxy
+        if http_task.proxy_need:
+            add_proxy_for_request(http_request)
+
     except Exception, e:
         resp = e
         logger.error("fetch method error:%s" % e)
@@ -75,6 +74,7 @@ def fetch(http_task):
         resp = yield gen.Task(client.fetch, http_request)
 
     raise gen.Return(resp)
+
 
 def add_cookie_for_request(http_request, cookie_host, cookie_count):
     """add cookie for request
@@ -85,7 +85,8 @@ def add_cookie_for_request(http_request, cookie_host, cookie_count):
     cookie = get_cookie_sy(cookie_host, cookie_count)
     if cookie:
         http_request.headers = {"Cookie": cookie} if not http_request.headers \
-                else http_request.headers.update({"Cookie": cookie})
+            else http_request.headers.update({"Cookie": cookie})
+
 
 def add_universal_headers_for_request(http_request):
     """add universal headers for request
@@ -101,6 +102,7 @@ def add_universal_headers_for_request(http_request):
     if not http_request.headers.has_key('Accept'):
         http_request.headers['Accept'] = DEFAULT_ACCEPT
 
+
 def resovle_dns_for_request(http_request):
     """resolve dns for request
         Args:
@@ -112,6 +114,20 @@ def resovle_dns_for_request(http_request):
         logger.warn("dns error:%s, error:%s" % (http_request.host, e))
     else:
         http_request.url = ip_addr
+
+
+def add_proxy_for_request(http_request):
+    """add proxy for request
+        Args:
+            http_request:HttpRequest, request
+    """
+    # 获取一个proxy
+    proxy_host, proxy_port = get_proxy()
+
+    if proxy_host is not None:
+        http_request.proxy_host = proxy_host
+        http_request.proxy_port = proxy_port
+
 
 def _get_page_sy(http_task, cookie):
     """以同步方式获取网页内容
@@ -150,6 +166,7 @@ def _get_page_sy(http_task, cookie):
         resp = GetPageError(e)
     return resp
 
+
 def get_ip_by_host(host):
     """获取ip，根据host
         Args:
@@ -165,6 +182,7 @@ def get_ip_by_host(host):
         _host_ip_cache[host] = sockaddr[0]
     else:
         return _host_ip_cache[host]
+
 
 def _build_cookie_sy(host):
     """访问主页，获取cookie
@@ -190,6 +208,7 @@ def _build_cookie_sy(host):
 
     _host_cookies[host] = new_cookie
     _cookie_used_counts[host] = 0
+
 
 def get_cookie_sy(host, flushcount=20):
     """获得可用的cookie，采用的事同步方式

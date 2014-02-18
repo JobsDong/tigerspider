@@ -16,8 +16,9 @@ from tornado import web, ioloop, httpclient, iostream
 import local
 
 unsupport_headers = ['connection', 'keep-alive', 'proxy-authenticate','upgrade'
-                    'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
+                     'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
                      '']
+
 
 class ProxyHandler(web.RequestHandler):
     """handle for proxy request
@@ -95,6 +96,7 @@ class ProxyHandler(web.RequestHandler):
         upstream = iostream.IOStream(s)
         upstream.connect((host, int(port)), start_tunnel)
 
+
 def build_param_body(req):
     if req.body is not None:
         encode_body = base64.encodestring(req.body)
@@ -109,6 +111,7 @@ def build_param_body(req):
     }
     return json.dumps(param_dict, ensure_ascii=True)
 
+
 def build_request_for_app(req):
     SINAURL = random.choice(local.urls)
     new_req = httpclient.HTTPRequest(SINAURL, method="POST", body=build_param_body(req),
@@ -116,6 +119,7 @@ def build_request_for_app(req):
                                      follow_redirects=False,
                                      request_timeout=12000)
     return new_req
+
 
 def is_need_header(header_name, proxy_source):
     lower_header_name = header_name.lower()
@@ -128,12 +132,15 @@ def is_need_header(header_name, proxy_source):
             return False
     return True
 
+
 def handle_request(req):
     return build_request_for_app(req)
+
 
 settings = {
     "debug": True
 }
+
 
 def run_proxy(port=2345):
     """run proxy on the specified port
