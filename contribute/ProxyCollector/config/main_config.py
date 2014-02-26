@@ -17,7 +17,8 @@ TEST_WEBS = (
     {'url': "http://www.qq.com", 'connect_timeout': 2, 'request_timeout': 10},
     {'url': "http://www.sohu.com", 'connect_timeout': 2, 'request_timeout': 10},
     {'url': "http://www.163.com", 'connect_timeout': 2, 'request_timeout': 10},
-    {'url': "http://www.taobao.com", 'connect_timeout': 2, 'request_timeout': 10}
+    {'url': "http://www.taobao.com", 'connect_timeout': 2, 'request_timeout': 10},
+    {'url': "http://www.dianping.com", 'connect_timeout': 2, 'request_timeout': 10},
 )
 
 # 默认headers
@@ -30,7 +31,12 @@ DEFAULT_HEADER = {
 
 # 最大连接数
 MAX_CLIENTS = 20
+
 # 最大访问间隔
 INTERVAL = 500
+
 # 更新的文件路径
 PROXY_DAT_FILE_PATH = "/home/wuyadong/git/tigerknows-spider/data/proxy.dat"
+
+# 阈值
+PROXY_THRESHOLD = 0.7
