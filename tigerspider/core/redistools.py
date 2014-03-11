@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """用于封装redis的操作
     RedisError: 表示redis内部错误

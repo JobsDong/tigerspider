@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 from tigerspider.web import apis, pages
 
 

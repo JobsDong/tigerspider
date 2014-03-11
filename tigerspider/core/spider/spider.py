@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """主要是描述公共抓取流程的类
     SpiderError: spider发生的内部错误

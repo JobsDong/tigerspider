@@ -1,8 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
-
 """用于操作数据库的类
     DBError: exception, 关于db的错误类
     DB: 关于db操作的类

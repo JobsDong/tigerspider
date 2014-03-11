@@ -1,15 +1,14 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
-'''定义schedule，及控制抓取策略的模块
+"""定义schedule，及控制抓取策略的模块
     ScheduleError: 描述schedule发生内部错误
     BaseSchedule: schedule的基类
 
     add_schedule_class: 将schedule的类加入
 
-'''
+"""
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 

@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """主要用于记录历史记录，以及还原失败的worker，同时肩负着失败信息的记录(这个后面处理，可能使用到fs)
 """
