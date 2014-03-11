@@ -11,13 +11,17 @@
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
+import csv
 import logging
+import json
 from tigerspider.core.datastruct import HttpTask
+from tigerspider.core.util import get_project_path
 
 WORKER_STATISTIC_PATH = "data/worker_statistic.dat"
 WORKER_FAIL_PATH = "data/fails/"
 
 logger = logging.getLogger("statistic")
+
 
 class WorkerStatistic(object):
     """用于统计worker的信息的类
@@ -73,13 +77,10 @@ class WorkerStatistic(object):
                 key_name: str, 对应的key
         """
         self._parser2success[key_name] = 1 if not self._parser2success.has_key(key_name) \
-        else self._parser2success[key_name] + 1
+            else self._parser2success[key_name] + 1
 
     @property
     def parser2success(self):
-        '''
-        don't modify
-        '''
         return self._parser2success
 
     def add_spider_fail(self, key, reason):
@@ -94,12 +95,8 @@ class WorkerStatistic(object):
         reason2count[reason] = 1 if not reason2count.has_key(reason) \
             else reason2count[reason] + 1
 
-
     @property
     def parser2fail(self):
-        '''
-        don't modify
-        '''
         return self._parser2fail
 
     def add_spider_retry(self, key, reason):
@@ -112,9 +109,6 @@ class WorkerStatistic(object):
 
     @property
     def parser2retry(self):
-        '''
-        don't modify
-        '''
         return self._parser2retry
 
     def count_average_fetch_time(self, parser_name, fetch_time, fetch_interval,
@@ -133,11 +127,13 @@ class WorkerStatistic(object):
             time2interval[fetch_time] = fetch_interval
         else:
             time2interval[latest_fetch_time] = (time2interval[latest_fetch_time] *
-                time2count[latest_fetch_time] + fetch_interval) / (time2count[latest_fetch_time] + 1)
+                time2count[latest_fetch_time] + fetch_interval) / \
+                                               (time2count[latest_fetch_time] + 1)
             time2count[latest_fetch_time] += 1
 
     def count_average_extract_time(self, parser_name, extract_time,
-            extract_interval, default_interval=datetime.timedelta(minutes=10)):
+                                   extract_interval,
+                                   default_interval=datetime.timedelta(minutes=10)):
         """extract one task's response. include handle time
         """
         if not self._parser2extractcount.has_key(parser_name):
@@ -154,7 +150,9 @@ class WorkerStatistic(object):
             time2interval[extract_time] = extract_interval
         else:
             time2interval[latest_extract_time] = (time2interval[latest_extract_time]
-                * time2count[latest_extract_time] + extract_interval) / (time2count[latest_extract_time] + 1)
+                                                  * time2count[latest_extract_time]
+                                                  + extract_interval) / \
+                                                 (time2count[latest_extract_time] + 1)
             time2count[latest_extract_time] += 1
 
     def count_average_handle_item_time(self, parser_name, handle_time, handle_interval,
@@ -177,9 +175,6 @@ class WorkerStatistic(object):
             time2count[latest_handle_time] += 1
 
     def get_average_fetch_interval(self, parser_name=""):
-        '''
-        don't modify
-        '''
         if parser_name == "":
             return self._parser2fetchinterval
         else:
@@ -187,9 +182,6 @@ class WorkerStatistic(object):
                 else self._parser2fetchinterval[parser_name]
 
     def get_average_extract_interval(self, parser_name=""):
-        '''
-        don't modify
-        '''
         if parser_name == "":
             return self._parser2extractinterval
         else:
@@ -203,9 +195,12 @@ class WorkerStatistic(object):
             return None if not self._parser2handleinterval.has_key(parser_name) \
                 else self._parser2handleinterval[parser_name]
 
+
 def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
-    with open(tigerspider.core.util.get_project_path() + file_path, "a") as out_file:
-        out_file.write("----------------------------------%s----------------------------------------\n" % datetime.datetime.today())
+    with open(get_project_path() + file_path, "a") as out_file:
+        out_file.write("----------------------------------%s"
+                       "----------------------------------------\n" %
+                       datetime.datetime.today())
         out_file.write("crawl start time: %s\n\n\n" % work_statistic.start_time)
         out_file.write("crawl end time: %s\n\n\n" % work_statistic.end_time)
         out_file.write("worker name: %s\n\n\n" % worker_name)
@@ -223,7 +218,6 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
             out_file.write("\n")
         out_file.write("\n\n")
 
-
         out_file.write("spider retry count:\n")
         for spider_name, reason2count in work_statistic.parser2retry.iteritems():
             out_file.write("%s: \n" % spider_name)
@@ -233,8 +227,8 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         out_file.write("\n\n")
 
         out_file.write("spider fetch interval:\n")
-        for spider_name, interval_dict in work_statistic.get_average_fetch_interval().\
-            iteritems():
+        for spider_name, interval_dict in work_statistic.\
+            get_average_fetch_interval().iteritems():
             out_file.write("spider name: %s\n" % spider_name)
             for start_time in sorted(interval_dict.keys()):
                 out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
@@ -242,8 +236,8 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         out_file.write("\n\n")
 
         out_file.write("spider extract interval:\n")
-        for spider_name, interval_dict in work_statistic.get_average_extract_interval()\
-            .iteritems():
+        for spider_name, interval_dict in work_statistic.\
+            get_average_extract_interval().iteritems():
             out_file.write("spider name:%s\n" % spider_name)
             for start_time in sorted(interval_dict.keys()):
                 out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
@@ -251,8 +245,8 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
         out_file.write("\n\n")
 
         out_file.write("spider handle item interval:\n")
-        for item_name, interval_dict in work_statistic.get_average_handle_interval()\
-            .iteritems():
+        for item_name, interval_dict in work_statistic.\
+            get_average_handle_interval().iteritems():
             out_file.write("handle item name:%s\n" % item_name)
             for start_time in sorted(interval_dict.keys()):
                 out_file.write("%s: %s\n" % (start_time, interval_dict.get(start_time)))
@@ -262,7 +256,7 @@ def output_statistic_file(file_path, work_statistic, worker_name, spider_name):
 
 
 def output_statistic_dict(worker_statistic):
-    statistic_dict = {}
+    statistic_dict = dict()
     statistic_dict['start_time'] = None if not worker_statistic.start_time \
         else worker_statistic.start_time.strftime("%Y-%m-%d %H:%M:%S")
     statistic_dict['end_time'] = None if not worker_statistic.end_time \
@@ -306,9 +300,23 @@ def output_fail_http_task_file(file_path, schedule):
             file_path: str, file path to store fail task
             schedule: Schedule, schedule for spider
     """
-    import tigerspider.core.util
-    with open(tigerspider.core.util.get_project_path() + file_path, "w") as out_file:
+    with open(get_project_path() + file_path, "wb") as out_file:
+        csv_writer = csv.writer(out_file, delimiter=',',
+                                quotechar='"', quoting=csv.QUOTE_ALL)
         for task in schedule.dumps_all_fail_task():
             if isinstance(task, HttpTask):
-                line = '"%s" "%s" "%s" "%s"\n' % (task.request.url, task.kwargs, task.callback, task.reason)
-                out_file.write(line)
+                try:
+                    url = task.request.url.encode('utf-8') if\
+                        isinstance(task.request.url, unicode) else \
+                        task.request.url
+                    kwargs = json.dumps(task.kwargs, ensure_ascii=False)
+                    callback = task.callback.encode('utf-8') if \
+                        isinstance(task.callback, unicode) else \
+                        task.callback
+                    reason = task.reason.encode('utf-8') if \
+                        isinstance(task.reason, unicode) else \
+                        task.reason
+
+                    csv_writer.writerow([url, kwargs, callback, reason])
+                except Exception, e:
+                    logger.warn("output fail task failed error:%s" % e)
