@@ -562,3 +562,29 @@ def get_worker_statistic(worker_name):
         raise WorkerError("not has %s worker" % worker_name)
     worker = Worker.workers.get(worker_name)
     return worker.worker_statistic
+
+
+def rouse_all_worker():
+    """唤醒所有worker
+        Raises:
+            WorkerError: 当唤醒失败时抛出错误
+    """
+    try:
+        for worker_name, worker in Worker.workers.iteritems():
+            if worker is not None and worker.is_started and worker.is_suspended:
+                worker.rouse()
+    except Exception, e:
+        raise WorkerError("rouse all worker error:%s" % e)
+
+
+def suspend_all_worker():
+    """挂起所有的worker
+        Raises:
+            workerError: 挂起失败返回Exception
+    """
+    try:
+        for worker_name, worker in Worker.workers.iteritems():
+            if worker is not None and worker.is_started and not worker.is_suspended:
+                worker.suspend()
+    except Exception, e:
+        raise WorkerError("suspend all worker error:%s" % e)

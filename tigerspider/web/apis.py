@@ -1,8 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
-
 """ 提供web对worker进行控制的api接口
     api_route：是一个用于api注册的包装器
 
@@ -26,8 +24,9 @@ import json
 
 from tigerspider.core.spider.spider import get_all_spider_class, get_spider_class, SpiderError
 from tigerspider.core.schedule import get_all_schedule_class, get_schedule_class, ScheduleError
-from tigerspider.core.worker import (start_worker, stop_worker, suspend_worker, WorkerError,rouse_worker,
-                         get_worker_statistic, get_all_workers, recover_worker)
+from tigerspider.core.worker import (start_worker, stop_worker, suspend_worker, WorkerError,
+                                     rouse_worker, get_worker_statistic, get_all_workers,
+                                     recover_worker, rouse_all_worker, suspend_all_worker)
 from tigerspider.core.statistic import output_statistic_dict
 from tigerspider.core.record import RecorderManager
 from tigerspider.core.proxy import reload_proxy
@@ -156,9 +155,9 @@ def api_start_worker(params):
             schedule_path = params.pop('schedule_path')
             spider_path = params.pop('spider_path')
             schedule_params = dict([(key[9:], value) for key, value in params.items()
-                               if key.startswith('schedule_')])
+                                    if key.startswith('schedule_')])
             spider_params = dict([(key[8:], value) for key, value in params.items()
-                             if key.startswith('spider_')])
+                                  if key.startswith('spider_')])
             schedule = get_schedule_class(schedule_path)(**schedule_params)
             spider = get_spider_class(spider_path)(schedule, **spider_params)
             start_worker(spider)
@@ -288,7 +287,7 @@ def api_get_all_fail_worker(params):
     try:
         fail_worker_records = RecorderManager.instance().get_last_fail_worker()
         last_fail_worker_str = json.dumps(fail_worker_records,
-                                      ensure_ascii=False, encoding="utf-8")
+                                          ensure_ascii=False, encoding="utf-8")
     except Exception, e:
         return result(500, "get fail worker failed", str(e))
     else:
@@ -380,3 +379,33 @@ def api_reload_proxy(params):
         return result(500, "reload proxy failed", str(e))
     else:
         return result(200, "success", "reload proxy success")
+
+
+@api_route(r"/api/rouse_all_worker")
+def api_rouse_all_worker(params):
+    """唤醒所有的worker
+        Returns:
+            result: Result对象
+    """
+    try:
+        rouse_all_worker()
+    except WorkerError, e:
+        return result(400, "rouse all worker failed", str(e))
+    else:
+        return result(200, "rouse all worker success", "success")
+
+
+@api_route(r"/api/suspend_all_worker")
+def api_suspend_all_worker(params):
+    """挂起所有worker
+        Args:
+            params: 字典
+        Returns:
+            result: 被jsondumps后的字符传,秒素的是执行的结果
+    """
+    try:
+        suspend_all_worker()
+    except WorkerError, e:
+        return result(400, "suspend all worker failed", str(e))
+    else:
+        return result(200, "suspend all worker success", "success")
