@@ -309,7 +309,14 @@ def output_fail_http_task_file(file_path, schedule):
                     url = task.request.url.encode('utf-8') if\
                         isinstance(task.request.url, unicode) else \
                         task.request.url
-                    kwargs = json.dumps(task.kwargs, ensure_ascii=False)
+                    try:
+                        kwargs = json.dumps(task.kwargs, ensure_ascii=False)
+                        kwargs = kwargs.encode('utf-8') if \
+                            isinstance(kwargs, unicode) else \
+                            kwargs
+                    except Exception, e:
+                        logger.warn("dumps kwargs failed error:%s" % e)
+                        kwargs = "{}"
                     callback = task.callback.encode('utf-8') if \
                         isinstance(task.callback, unicode) else \
                         task.callback
