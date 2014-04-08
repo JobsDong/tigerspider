@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
+# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """描述实际执行任务的worker的行为和属性。
  WorkerError: 与worker有关的错误
@@ -14,7 +15,6 @@
  get_worker_statistic: 获取某一worker对应的实时统计信息
  recover_worker: 以恢复模式启动worker
 """
-from tigerspider.core import record
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
@@ -24,6 +24,7 @@ import StringIO
 import logging
 from tornado import ioloop, gen
 
+from tigerspider.core.record import record
 from tigerspider.core.util import get_class_path, log_exception_wrap
 from tigerspider.core.spider.parser import ParserError
 from tigerspider.core.schedule import ScheduleError
@@ -363,7 +364,6 @@ class Worker(object):
                     datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval * 2),
                     self.loop_get_and_execute)
 
-
     def handle_fail_task(self, task, key):
         """handle fail task
 
@@ -397,6 +397,7 @@ def _move_start_tasks_to_crawl_schedule(start_tasks, crawl_schedule):
     for task in start_tasks:
         crawl_schedule.push_new_task(task)
 
+
 def recover_worker(spider):
     """以恢复模式启动worker
         Args:
@@ -416,6 +417,7 @@ def recover_worker(spider):
         raise WorkerError("start worker error:%s" % e)
     else:
         Worker.workers[worker_name] = worker
+
 
 def start_worker(spider):
 
@@ -459,6 +461,7 @@ def start_worker(spider):
 #     else:
 #         Worker.workers[worker_name] = worker
 #         Worker.worker_index += 1
+
 
 def stop_worker(worker_name):
 
@@ -544,6 +547,7 @@ def get_all_workers():
         workers.append(temp_worker)
 
     return workers
+
 
 def get_worker_statistic(worker_name):
 

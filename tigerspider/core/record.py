@@ -71,6 +71,7 @@ class RecorderManager(object):
     def dumps(self):
         """持久化worker数据
         """
+        import tigerspider.core.util
         with open(tigerspider.core.util.get_project_path() + WORKER_RECORD_PATH, "wb") as out_file:
             new_dict = {}
             new_dict.update(self._last_fail_workers)
