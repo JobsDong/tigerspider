@@ -28,7 +28,7 @@ tigerspider是一个用于抓取网页以及解析出有用信息的爬虫框架
 第一步是定义你所要提取出来的数据。在tigerspider中，这是通过Item来实现的.
 这将会是我们定义的item::
 
-    from core.datastruct import Item
+    from tigerspider.core.datastruct import Item
 
     class WebItem(Item):
         """描述活动详情页提取出来的数据
@@ -113,9 +113,9 @@ tigerspider是一个用于抓取网页以及解析出有用信息的爬虫框架
   
     from lxml import html
 
-    from core.util import flist
-    from core.spider.parser import BaseParser
-    from spiders.intro1.items import WebItem
+    from tigerspider.core.util import flist
+    from tigerspider.core.spider.parser import BaseParser
+    from tigerspider.spiders.intro1.items import WebItem
 
 
     class ActivityParser(BaseParser):
@@ -188,8 +188,8 @@ pipeline捕获到解析器中yield出来的对象，并进行处理。以下我�
 
     import csv
 
-    from core.spider.pipeline import BasePipeline
-    from spiders.intro1.items import WebItem
+    from tigerspider.core.spider.pipeline import BasePipeline
+    from tigerspider.spiders.intro1.items import WebItem
 
     class WebItemPipeline(BasePipeline):
 
@@ -227,10 +227,10 @@ pipeline捕获到解析器中yield出来的对象，并进行处理。以下我�
 我们需要用一个Spider类组织齐需要的解析器，和处理器，来描述一个Spider的基本组成，我们是通过Spider来实现的::
 
     from tornado.httpclient import HTTPRequest
-    from core.spider.spider import BaseSpider
-    from core.datastruct import HttpTask
-    from spiders.intro1.parser import ActivityParser
-    from spiders.intro1.pipeline import WebItemPipeline
+    from tigerspider.core.spider.spider import BaseSpider
+    from tigerspider.core.datastruct import HttpTask
+    from tigerspider.spiders.intro1.parser import ActivityParser
+    from tigerspider.spiders.intro1.pipeline import WebItemPipeline
 
 
     class Intro1Spider(BaseSpider):
