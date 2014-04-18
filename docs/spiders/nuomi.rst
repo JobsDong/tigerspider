@@ -1,0 +1,167 @@
+======================================
+nuomi
+======================================
+
+功能
+=======
+
+用于糯米网数据抓取
+
+抓取源
+=============
+
+是基于糯米网的开放API进行数据抓取的
+
+有关数据库
+==============
+
+最终抓取的数据是放在线上的swift数据库的rt_crawl表中
+
+建表的sql如下::
+
+    -- Table: rt_crawl
+
+    -- DROP TABLE rt_crawl;
+
+    CREATE TABLE rt_crawl
+    (
+      id serial NOT NULL,
+      city_code character varying NOT NULL,
+      type character varying NOT NULL,
+      start_time timestamp without time zone,
+      end_time timestamp without time zone,
+      info character varying NOT NULL,
+      url character varying NOT NULL,
+      source character varying NOT NULL,
+      update_time timestamp without time zone NOT NULL,
+      add_time timestamp without time zone,
+      CONSTRAINT unique_url_citycode UNIQUE (url , city_code )
+    )
+    WITH (
+      OIDS=FALSE
+    );
+    ALTER TABLE rt_crawl
+      OWNER TO postgres;
+
+    -- Index: rt_crawl_add_time_btree
+
+    -- DROP INDEX rt_crawl_add_time_btree;
+
+    CREATE INDEX rt_crawl_add_time_btree
+      ON rt_crawl
+      USING btree
+      (add_time );
+
+    -- Index: rt_crawl_city_code_btree
+
+    -- DROP INDEX rt_crawl_city_code_btree;
+
+    CREATE INDEX rt_crawl_city_code_btree
+      ON rt_crawl
+      USING btree
+      (city_code );
+
+    -- Index: rt_crawl_end_time_btree
+
+    -- DROP INDEX rt_crawl_end_time_btree;
+
+    CREATE INDEX rt_crawl_end_time_btree
+      ON rt_crawl
+      USING btree
+      (end_time );
+
+    -- Index: rt_crawl_source_btree
+
+    -- DROP INDEX rt_crawl_source_btree;
+
+    CREATE INDEX rt_crawl_source_btree
+      ON rt_crawl
+      USING btree
+      (source );
+
+    -- Index: rt_crawl_start_time_btree
+
+    -- DROP INDEX rt_crawl_start_time_btree;
+
+    CREATE INDEX rt_crawl_start_time_btree
+      ON rt_crawl
+      USING btree
+      (start_time );
+
+    -- Index: rt_crawl_type_btree
+
+    -- DROP INDEX rt_crawl_type_btree;
+
+    CREATE INDEX rt_crawl_type_btree
+      ON rt_crawl
+      USING btree
+      (type );
+
+    -- Index: rt_crawl_update_time_btree
+
+    -- DROP INDEX rt_crawl_update_time_btree;
+
+    CREATE INDEX rt_crawl_update_time_btree
+      ON rt_crawl
+      USING btree
+      (update_time );
+
+    -- Index: rt_crawl_url_btree
+
+    -- DROP INDEX rt_crawl_url_btree;
+
+    CREATE INDEX rt_crawl_url_btree
+      ON rt_crawl
+      USING btree
+      (url );
+
+
+
+部署和运行
+===============
+
+部署运行
+-----------
+
+* 获得代码 git clone git@github.com:JobsDong/tigerspider.git
+
+* 修改配置:
+
+  * 修改监控端口
+
+    1235就是默认端口号
+
+    修改 ``tigerknows-spider/monitor.py`` ::
+
+      if __name__ == "__main__"
+          walk_settings()
+          web_service = WebService()
+          web_service.start(1235)
+  * 修改数据保存的数据库地址
+
+    127.0.0.1就是数据库的ip, 5432就是数据库的端口, postgres是数据库的用户名
+    titps4gg是数据库的密码，是数据库的名字
+    修改 ``tigerknows-spider/spiders/nuomi/pipeline.py`` ::
+
+        class DealItemPipeline(BasePipeline):
+            def __init__(self, namespace, db_host="127.0.0.1", db_port=5432,
+                         db_user="postgres", db_password="titps4gg", db_base="swift"):
+
+  * 运行monitor.py 程序::
+
+      python monitory.py &
+
+  * 通过api启动任务
+
+    在浏览器中输入: ``http://{host}:{port}/api/start_worker?schedule_path=schedules.schedules.RedisSchedule&spider_path=spiders.nuomi.spider.NuomiSpider&schedule_interval=400&schedule_max_number=20``
+    * host是对应的部署的机器的ip
+    * port是对应的监控端口
+    * schedule_path是要使用的schedule_path，能够使用的schedule请参看tigerknows-spider/settings/registersettings
+    * spider_path是使用的spider_path,能够使用的spider请参看tigerknows-spider/settings/registersettings
+    * schedule_interval是每次请求的抓取间隔，单位是ms
+    * schedule_max_number是请求的最大并发度
+
+  * iceage的定时任务配置::
+
+    #nuomi
+    20 00 * * * curl "http://127.0.0.1:1237/api/start_worker?schedule_path=schedules.schedules.RedisSchedule&spider_path=spiders.nuomi.spider.NuomiSpider&schedule_interval=1000&schedule_max_number=3"
