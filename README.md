@@ -1,4 +1,0 @@
-webspider
-=========
-
-a python webspider
