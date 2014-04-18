@@ -10,7 +10,12 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 spiders = [
     'spiders.com228.spider.Com228Spider',
-    'spiders.intro1.spider.Intro1Spider'
+    'spiders.intro1.spider.Intro1Spider',
+    'spiders.ctrip.spider.CtripSpider',
+    'spiders.nuomi.spider.NuomiSpider',
+    'spiders.lvyoubaidu.spider.LvYouBaiDuSpider',
+    'spiders.lvyoubaidutag.spider.LvYouBaiDuTagSpider',
+    'spiders.lvyoudaodao.spider.LvYouDaoDaoSpider',
 ]
 
 schedules = [
