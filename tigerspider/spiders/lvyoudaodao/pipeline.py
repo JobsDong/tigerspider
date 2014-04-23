@@ -8,17 +8,20 @@ import json
 from tigerspider.core.spider.pipeline import BasePipeline
 from tigerspider.core.redistools import RedisDict, RedisError
 
-from tigerspider.spiders.lvyoudaodao.items import AttractionItem, DescriptionItem
+from tigerspider.spiders.lvyoudaodao.items import (AttractionItem,
+                                                   DescriptionItem)
 
 
 class AttractionItemPipeline(BasePipeline):
     """景点信息的处理流水线
     """
-    def __init__(self, namespace, redis_host='127.0.0.1', redis_port=6379, redis_db=1):
+    def __init__(self, namespace, redis_host='127.0.0.1',
+                 redis_port=6379, redis_db=1):
         BasePipeline.__init__(self, namespace)
         try:
             temp_namespace = "%s:%s" % (namespace, "temp")
-            self.temp_item_dict = RedisDict(temp_namespace, host=redis_host, port=redis_port, db=redis_db)
+            self.temp_item_dict = RedisDict(temp_namespace, host=redis_host,
+                                            port=redis_port, db=redis_db)
         except RedisError, e:
             self.logger.error("redis error %s" % e)
 
@@ -43,12 +46,15 @@ class DescriptionItemPipeline(BasePipeline):
         self._csv_writer = csv.writer(self._out_file, delimiter=',', quotechar='"',
                                       quoting=csv.QUOTE_ALL, lineterminator='\n')
         # 写标题拦
-        self._csv_writer.writerow(["Name", "BLon", "BLat", "PlaySpend", "PlaySpendUnit", "Address",
-                                   "Tel", "OpenTime", "Rating", "TicketInfo", "ZipCode", "Description", "Comments",
+        self._csv_writer.writerow(["Name", "BLon", "BLat", "PlaySpend",
+                                   "PlaySpendUnit", "Address",
+                                   "Tel", "OpenTime", "Rating", "TicketInfo",
+                                   "ZipCode", "Description", "Comments",
                                    "CommentsNumber", "SortSequence"])
         try:
             temp_namespace = "%s:%s" % (namespace, "temp")
-            self.temp_item_dict = RedisDict(temp_namespace, host=redis_host, port=redis_port, db=redis_db)
+            self.temp_item_dict = RedisDict(temp_namespace, host=redis_host,
+                                            port=redis_port, db=redis_db)
         except RedisError, e:
             self.logger.error("redis error %s" % e)
 
@@ -81,17 +87,20 @@ class DescriptionItemPipeline(BasePipeline):
             }
             comments.append(comment_dict)
 
-        row = [attraction_item.name, attraction_item.longitude, attraction_item.latitude,
+        row = [attraction_item.name, attraction_item.longitude,
+               attraction_item.latitude,
                attraction_item.play_spend,
                attraction_item.play_spend_unit,
-               attraction_item.address, attraction_item.tel_phone, attraction_item.open_time,
+               attraction_item.address, attraction_item.tel_phone,
+               attraction_item.open_time,
                attraction_item.total_score, attraction_item.ticket_info,
                attraction_item.zipcode, description_item.description,
                json.dumps(comments, ensure_ascii=False),
                attraction_item.hot, attraction_item.seq_sort,
                ]
 
-        row = [item_str.encode('utf-8') if isinstance(item_str, unicode) else item_str for item_str in row]
+        row = [item_str.encode('utf-8') if isinstance(item_str, unicode)
+               else item_str for item_str in row]
         self._csv_writer.writerow(row)
 
     def clear_all(self):

@@ -21,7 +21,8 @@ def build_next_page_request(next_page_relate_path):
         "Accept-Language": "en-US,en;q=0.5",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     }
-    http_request = HTTPRequest(url, headers=headers, connect_timeout=10, request_timeout=15)
+    http_request = HTTPRequest(url, headers=headers, connect_timeout=10,
+                               request_timeout=15)
     return http_request
 
 
@@ -37,7 +38,8 @@ def build_attraction_request(relate_path):
         "Accept-Language": "en-US,en;q=0.5",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     }
-    http_request = HTTPRequest(url, headers=headers, connect_timeout=10, request_timeout=15)
+    http_request = HTTPRequest(url, headers=headers, connect_timeout=10,
+                               request_timeout=15)
     return http_request
 
 

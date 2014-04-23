@@ -9,8 +9,10 @@ from tigerspider.core.datastruct import Item
 class AttractionItem(Item):
     """用于保存景点的数据结构
     """
-    def __init__(self, url, name, play_spend, play_spend_unit, address, tel_phone, open_time,
-                 total_score, ticket_info, hot, longitude, latitude, seq_sort, comments, zipcode):
+    def __init__(self, url, name, play_spend, play_spend_unit, address,
+                 tel_phone, open_time,
+                 total_score, ticket_info, hot, longitude, latitude,
+                 seq_sort, comments, zipcode):
         self.url = url
         self.name = name
         self.play_spend = play_spend
@@ -39,7 +41,8 @@ class DescriptionItem(Item):
 class CommentItem(Item):
     """评论数据结构
     """
-    def __init__(self, comment_user, comment_time, comment_score, comment_content):
+    def __init__(self, comment_user, comment_time,
+                 comment_score, comment_content):
         self.comment_user = comment_user
         self.comment_time = comment_time
         self.comment_score = comment_score

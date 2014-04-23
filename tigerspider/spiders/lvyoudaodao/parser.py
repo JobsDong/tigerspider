@@ -11,9 +11,13 @@ from tigerspider.core.datastruct import HttpTask
 from tigerspider.core.spider.parser import BaseParser
 from tigerspider.core.util import flist
 
-from tigerspider.spiders.lvyoudaodao.utils import (build_attraction_request, LVYOU_HOST, build_next_page_request,
-                                       build_description_request)
-from tigerspider.spiders.lvyoudaodao.items import AttractionItem, DescriptionItem, CommentItem
+from tigerspider.spiders.lvyoudaodao.utils import (build_attraction_request,
+                                                   LVYOU_HOST,
+                                                   build_next_page_request,
+                                                   build_description_request)
+from tigerspider.spiders.lvyoudaodao.items import (AttractionItem,
+                                                   DescriptionItem,
+                                                   CommentItem)
 
 
 class AttractionListParser(BaseParser):
@@ -32,31 +36,41 @@ class AttractionListParser(BaseParser):
                 task: HttpTask, 新任务
         """
         tree = html.parse(input_file)
-        attraction_elems = tree.xpath("//div[@id='ATTRACTION_OVERVIEW']/div[@class='attraction-list clearfix']")
+        attraction_elems = tree.xpath("//div[@id='ATTRACTION_OVERVIEW']"
+                                      "/div[@class='attraction-list clearfix']")
         for attraction_elem in attraction_elems:
             try:
-                info_elem = flist(attraction_elem.xpath("div[@class='clearfix']/div[@class='info']"), None)
-                rank_elem = flist(attraction_elem.xpath("div[@class='clearfix']/div[@class='rank']"), None)
-                relate_path = flist(info_elem.xpath("div[@class='title']/a/@href"), u"")
-                name = flist(info_elem.xpath("div[@class='title']/a/text()"), u"")
+                info_elem = flist(attraction_elem.xpath(
+                    "div[@class='clearfix']/div[@class='info']"), None)
+                rank_elem = flist(attraction_elem.xpath(
+                    "div[@class='clearfix']/div[@class='rank']"), None)
+                relate_path = flist(info_elem.xpath(
+                    "div[@class='title']/a/@href"), u"")
+                name = flist(info_elem.xpath(
+                    "div[@class='title']/a/text()"), u"")
                 address = _extract_address(info_elem)
                 hot = flist(rank_elem.xpath("a/strong/text()"), u"")
                 rank = flist(rank_elem.xpath("span[1]/strong/text()"), u"")
                 # 形成attraction 任务
                 http_request = build_attraction_request(relate_path)
-                attraction_task = HttpTask(http_request, callback="AttractionParser", max_fail_count=3,
-                                           cookie_host=LVYOU_HOST, kwargs={"name": unicode(name).strip(),
-                                                                           "address": unicode(address),
-                                                                           "hot": unicode(hot), "rank": unicode(rank)})
+                attraction_task = HttpTask(
+                    http_request, callback="AttractionParser", max_fail_count=3,
+                    cookie_host=LVYOU_HOST, kwargs={"name": unicode(name).strip(),
+                                                    "address": unicode(
+                                                        address),
+                                                    "hot": unicode(hot),
+                                                    "rank": unicode(rank)})
                 yield attraction_task
             except Exception, e:
                 self.logger.warn("extract one attraction failed error:%s" % e)
         # 形成下一页任务
-        next_page_relate = flist(tree.xpath("//div[@class='pagination']/div"
-                                            "/a[@class='next sprite-arrow-right-green ml6 ']/@href"), u"")
+        next_page_relate = flist(tree.xpath(
+            "//div[@class='pagination']/div"
+            "/a[@class='next sprite-arrow-right-green ml6 ']/@href"), u"")
         if len(next_page_relate) != 0:
             next_page_request = build_next_page_request(next_page_relate)
-            next_page_task = HttpTask(next_page_request, callback="AttractionListParser",
+            next_page_task = HttpTask(next_page_request,
+                                      callback="AttractionListParser",
                                       max_fail_count=5, cookie_host=LVYOU_HOST)
             yield next_page_task
 
@@ -143,29 +157,44 @@ class AttractionParser(BaseParser):
         try:
             zip_code = flist(tree.xpath("//span[@class='postal-code']/text()"), u"")
             play_spend, play_spend_unit = _extract_play_spend_and_unit(content)
-            tel_phone = flist(tree.xpath("//div[@id='HEADING_GROUP']/div[@class='wrap infoBox']"
-                                         "/div[@class='odcHotel blDetails']/div/div[@class='fl']/text()"), u"")
+            tel_phone = flist(tree.xpath("//div[@id='HEADING_GROUP']"
+                                         "/div[@class='wrap infoBox']"
+                                         "/div[@class='odcHotel blDetails']"
+                                         "/div/div[@class='fl']/text()"), u"")
             open_time = u""
-            total_score = flist(tree.xpath("//div[@class='rs rating']/span/img/@content"))
+            total_score = flist(tree.xpath("//div[@class='rs rating']"
+                                           "/span/img/@content"))
             ticket_info = u""
-            preview_relate_path = flist(tree.xpath("//div[@class='listing_description']/a/@href"), u"")
-            lon, lat = _extract_lon_lat(flist(tree.xpath("//div[@class='js_mapThumb']"
-                                                         "/div[@id='bmapContainer']/img[1]/@src"), u""))
+            preview_relate_path = flist(tree.xpath(
+                "//div[@class='listing_description']/a/@href"), u"")
+            lon, lat = _extract_lon_lat(flist(tree.xpath(
+                "//div[@class='js_mapThumb']"
+                "/div[@id='bmapContainer']/img[1]/@src"), u""))
             comments = _extract_comments(tree)
             # 生成景点信息(不包括description)
-            attraction_item = AttractionItem(task.request.url, task.kwargs['name'], unicode(play_spend), play_spend_unit,
-                                             task.kwargs['address'], unicode(tel_phone), unicode(open_time),
+            attraction_item = AttractionItem(task.request.url,
+                                             task.kwargs['name'],
+                                             unicode(play_spend),
+                                             play_spend_unit,
+                                             task.kwargs['address'],
+                                             unicode(tel_phone), unicode(open_time),
                                              unicode(total_score),
-                                             unicode(ticket_info), task.kwargs['hot'],
-                                             lon, lat, task.kwargs['rank'], comments,
+                                             unicode(ticket_info),
+                                             task.kwargs['hot'],
+                                             lon, lat, task.kwargs['rank'],
+                                             comments,
                                              unicode(zip_code))
             yield attraction_item
 
             # 生成description任务
             if len(preview_relate_path) != 0:
-                description_request = build_description_request(task.request.url, preview_relate_path)
-                description_task = HttpTask(description_request, callback="DescriptionParser", max_fail_count=3,
-                                            cookie_host=LVYOU_HOST, kwargs={'url': task.request.url})
+                description_request = build_description_request(
+                    task.request.url, preview_relate_path)
+                description_task = HttpTask(description_request,
+                                            callback="DescriptionParser",
+                                            max_fail_count=3,
+                                            cookie_host=LVYOU_HOST,
+                                            kwargs={'url': task.request.url})
                 yield description_task
             else:
                 yield DescriptionItem(task.request.url, u"")
@@ -184,7 +213,8 @@ def _extract_play_spend_and_unit(text):
         start_dot = he_1[0].index("</b>")
         end_dot = he_1[0].index("</div>")
         spend_str = he_1[0][start_dot + len("</b>"): end_dot]
-        spend_str = spend_str.decode('utf-8') if isinstance(spend_str, str) else spend_str
+        spend_str = spend_str.decode('utf-8') if isinstance(spend_str, str) \
+            else spend_str
     else:
         re_2 = re.compile(r"建议的造访时间:[^/]*</div>")
         he_2 = re_2.findall(text)
@@ -192,7 +222,8 @@ def _extract_play_spend_and_unit(text):
             start_dot = he_2[0].index("建议的造访时间:")
             end_dot = he_2[0].index("</div>")
             spend_str = he_2[0][start_dot + len("建议的造访时间:"): end_dot]
-            spend_str = spend_str.decode('utf-8') if isinstance(spend_str, str) else spend_str
+            spend_str = spend_str.decode('utf-8') if isinstance(spend_str, str) \
+                else spend_str
         else:
             spend_str = u""
 
@@ -240,15 +271,19 @@ def _extract_comments(tree):
     for comment_elem in comment_elems:
         try:
             # 第一类型网页
-            comment_user = flist(comment_elem.xpath("div/div[@class='col1of2']"
-                                                    "//div[@class='username mo']/span/text()"), u"")
-            comment_score = flist(comment_elem.xpath("div/div[@class='col2of2 ']"
-                                                     "/div[@class='rating reviewItemInline']"
-                                                     "/span[@class='rate rate_s s50']/img/@content"), u"")
-            comment_time = flist(comment_elem.xpath("div/div[@class='col2of2 ']"
-                                                    "/div[@class='rating reviewItemInline']"
-                                                    "/span[@class='ratingDate']/text()"), u"")
-            content_elems = comment_elem.xpath("div/div[@class='col2of2 ']/div[@class='entry']/p")
+            comment_user = flist(comment_elem.xpath(
+                "div/div[@class='col1of2']"
+                "//div[@class='username mo']/span/text()"), u"")
+            comment_score = flist(comment_elem.xpath(
+                "div/div[@class='col2of2 ']"
+                "/div[@class='rating reviewItemInline']"
+                "/span[@class='rate rate_s s50']/img/@content"), u"")
+            comment_time = flist(comment_elem.xpath(
+                "div/div[@class='col2of2 ']"
+                "/div[@class='rating reviewItemInline']"
+                "/span[@class='ratingDate']/text()"), u"")
+            content_elems = comment_elem.xpath(
+                "div/div[@class='col2of2 ']/div[@class='entry']/p")
             texts = []
             for content_elem in content_elems:
                 if content_elem.text is not None:
@@ -257,14 +292,17 @@ def _extract_comments(tree):
 
             # 第二类型网页
             if len(comment_user.strip()) == 0:
-                comment_user = flist(comment_elem.xpath("div/div[@class='col1of2']"
-                                                        "//div[@class='username']/span/text()"), u"")
+                comment_user = flist(comment_elem.xpath(
+                    "div/div[@class='col1of2']"
+                    "//div[@class='username']/span/text()"), u"")
             if len(comment_time.strip()) == 0:
-                comment_time = flist(comment_elem.xpath("div/div[@class='col2of2']"
-                                                        "/span[@class='ratingDate']/text()"), u"")
+                comment_time = flist(comment_elem.xpath(
+                    "div/div[@class='col2of2']"
+                    "/span[@class='ratingDate']/text()"), u"")
             if len(comment_content.strip()) == 0:
-                content_elems = comment_elem.xpath("div/div[@class='col2of2']"
-                                                "/div[@class='entry']/p")
+                content_elems = comment_elem.xpath(
+                    "div/div[@class='col2of2']"
+                    "/div[@class='entry']/p")
                 texts = []
                 for content_elem in content_elems:
                     if content_elem.text is not None:
@@ -276,8 +314,10 @@ def _extract_comments(tree):
             print traceback.format_exc()
         else:
             if len(unicode(comment_content)) != 0:
-                comment_item = CommentItem(unicode(comment_user).strip(), unicode(comment_time).strip(),
-                                           unicode(comment_score).strip(), unicode(comment_content).strip())
+                comment_item = CommentItem(unicode(comment_user).strip(),
+                                           unicode(comment_time).strip(),
+                                           unicode(comment_score).strip(),
+                                           unicode(comment_content).strip())
                 comments.append(comment_item)
     return comments[0:10]
 
