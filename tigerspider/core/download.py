@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
+
 """
     此处处理包括cookie刷新，dnscache, 下载等问题
 """
@@ -17,7 +18,8 @@ from tigerspider.core.datastruct import HttpTask
 from tigerspider.core.resolver import DNSResolver, ResolveError
 from tigerspider.core.proxy import get_proxy
 
-httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=50)
+httpclient.AsyncHTTPClient.configure(
+    "tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=50)
 
 _host_cookies = {}
 _cookie_used_counts = {}
@@ -28,7 +30,8 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_USER_AGENT = r"Mozilla/5.0 (Windows NT 5.1)"
 DEFAULT_ACCEPT_ENCODING = r"gzip,deflate,sdch"
-DEFAULT_ACCEPT = r"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+DEFAULT_ACCEPT = r"text/html,application/xhtml+xml," \
+                 r"application/xml;q=0.9,*/*;q=0.8"
 
 
 class GetPageError(Exception):
@@ -188,6 +191,8 @@ def _build_cookie_sy(host):
             host: str, 主页地址
     """
     global _host_cookies
+    global _cookie_used_counts
+
     cookie_http_task = HttpTask(HTTPRequest(host), callback="None")
     cookie = None if not _host_cookies.has_key(host) else _host_cookies[host]
 
@@ -220,7 +225,6 @@ def get_cookie_sy(host, flushcount=20):
     """
     global _host_cookies
     global _cookie_used_counts
-    global _host_cookies
 
     if not _host_cookies.has_key(host):
         _build_cookie_sy(host)

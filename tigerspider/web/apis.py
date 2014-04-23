@@ -22,11 +22,16 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import json
 
-from tigerspider.core.spider.spider import get_all_spider_class, get_spider_class, SpiderError
-from tigerspider.core.schedule import get_all_schedule_class, get_schedule_class, ScheduleError
-from tigerspider.core.worker import (start_worker, stop_worker, suspend_worker, WorkerError,
-                                     rouse_worker, get_worker_statistic, get_all_workers,
-                                     recover_worker, rouse_all_worker, suspend_all_worker)
+from tigerspider.core.spider.spider import (get_all_spider_class,
+                                            get_spider_class, SpiderError)
+from tigerspider.core.schedule import (get_all_schedule_class,
+                                       get_schedule_class, ScheduleError)
+from tigerspider.core.worker import (start_worker, stop_worker,
+                                     suspend_worker, WorkerError,
+                                     rouse_worker, get_worker_statistic,
+                                     get_all_workers, recover_worker,
+                                     suspend_all_worker,
+                                     rouse_all_worker)
 from tigerspider.core.statistic import output_statistic_dict
 from tigerspider.core.record import RecorderManager
 from tigerspider.core.proxy import reload_proxy
@@ -154,9 +159,11 @@ def api_start_worker(params):
         try:
             schedule_path = params.pop('schedule_path')
             spider_path = params.pop('spider_path')
-            schedule_params = dict([(key[9:], value) for key, value in params.items()
+            schedule_params = dict([(key[9:], value)
+                                    for key, value in params.items()
                                     if key.startswith('schedule_')])
-            spider_params = dict([(key[8:], value) for key, value in params.items()
+            spider_params = dict([(key[8:], value)
+                                  for key, value in params.items()
                                   if key.startswith('spider_')])
             schedule = get_schedule_class(schedule_path)(**schedule_params)
             spider = get_spider_class(spider_path)(schedule, **spider_params)
@@ -217,6 +224,22 @@ def api_suspend_worker(params):
         return result(200, "suspend worker success", "success")
 
 
+@api_route(r"/api/suspend_all_worker")
+def api_suspend_all_worker(params):
+    """挂起所有worker
+        Args:
+            params: 字典
+        Returns:
+            result: 被jsondumps后的字符传,秒素的是执行的结果
+    """
+    try:
+        suspend_all_worker()
+    except WorkerError, e:
+        return result(400, "suspend all worker failed", str(e))
+    else:
+        return result(200, "suspend all worker success", "success")
+
+
 @api_route(r"/api/rouse_worker")
 def api_rouse_worker(params):
     """唤醒worker
@@ -236,6 +259,20 @@ def api_rouse_worker(params):
         return result(400, "rouse worker failed", str(e))
     else:
         return result(200, "rouse worker success", "success")
+
+
+@api_route(r"/api/rouse_all_worker")
+def api_rouse_all_worker(params):
+    """唤醒所有的worker
+        Returns:
+            result: Result对象
+    """
+    try:
+        rouse_all_worker()
+    except WorkerError, e:
+        return result(400, "rouse all worker failed", str(e))
+    else:
+        return result(200, "rouse all worker success", "success")
 
 
 @api_route(r"/api/get_worker_statistic")
@@ -307,7 +344,8 @@ def api_recover_worker(params):
     else:
         try:
             worker_name = params.pop('worker_name')
-            record = RecorderManager.instance().get_fail_worker_record(worker_name)
+            record = RecorderManager.instance().\
+                get_fail_worker_record(worker_name)
             if not record:
                 return result(400, "not exist this fail worker", worker_name)
             else:
@@ -356,15 +394,62 @@ def api_remove_fail_worker(params):
                 spider.clear_all()
                 RecorderManager.instance().remove_last_fail_worker(worker_name)
             except ScheduleError, e:
-                return result(400, message="init schedule failed", result=str(e))
+                return result(400,
+                              message="init schedule failed",
+                              result=str(e))
             except SpiderError, e:
-                return result(400, message="init spider failed", result=str(e))
+                return result(400,
+                              message="init spider failed",
+                              result=str(e))
             except WorkerError, e:
-                return result(400, message="recover worker failed", result=str(e))
+                return result(400,
+                              message="recover worker failed",
+                              result=str(e))
             except Exception, e:
-                return result(500, "unsupported exception", result=str(e))
+                return result(500,
+                              "unsupported exception",
+                              result=str(e))
             else:
-                return result(200, "success", "remove success")
+                return result(200,
+                              "success",
+                              "remove success")
+
+
+@api_route(r"/api/remove_all_fail_worker")
+def api_remove_all_fail_worker(params):
+    """remove all fail worker
+       Args:
+           params: dict, param dict
+    """
+    records = RecorderManager.instance().get_last_fail_worker()
+    remove_rs = []
+
+    try:
+        for record in records:
+            worker_name = record.get('worker_name')
+            schedule_params = record.get('schedule_kwargs')
+            spider_params = record.get('spider_kwargs')
+            schedule_path = record.get('schedule_class')
+            spider_path = record.get('spider_class')
+            try:
+                schedule = get_schedule_class(schedule_path)(**schedule_params)
+                spider = get_spider_class(spider_path)(schedule,
+                                                       **spider_params)
+                spider.clear_all()
+                RecorderManager.instance().remove_last_fail_worker(worker_name)
+            except Exception, e:
+                remove_rs.append({"worker_name": worker_name,
+                                  "result": "fail",
+                                  "error": str(e)})
+            else:
+                remove_rs.append({"worker_name": worker_name,
+                                  "result": "success",
+                                  "error": ""})
+    except Exception, e:
+        return result(500, "unsupported exception", result=str(e))
+    else:
+        return result(200, "success", json.dumps(remove_rs,
+                                                 ensure_ascii=False))
 
 
 @api_route(r"/api/reload_proxy")
@@ -379,33 +464,3 @@ def api_reload_proxy(params):
         return result(500, "reload proxy failed", str(e))
     else:
         return result(200, "success", "reload proxy success")
-
-
-@api_route(r"/api/rouse_all_worker")
-def api_rouse_all_worker(params):
-    """唤醒所有的worker
-        Returns:
-            result: Result对象
-    """
-    try:
-        rouse_all_worker()
-    except WorkerError, e:
-        return result(400, "rouse all worker failed", str(e))
-    else:
-        return result(200, "rouse all worker success", "success")
-
-
-@api_route(r"/api/suspend_all_worker")
-def api_suspend_all_worker(params):
-    """挂起所有worker
-        Args:
-            params: 字典
-        Returns:
-            result: 被jsondumps后的字符传,秒素的是执行的结果
-    """
-    try:
-        suspend_all_worker()
-    except WorkerError, e:
-        return result(400, "suspend all worker failed", str(e))
-    else:
-        return result(200, "suspend all worker success", "success")

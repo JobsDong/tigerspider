@@ -1,7 +1,6 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
-# Copy Rights (c) Beijing TigerKnows Technology Co., Ltd.
 
 """描述实际执行任务的worker的行为和属性。
  WorkerError: 与worker有关的错误
@@ -20,28 +19,31 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
 import uuid
+import traceback
 import StringIO
 import logging
 from tornado import ioloop, gen
 
-from tigerspider.core.record import record
 from tigerspider.core.util import get_class_path, log_exception_wrap
 from tigerspider.core.spider.parser import ParserError
 from tigerspider.core.schedule import ScheduleError
 from tigerspider.core.spider.pipeline import PipelineError
 from tigerspider.core.download import fetch
 from tigerspider.core.datastruct import HttpTask, FileTask, Item
-from tigerspider.core.statistic import (WorkerStatistic, output_statistic_file, WORKER_STATISTIC_PATH,
-                            output_fail_http_task_file, WORKER_FAIL_PATH)
-from tigerspider.core.record import RecorderManager
+from tigerspider.core.statistic import (WorkerStatistic, output_statistic_file,
+                                        WORKER_STATISTIC_PATH,
+                                        output_fail_http_task_file,
+                                        WORKER_FAIL_PATH)
+from tigerspider.core.record import record, RecorderManager
 
 MAX_EMPTY_TASK_COUNT = 10  # worker最大能够获取的空Task个数
+logger = logging.getLogger("worker")
+
 
 class WorkerError(Exception):
     """当worker内部发生异常时，将抛出workerError
 
     """
-    pass
 
 
 class Worker(object):
@@ -60,9 +62,7 @@ class Worker(object):
             Args:
                 spider: BaseSpider的一个实例
                 worker_name: 字符串，worker的名字
-
         """
-
         self.logger = logging.getLogger(self.__class__.__name__)
         self.spider = spider
         self._worker_name = worker_name
@@ -70,6 +70,7 @@ class Worker(object):
         self.is_started = False
         self.is_suspended = False
         self._empty_task_count = 0
+        self.logger.info("init worker finish")
 
     def start(self):
         """启动这个worker
@@ -83,19 +84,23 @@ class Worker(object):
             self.worker_statistic.start_time = datetime.datetime.now()
             try:
                 RecorderManager.instance().record_doing(
-                    record(self._worker_name, self.worker_statistic.start_time.
-                            strftime("%Y-%m-%d %H:%M:%S"),
-                    get_class_path(self.spider.crawl_schedule.__class__),
-                    self.spider.crawl_schedule.schedule_kwargs,
-                    get_class_path(self.spider.__class__), self.spider.spider_kwargs))
+                    record(
+                        self._worker_name,
+                        self.worker_statistic.start_time.
+                        strftime("%Y-%m-%d %H:%M:%S"),
+                        get_class_path(self.spider.crawl_schedule.__class__),
+                        self.spider.crawl_schedule.schedule_kwargs,
+                        get_class_path(self.spider.__class__),
+                        self.spider.spider_kwargs))
             except Exception, e:
                 self.logger.warn("record worker failed:%s" % e)
 
             _move_start_tasks_to_crawl_schedule(self.spider.start_tasks,
-                                            self.spider.crawl_schedule)
+                                                self.spider.crawl_schedule)
 
             ioloop.IOLoop.instance().add_timeout(
-                datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval),
+                datetime.timedelta(
+                    milliseconds=self.spider.crawl_schedule.interval),
                 self.loop_get_and_execute)
             self.logger.info("start worker")
 
@@ -108,16 +113,19 @@ class Worker(object):
         else:
             self.worker_statistic.start_time = datetime.datetime.now()
             RecorderManager.instance().record_doing(
-                record(self._worker_name, self.worker_statistic.start_time.strftime("%Y-%m-%d %H:%M:%S"),
-                   get_class_path(self.spider.crawl_schedule.__class__),
-                   self.spider.crawl_schedule.schedule_kwargs,
-                   get_class_path(self.spider.__class__), self.spider.spider_kwargs))
+                record(self._worker_name, self.worker_statistic.
+                       start_time.strftime("%Y-%m-%d %H:%M:%S"),
+                       get_class_path(self.spider.crawl_schedule.__class__),
+                       self.spider.crawl_schedule.schedule_kwargs,
+                       get_class_path(self.spider.__class__),
+                       self.spider.spider_kwargs))
 
             self.is_started = True
             ioloop.IOLoop.instance().add_timeout(
-                datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval),
+                datetime.timedelta(milliseconds=
+                                   self.spider.crawl_schedule.interval),
                 self.loop_get_and_execute)
-            self.logger.info("start worker")
+            self.logger.info("recover worker")
 
     def stop(self):
         """关闭这个worker，并保存统计信息, store fail task
@@ -132,8 +140,9 @@ class Worker(object):
             fail_task_file_name = self.spider.__class__.__name__ + "-" + \
                 self.worker_statistic.start_time.strftime("%Y-%m-%d %H:%M:%S")
             try:
-                output_fail_http_task_file(WORKER_FAIL_PATH + fail_task_file_name + ".csv",
-                                  self.spider.crawl_schedule)
+                output_fail_http_task_file(
+                    WORKER_FAIL_PATH + fail_task_file_name + ".csv",
+                    self.spider.crawl_schedule)
             except Exception, e:
                 self.logger.warn("output fail task failed error:%s" % e)
 
@@ -143,12 +152,15 @@ class Worker(object):
                 self.logger.warn("record done failed error:%s" % e)
 
             try:
-                output_statistic_file(WORKER_STATISTIC_PATH, self.worker_statistic,
-                                      self._worker_name, self.spider.__class__.__name__)
+                output_statistic_file(
+                    WORKER_STATISTIC_PATH, self.worker_statistic,
+                    self._worker_name, self.spider.__class__.__name__)
             except Exception, e:
                 self.logger.warn("output statistic failed error:%s" % e)
 
             self.spider.clear_all()
+            self.worker_statistic.clear()
+            del Worker.workers[self._worker_name]
             self.logger.info("stop worker")
 
     def suspend(self):
@@ -173,7 +185,8 @@ class Worker(object):
                 self.is_suspended = False
                 self.logger.info("rouse worker")
             else:
-                self.logger.warn("worker is not suspended, so validate operate of "
+                self.logger.warn("worker is not suspended, "
+                                 "so validate operate of "
                                  "rousing")
         else:
             self.logger.warn("stopped worker not permit to rouse")
@@ -209,7 +222,6 @@ class Worker(object):
         finally:
             self.worker_statistic.decre_processing_number()
 
-
     @gen.coroutine
     @log_exception_wrap
     def fetch_and_extract(self, task):
@@ -230,15 +242,19 @@ class Worker(object):
             self.worker_statistic.count_average_fetch_time(
                 task.callback, fetch_start_time,fetch_time)
             if isinstance(resp, Exception):
-                self.logger.error("down loader error:%s, url:%s" % (resp, task.request.url))
+                self.logger.error("down loader error:%s, url:%s" %
+                                  (resp, task.request.url))
             else:
                 if resp.code == 200 and resp.error is None:
                     self.logger.debug("fetch success")
-                    self.worker_statistic.add_spider_success(task.callback + "-fetch")
-                    self.spider.crawl_schedule.flag_url_haven_done(task.request.url)
+                    self.worker_statistic.add_spider_success(
+                        task.callback + "-fetch")
+                    self.spider.crawl_schedule.flag_url_haven_done(
+                        task.request.url)
                     self.extract(task, StringIO.StringIO(resp.body))
                 else:
-                    self.logger.error("fetch request failed, code:%s error:%s url:%s" %
+                    self.logger.error("fetch request failed,"
+                                      " code:%s error:%s url:%s" %
                                     (resp.code, resp.error, task.request.url))
                     task.reason = "fetch error, code:%s " % (resp.code, )
                     self.handle_fail_task(task, "fetch-" + task.callback)
@@ -274,28 +290,37 @@ class Worker(object):
                 if hrefs is not None:
                     for item_or_task in hrefs:
                         # 处理new_task
-                        if isinstance(item_or_task, HttpTask) or isinstance(item_or_task, FileTask):
+                        if isinstance(item_or_task, HttpTask) or \
+                                isinstance(item_or_task, FileTask):
                             try:
-                                self.spider.crawl_schedule.push_new_task(item_or_task)
+                                self.spider.crawl_schedule.push_new_task(
+                                    item_or_task)
                             except ScheduleError, e:
                                 self.logger.warn("push new task error:%s" % e)
                             # 处理item
                         if isinstance(item_or_task, Item):
                             handle_start_time = datetime.datetime.now()
                             try:
-                                self.spider.handle_item(item_or_task, task.kwargs)
+                                self.spider.handle_item(
+                                    item_or_task, task.kwargs)
                             except PipelineError, e:
                                 self.logger.error("handle error:%s" % e)
                                 task.reason = "handle error"
-                                self.handle_fail_task(task,
-                                      "handle-" + item_or_task.__class__.__name__,)
+                                self.handle_fail_task(
+                                    task, "handle-" +
+                                          item_or_task.__class__.__name__,)
                             else:
                                 self.worker_statistic.add_spider_success(
-                                        "%s-%s" % (item_or_task.__class__.__name__, "handle"))
+                                    "%s-%s" % (item_or_task.__class__.__name__,
+                                               "handle"))
                             finally:
-                                handle_interval = datetime.datetime.now() - handle_start_time
-                                self.worker_statistic.count_average_handle_item_time(
-                                    item_or_task.__class__.__name__, handle_start_time, handle_interval)
+                                handle_interval = \
+                                    datetime.datetime.now() - handle_start_time
+                                self.worker_statistic.\
+                                    count_average_handle_item_time(
+                                        item_or_task.__class__.__name__,
+                                        handle_start_time,
+                                        handle_interval)
             except ParserError, e:
                 self.logger.error("parser error:%s" % e)
                 task.reason = "%s" % e
@@ -305,11 +330,12 @@ class Worker(object):
                 task.reason = "%s" % "unsupported"
                 self.handle_fail_task(task, "extract-" + task.callback)
             else:
-                self.worker_statistic.add_spider_success(task.callback + "-extract")
+                self.worker_statistic.add_spider_success(
+                    task.callback + "-extract")
         finally:
             extract_time = datetime.datetime.now() - extract_start_time
             self.worker_statistic.count_average_extract_time(
-                    task.callback, extract_start_time, extract_time)
+                task.callback, extract_start_time, extract_time)
 
     @gen.coroutine
     @log_exception_wrap
@@ -318,8 +344,9 @@ class Worker(object):
             异步技术
         """
         if self.is_started:
-            if not self.is_suspended and self.worker_statistic.processing_number \
-                    < self.spider.crawl_schedule.max_number:
+            if not self.is_suspended and\
+                            self.worker_statistic.processing_number < \
+                            self.spider.crawl_schedule.max_number:
                 # 获取新的任务
                 try:
                     task = self.spider.crawl_schedule.pop_task()
@@ -330,14 +357,18 @@ class Worker(object):
                 if isinstance(task, Exception):
                     self.logger.error("pop task error:%s" % task)
                     ioloop.IOLoop.instance().add_timeout(
-                            datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval),
-                            self.loop_get_and_execute)
+                        datetime.timedelta(
+                            milliseconds=
+                            self.spider.crawl_schedule.interval),
+                        self.loop_get_and_execute)
                 # 如果获取成功
                 else:
                     # 任务如果不是空
                     if task:
                         ioloop.IOLoop.instance().add_timeout(
-                            datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval),
+                            datetime.timedelta(
+                                milliseconds=
+                                self.spider.crawl_schedule.interval),
                             self.loop_get_and_execute)
 
                         self._empty_task_count = 0
@@ -361,7 +392,8 @@ class Worker(object):
                             self.loop_get_and_execute)
             else:
                 ioloop.IOLoop.instance().add_timeout(
-                    datetime.timedelta(milliseconds=self.spider.crawl_schedule.interval * 2),
+                    datetime.timedelta(
+                        milliseconds=self.spider.crawl_schedule.interval * 2),
                     self.loop_get_and_execute)
 
     def handle_fail_task(self, task, key):
@@ -371,13 +403,6 @@ class Worker(object):
                 task:HttTask or FileTask, task object
                 key: str, key words
         """
-
-        ## 如果task需要代理，失败了就不要用代理了
-        #try:
-        #    if task.proxy_need:
-        #        # do nothing
-        #except Exception, e:
-        #    self.logger.error("flag proxy failed error:%s" % e)
         try:
             is_failed = self.spider.crawl_schedule.handle_error_task(task)
             if is_failed:
@@ -409,11 +434,14 @@ def recover_worker(spider):
     try:
         worker = Worker(spider, worker_name)
     except Exception, e:
+        logger.error("init worker error:%s traceback:%s" % (
+            e, traceback.format_exc()))
         raise WorkerError("init worker error:%s" % e)
 
     try:
         worker.recover()
     except Exception, e:
+        logger.error("start worker error:%s traceback:%s" % (e, traceback))
         raise WorkerError("start worker error:%s" % e)
     else:
         Worker.workers[worker_name] = worker
@@ -432,35 +460,18 @@ def start_worker(spider):
     try:
         worker = Worker(spider, worker_name)
     except Exception, e:
+        logger.error("init worker error:%s traceback:%s" % (
+            e, traceback.format_exc()))
         raise WorkerError("init worker error:%s" % e)
 
     try:
         worker.start()
     except Exception, e:
+        logger.error("start worker error:%s traceback:%s" % (
+            e, traceback.format_exc()))
         raise WorkerError("start worker error:%s" % e)
     else:
         Worker.workers[worker_name] = worker
-
-# def recover_worker_from_broken(spider):
-#     """主要是将崩溃的worker尝试进行恢复
-#         只是尝试进行恢复，不一定成功
-#         实现原理：就是不对schedule进行清空，不将start_tasks转移
-#
-#     """
-#
-#     worker_name = "worker-%d" % Worker.worker_index
-#     try:
-#         worker = Worker(spider, worker_name)
-#     except Exception, e:
-#         raise WorkerError("init worker error:%s" % e)
-#
-#     try:
-#         worker.recover()
-#     except Exception, e:
-#         raise WorkerError("recover worker error:%s" % e)
-#     else:
-#         Worker.workers[worker_name] = worker
-#         Worker.worker_index += 1
 
 
 def stop_worker(worker_name):
@@ -473,14 +484,16 @@ def stop_worker(worker_name):
         Raises:
             WorkerError: 当不存在这个worker，或者worker关闭出错
     """
-
-    if not Worker.workers.has_key(worker_name):
+    if worker_name not in Worker.workers:
+        logger.error("not has %s worker" % worker_name)
         raise WorkerError("not has %s worker" % worker_name)
     worker = Worker.workers.get(worker_name)
 
     try:
         worker.stop()
     except Exception, e:
+        logger.error("stop worker error:%s, traceback:%s" % (
+            e, traceback.format_exc()))
         raise WorkerError("stop worker error:%s" % e)
 
 
@@ -493,14 +506,33 @@ def suspend_worker(worker_name):
         Raises:
             WorkerError: 当不存在这个worker，或者挂起失败
     """
-
-    if not Worker.workers.has_key(worker_name):
+    if worker_name not in Worker.workers:
+        logger.error("not has worker:%s" % worker_name)
         raise WorkerError("not has worker:%s" % worker_name)
     worker = Worker.workers.get(worker_name)
     try:
         worker.suspend()
     except Exception, e:
+        logger.error("suspend worker error:%s, traceback:%s" % (
+            e, traceback.format_exc()))
         raise WorkerError("suspend worker error:%s" % e)
+
+
+def suspend_all_worker():
+    """挂起所有的worker
+        Raises:
+            workerError: 挂起失败返回Exception
+    """
+    try:
+        for worker_name, worker in Worker.workers.iteritems():
+            if worker is not None and worker.is_started and \
+                    not worker.is_suspended:
+                worker.suspend()
+    except Exception, e:
+        logger.error("suspend all worker error:%s traceback:%s" % (
+            e, traceback.format_exc()))
+        raise WorkerError("suspend all worker error:%s" % e)
+
 
 def rouse_worker(worker_name):
 
@@ -512,14 +544,32 @@ def rouse_worker(worker_name):
             WorkerError: 当不存在worker或者唤醒失败
 
     """
-
-    if not Worker.workers.has_key(worker_name):
+    if worker_name not in Worker.workers:
+        logger.warn("not has %s worker" % worker_name)
         raise WorkerError("not has %s worker" % worker_name)
     worker = Worker.workers.get(worker_name)
     try:
         worker.rouse()
     except Exception, e:
+        logger.error("rouse worker error:%s traceback:%s" % (
+            e, traceback.format_exc()))
         raise WorkerError("rouse worker error:%s" % e)
+
+
+def rouse_all_worker():
+    """唤醒所有worker
+        Raises:
+            WorkerError: 当唤醒失败时抛出错误
+    """
+    try:
+        for worker_name, worker in Worker.workers.iteritems():
+            if worker is not None and worker.is_started and worker.is_suspended:
+                worker.rouse()
+    except Exception, e:
+        logger.error("rouse all worker error:%s traceback:%s" % (
+            e, traceback.format_exc()))
+        raise WorkerError("rouse all worker error:%s" % e)
+
 
 def get_all_workers():
 
@@ -530,7 +580,7 @@ def get_all_workers():
     """
     workers = []
     for key, value in Worker.workers.iteritems():
-        temp_worker = {}
+        temp_worker = dict()
         temp_worker['name'] = key
         if not value.is_started:
             status = "stopped"
@@ -541,11 +591,13 @@ def get_all_workers():
 
         temp_worker['status'] = status
         temp_worker['spider_name'] = value.spider.__class__.__name__
-        temp_worker['schedule_name'] = value.spider.crawl_schedule.__class__.__name__
+        temp_worker['schedule_name'] = \
+            value.spider.crawl_schedule.__class__.__name__
         temp_worker['start_time'] = value.worker_statistic.start_time.\
             strftime("%Y-%m-%d %H:%M:%S")
         workers.append(temp_worker)
 
+    workers = sorted(workers, key=lambda t: t['start_time'])
     return workers
 
 
@@ -561,33 +613,8 @@ def get_worker_statistic(worker_name):
         Raises:
             WorkerError: 当worker不存在
     """
-    if not Worker.workers.has_key(worker_name):
+    if worker_name not in Worker.workers:
+        logger.error("not has %s worker" % worker_name)
         raise WorkerError("not has %s worker" % worker_name)
     worker = Worker.workers.get(worker_name)
     return worker.worker_statistic
-
-
-def rouse_all_worker():
-    """唤醒所有worker
-        Raises:
-            WorkerError: 当唤醒失败时抛出错误
-    """
-    try:
-        for worker_name, worker in Worker.workers.iteritems():
-            if worker is not None and worker.is_started and worker.is_suspended:
-                worker.rouse()
-    except Exception, e:
-        raise WorkerError("rouse all worker error:%s" % e)
-
-
-def suspend_all_worker():
-    """挂起所有的worker
-        Raises:
-            workerError: 挂起失败返回Exception
-    """
-    try:
-        for worker_name, worker in Worker.workers.iteritems():
-            if worker is not None and worker.is_started and not worker.is_suspended:
-                worker.suspend()
-    except Exception, e:
-        raise WorkerError("suspend all worker error:%s" % e)

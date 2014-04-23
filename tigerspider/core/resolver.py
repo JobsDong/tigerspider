@@ -15,10 +15,12 @@ import socket
 import urlparse
 from collections import deque
 
+
 class ResolveError(Exception):
     """
         域名解析错误
     """
+
 
 class LRUCache(object):
     """一个基于LRU算法的cache
@@ -65,6 +67,7 @@ class LRUCache(object):
         del self._dict[key]
         return obj
 
+
 class DNSResolver(object):
     """DNSResolver是一个用于解析域名的类
     """
@@ -105,8 +108,9 @@ class DNSResolver(object):
                 _, _, _, _, sockaddr = addr_info[0]
                 self._cache[key] = sockaddr[0]
             except Exception, e:
-                raise ResolveError("dns resovel failed,host:%s, port:%s error:%s"
-                                   % (host, port, e,))
+                raise ResolveError(
+                    "dns resovel failed,host:%s, port:%s error:%s" %
+                    (host, port, e,))
         return urlparse.urlunsplit((schema, self._cache[key], path, query, ''))
 
     def close(self):

@@ -7,12 +7,12 @@
     BaseSchedule: schedule的基类
 
     add_schedule_class: 将schedule的类加入
-
 """
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import inspect
+import traceback
 import logging
 
 UUID_INDEPENDENT = 1
@@ -20,10 +20,12 @@ UUID_SHARE = 2
 
 logger = logging.getLogger(__name__)
 
+
 class ScheduleError(Exception):
     """schedule内部的错误类
     """
     pass
+
 
 class BaseSchedule(object):
     """Schedule的基类，主要负责控制抓取策略的类
@@ -88,14 +90,12 @@ class BaseSchedule(object):
         """
         raise NotImplementedError
 
-
     def fail_task_size(self):
         """get fail task size
             Returns:
                 size: int, fail task size
         """
         raise NotImplementedError
-
 
     def dumps_all_fail_task(self):
         """dumps all fail task
@@ -105,12 +105,12 @@ class BaseSchedule(object):
         """
         raise NotImplementedError
 
-
     def clear_all(self):
         """清空所有的状态
 
         """
         raise NotImplementedError
+
 
 def add_schedule_class(path, claz):
     """增加一个schedule类
@@ -125,6 +125,7 @@ def add_schedule_class(path, claz):
         raise ScheduleError("%s has exists" % path)
 
     BaseSchedule.schedule_classes[path] = claz
+
 
 def get_schedule_class(path):
     """获得路径对应的schedule类对象
@@ -142,14 +143,16 @@ def get_schedule_class(path):
         raise ScheduleError("not exists %s" % path)
     return BaseSchedule.schedule_classes.get(path)
 
+
 def get_all_schedule_class():
     """ 返回所有schedule的类路径
         Returns:
-            schedules:list, [{'path': path, 'description':description, 'args':{...}}]
+            schedules:list, [{'path': path, 'description':description,
+            'args':{...}}]
     """
     schedules = []
     for key, value in BaseSchedule.schedule_classes.iteritems():
-        temp_dict = {}
+        temp_dict = dict()
         temp_dict['path'] = key
         temp_dict['description'] = value.__doc__
         temp_dict['args'] = {}
@@ -158,7 +161,10 @@ def get_all_schedule_class():
             for index in xrange(len(args.defaults)):
                 temp_dict['args'][args.args[index + 1]] = args.defaults[index]
         except Exception, e:
-            logger.warn("get_all_schedule_class error:%s" % e)
+            logger.warn("get_all_schedule_class error:%s traceback:%s" % (
+                e, traceback.format_exc()))
         else:
             schedules.append(temp_dict)
+
+    schedules = sorted(schedules, key=lambda t: t['path'])
     return schedules

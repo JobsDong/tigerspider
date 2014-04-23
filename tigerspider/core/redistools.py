@@ -14,11 +14,13 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import redis
 from tigerspider.core.util import PickleDeocoder, PickleEncoder
 
+
 class RedisError(Exception):
     """描述redis发生的错误
 
     """
     pass
+
 
 class RedisQueue(object):
     """Redis构成的队列
@@ -95,6 +97,7 @@ class RedisQueue(object):
         except Exception, e:
             raise RedisError("delete error:%s" % e)
 
+
 class RedisDict(object):
     """使用redis技术实现的一个字典
 
@@ -128,7 +131,8 @@ class RedisDict(object):
             raise RedisError("redis error:%s" % e)
 
         try:
-            decoded_value = None if item is None else PickleDeocoder().decode(item)
+            decoded_value = None if item is None else\
+                PickleDeocoder().decode(item)
             return decoded_value
         except Exception, e:
             raise RedisError("decode error:%s" % e)
@@ -280,7 +284,8 @@ class RedisSet(object):
             raise RedisError("redis error:%s" % e)
 
         try:
-            decoded_value = None if value is None else PickleDeocoder().decode(value)
+            decoded_value = None if value is None else \
+                PickleDeocoder().decode(value)
             return decoded_value
         except Exception, e:
             raise RedisError("decode error:%s" % e)
@@ -394,7 +399,6 @@ class RedisPriorityQueue(object):
             self._db.zincrby(self.namespace, encodedvalue, 1)
         except Exception, e:
             raise RedisError("redis error:%s" % e)
-
 
     def decre_score(self, value):
         """decre score of value

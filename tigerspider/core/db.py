@@ -11,18 +11,21 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import psycopg2
 import psycopg2.extras
 
+
 class DBError(Exception):
-    '''
+    """
     exception caused by database
-    '''
+    """
+
 
 class DB(object):
     def __init__(self, **kwargs):
         try:
             self.conn = psycopg2.connect(**kwargs)
-            self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            self.cur = self.conn.cursor(
+                cursor_factory=psycopg2.extras.DictCursor)
         except psycopg2.Error, e:
-            raise DBError, e
+            raise DBError(e)
 
     def execute_query(self, sql, parameters=None):
         """执行查询操作
@@ -35,7 +38,7 @@ class DB(object):
         try:
             self.cur.execute(sql, parameters)
         except psycopg2.Error, e:
-            raise DBError, e
+            raise DBError(e)
         else:
             items = self.cur.fetchall()
             return items
@@ -53,13 +56,12 @@ class DB(object):
             self.cur.execute(sql, parameters)
         except psycopg2.Error, e:
             self.conn.rollback()
-            raise DBError, e
+            raise DBError(e)
         else:
             self.conn.commit()
 
     def close(self):
         """关闭，释放资源
-
         """
         if self.cur:
             self.cur.close()

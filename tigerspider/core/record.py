@@ -2,7 +2,8 @@
 #-*- coding=utf-8 -*-
 
 
-"""主要用于记录历史记录，以及还原失败的worker，同时肩负着失败信息的记录(这个后面处理，可能使用到fs)
+"""主要用于记录历史记录，以及还原失败的worker，
+   同时肩负着失败信息的记录(这个后面处理，可能使用到fs)
 """
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
@@ -11,6 +12,7 @@ import threading
 import json
 
 WORKER_RECORD_PATH = "data/worker_record.dat"
+
 
 def record(worker_name, start_time, schedule_class_name,
            schedule_kwargs, spider_class_name, spider_kwargs):
@@ -21,6 +23,7 @@ def record(worker_name, start_time, schedule_class_name,
               "spider_class": spider_class_name,
               "spider_kwargs": spider_kwargs,}
     return status
+
 
 class RecorderManager(object):
     """专门用于记录，以及持久化，还原等操作的记录器
@@ -71,8 +74,9 @@ class RecorderManager(object):
     def dumps(self):
         """持久化worker数据
         """
-        import tigerspider.core.util
-        with open(tigerspider.core.util.get_project_path() + WORKER_RECORD_PATH, "wb") as out_file:
+        import core.util
+        with open(core.util.get_project_path() + WORKER_RECORD_PATH, "wb") \
+            as out_file:
             new_dict = {}
             new_dict.update(self._last_fail_workers)
             new_dict.update(self._now_workers)
@@ -81,10 +85,11 @@ class RecorderManager(object):
     def loads(self):
         """加载worker数据
         """
-        import tigerspider.core.util
+        import core.util
         records = {}
         try:
-            with open(tigerspider.core.util.get_project_path() + WORKER_RECORD_PATH, "rb") as in_file:
+            with open(core.util.get_project_path() + WORKER_RECORD_PATH, "rb") \
+                as in_file:
                 records_str = in_file.read()
                 records.update(json.loads(records_str))
         except Exception:
@@ -102,4 +107,6 @@ class RecorderManager(object):
     def get_last_fail_worker(self):
         """获得上一次失败的worker的状态
         """
-        return self._last_fail_workers.values()
+        workers = self._last_fail_workers.values()
+        workers = sorted(workers, key=lambda t: t['start_time'])
+        return workers

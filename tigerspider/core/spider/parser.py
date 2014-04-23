@@ -11,9 +11,11 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import logging
 
+
 class ParserError(Exception):
     """Parser error
     """
+
 
 class BaseParser(object):
     """用于描述解析的基类
