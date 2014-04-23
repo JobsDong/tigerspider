@@ -14,8 +14,10 @@ from tigerspider.core.datastruct import HttpTask
 from tigerspider.core.spider.spider import BaseSpider
 from tigerspider.core.spider.pipeline import EmptyPipeline
 
-from tigerspider.spiders.nuomi.parser import CityParser, DealParser, PictureParser
-from tigerspider.spiders.nuomi.pipeline import DealItemPipeline, PictureItemPipeline
+from tigerspider.spiders.nuomi.parser import (CityParser, DealParser,
+                                              PictureParser)
+from tigerspider.spiders.nuomi.pipeline import (DealItemPipeline,
+                                                PictureItemPipeline)
 
 
 class NuomiSpider(BaseSpider):
@@ -37,7 +39,4 @@ class NuomiSpider(BaseSpider):
         HttpTask(HTTPRequest(url='http://www.nuomi.com/help/api',
                          connect_timeout=10, request_timeout=20),
                          callback='CityParser', max_fail_count=8, kwargs={}),
-        #HttpTask(HTTPRequest(url='http://www.nuomi.com/api/tiger?city=nanchang',
-        #                  connect_timeout=10, request_timeout=120),
-        #                 callback='DealParser', kwargs={'citycode':360100})
     ]

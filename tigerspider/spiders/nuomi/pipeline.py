@@ -47,13 +47,17 @@ class DealItemPipeline(BasePipeline):
             encodestr = json.dumps(clone_dict, ensure_ascii=False)
             selectsql = "SELECT * FROM rt_crawl WHERE url=%(url)s LIMIT 1"
             if len(self.item_db.execute_query(selectsql, {'url': item.url})) >= 1:
-                updatesql = "UPDATE rt_crawl SET city_code=%(city_code)s, type=%(type)s," \
-                            " start_time=%(start_time)s, end_time=%(end_time)s, info=%(info)s," \
-                            " source=%(source)s, update_time=%(update_time)s WHERE url=%(url)s"
+                updatesql = "UPDATE rt_crawl SET city_code=%(city_code)s," \
+                            " type=%(type)s," \
+                            " start_time=%(start_time)s, end_time=%(end_time)s," \
+                            " info=%(info)s," \
+                            " source=%(source)s, update_time=%(update_time)s " \
+                            "WHERE url=%(url)s"
 
                 self.item_db.execute_update(updatesql,
                                             {'city_code': item.city_code,
-                                            'type': 90002003, 'start_time': item.start_time,
+                                            'type': 90002003,
+                                            'start_time': item.start_time,
                                             'end_time': item.end_time,
                                             'info': encodestr, 'source': 'nuomi',
                                             'update_time': datetime.datetime.now(),
@@ -63,12 +67,15 @@ class DealItemPipeline(BasePipeline):
                 (city_code, type, start_time, end_time, \
                 info, url, source, update_time, add_time) \
                 VALUES(%(city_code)s, %(type)s, %(start_time)s, %(end_time)s, " \
-                            "%(info)s, %(url)s, %(source)s, %(update_time)s, %(add_time)s)"
+                            "%(info)s, %(url)s, %(source)s, " \
+                            "%(update_time)s, %(add_time)s)"
 
                 self.item_db.execute_update(
                     insertsql, {'city_code': item.city_code, 'type': 90002003,
-                                'start_time': item.start_time, 'end_time': item.end_time, 'info': encodestr,
-                                'url': item.url, 'source': 'nuomi', 'update_time': datetime.datetime.now(),
+                                'start_time': item.start_time,
+                                'end_time': item.end_time, 'info': encodestr,
+                                'url': item.url, 'source': 'nuomi',
+                                'update_time': datetime.datetime.now(),
                                 'add_time': datetime.datetime.now()})
 
         except Exception, e:

@@ -79,9 +79,12 @@ def get_subcate_by_category(category):
         Returns: 
             subcate:  str, 如果不是需要的就返回None
     """
-    li_ren_keywords = [u"生活服务-美发", u"生活服务-美甲", u"生活服务-SPA/美容美体", u"生活服务-婚纱摄影",
-                       u"生活服务-摄影写真", u"生活服务-个性写真", u"生活服务-化妆", u"生活服务-美容SPA",
-                       u"生活服务-其他丽人", u"摄影写真", u"美发", u"SPA", u"美容塑形", u"美甲"]
+    li_ren_keywords = [u"生活服务-美发", u"生活服务-美甲",
+                       u"生活服务-SPA/美容美体", u"生活服务-婚纱摄影",
+                       u"生活服务-摄影写真", u"生活服务-个性写真",
+                       u"生活服务-化妆", u"生活服务-美容SPA",
+                       u"生活服务-其他丽人", u"摄影写真", u"美发",
+                       u"SPA", u"美容塑形", u"美甲"]
     for keyword in li_ren_keywords: 
         if category.rfind(keyword) != -1: 
             return u"丽人"
@@ -112,7 +115,8 @@ def item2dict(item):
     clone_dict = {}
     for key, value in item.__dict__.items(): 
         if key == "pictures": 
-            clone_dict['pictures'] = [child_value if not isinstance(child_value, unicode)
+            clone_dict['pictures'] = [child_value if not isinstance(child_value,
+                                                                    unicode)
                                       else child_value.encode("utf-8")
                                       for child_value in value]
         elif key == "place": 

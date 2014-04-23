@@ -31,10 +31,14 @@ class CityItem(Item):
 class DealItem(Item):
     """负责保存deal信息的类
     """
-    def __init__(self, price, city_code, dealid, url, name, discount_type, start_time,
-                 end_time, discount, original_price, noticed, pictures, description,
-                 deadline, short_desc, content_text, content_pic, purchased_number,
-                 m_url, appointment, place, save, remaining, limit, refund, contact, tiny):
+    def __init__(self, price, city_code, dealid, url, name,
+                 discount_type, start_time,
+                 end_time, discount, original_price, noticed,
+                 pictures, description,
+                 deadline, short_desc, content_text, content_pic,
+                 purchased_number,
+                 m_url, appointment, place, save, remaining, limit,
+                 refund, contact, tiny):
         """初始化函数
             Args:
                 略

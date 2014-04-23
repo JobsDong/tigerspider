@@ -53,13 +53,15 @@ class CityParser(BaseParser):
         for city in citys.split(u","):
             city_english_name = remove_white(city)
             if len(city_english_name) > 0:
-                city_item = CityItem("", city_english_name, get_city_code(city_english_name))
+                city_item = CityItem("", city_english_name,
+                                     get_city_code(city_english_name))
                 if city_item.english_name and city_item.city_code:
                     yield city_item
                     http_request = HTTPRequest(
                         url=build_url_by_city_name(city_item.english_name),
                         connect_timeout=20, request_timeout=240)
-                    new_task = HttpTask(http_request, callback='DealParser', max_fail_count=5,
+                    new_task = HttpTask(http_request, callback='DealParser',
+                                        max_fail_count=5,
                                         kwargs={'citycode': city_item.city_code})
                     yield new_task
 
@@ -115,7 +117,8 @@ class DealParser(BaseParser):
                 item_short_desc = data_element.findtext("short_desc", "").strip()
                 item_content_pic = u""
                 item_content_text = _extract_content_text(data_element)
-                item_purchased_number = data_element.findtext("purchased_number", "").strip()
+                item_purchased_number = \
+                    data_element.findtext("purchased_number", "").strip()
                 item_m_url = data_element.findtext("m_url", "").strip()
                 item_appointment = "0"
                 item_place = _extract_place(data_element)
@@ -128,17 +131,29 @@ class DealParser(BaseParser):
                 item_pictures, picture_task = self._check_and_execute_picture(picture_url)
                 if picture_task:
                     yield picture_task
-                deal_item = DealItem(price=item_price, city_code=item_city_code, dealid=item_dealid,
-                                     url=item_url, name=item_name, discount=item_discount,
-                                     start_time=item_start_time, end_time=item_end_time,
-                                     discount_type=item_discount_type, original_price=item_original_price,
-                                     noticed=item_noticed, pictures=item_pictures,
-                                     description=item_description, deadline=item_deadline,
-                                     short_desc=item_short_desc, content_text=item_content_text,
-                                     content_pic=item_content_pic, purchased_number=item_purchased_number,
-                                     m_url=item_m_url, appointment=item_appointment, place=item_place,
-                                     save=item_save, remaining=item_remaining, limit=item_limit,
-                                     refund=item_refund, contact=item_contact, tiny=item_tiny)
+                deal_item = DealItem(price=item_price, city_code=item_city_code,
+                                     dealid=item_dealid,
+                                     url=item_url, name=item_name,
+                                     discount=item_discount,
+                                     start_time=item_start_time,
+                                     end_time=item_end_time,
+                                     discount_type=item_discount_type,
+                                     original_price=item_original_price,
+                                     noticed=item_noticed,
+                                     pictures=item_pictures,
+                                     description=item_description,
+                                     deadline=item_deadline,
+                                     short_desc=item_short_desc,
+                                     content_text=item_content_text,
+                                     content_pic=item_content_pic,
+                                     purchased_number=item_purchased_number,
+                                     m_url=item_m_url,
+                                     appointment=item_appointment,
+                                     place=item_place,
+                                     save=item_save, remaining=item_remaining,
+                                     limit=item_limit,
+                                     refund=item_refund, contact=item_contact,
+                                     tiny=item_tiny)
                 yield deal_item
             except Exception, e:
                 self.logger.warn("parse error:%s" % e)
