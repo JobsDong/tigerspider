@@ -40,13 +40,18 @@ class RedisSchedule(BaseSchedule):
         BaseSchedule.__init__(self, interval, max_number)
         self._namespace = str(uuid.uuid4()) if not namespace else namespace
         try:
-            self._prepare_to_process_queue = RedisQueue("%s:%s" % (self._namespace, "prepare",),
-                                                        host=host, port=port, db=db)
-            self._processed_queue = RedisQueue("%s:%s" % (self._namespace, "processed",),
+            self._prepare_to_process_queue = RedisQueue("%s:%s" %
+                                                        (self._namespace,
+                                                         "prepare",),
+                                                        host=host, port=port,
+                                                        db=db)
+            self._processed_queue = RedisQueue("%s:%s" % (
+                self._namespace, "processed",),
                                                host=host, port=port, db=db)
             self._fail_queue = RedisQueue("%s:%s" % (self._namespace, "fail",),
                                           host=host, port=port, db=db)
-            self._processed_url_set = RedisSet("%s:%s" % (self._namespace, "urlprocessed"),
+            self._processed_url_set = RedisSet("%s:%s" %
+                                               (self._namespace, "urlprocessed"),
                                                host=host, port=port, db=db)
         except RedisError, e:
             self.logger.error("init redis schedule failed error:%s" % e)
@@ -140,7 +145,8 @@ class RedisSchedule(BaseSchedule):
 
         try:
             if isinstance(task, HttpTask):
-                if task.reason.rfind("unsupported") != -1 or task.reason.rfind("handle error") != -1:
+                if task.reason.rfind("unsupported") != -1 or \
+                                task.reason.rfind("handle error") != -1:
                     self._fail_queue.push(task)
                     return True
                 else:
