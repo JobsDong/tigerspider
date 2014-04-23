@@ -15,7 +15,8 @@ from tigerspider.spiders.com228.items import PictureItem, ActivityItem, WebItem
 class ActivityItemPipeline(BasePipeline):
     """用于处理ActivityItem的pipeline
     """
-    def __init__(self, namesapce, redis_host='192.168.11.108', redis_port=6379, redis_db=0):
+    def __init__(self, namesapce, redis_host='192.168.11.108',
+                 redis_port=6379, redis_db=0):
         BasePipeline.__init__(self, namesapce)
         self.logger.info("init activity item pipline finished")
         try:
@@ -43,13 +44,18 @@ class WebItemPipeline(BasePipeline):
     """WebItem处理器
     """
     def __init__(self, namespace, redis_host='192.168.11.108', redis_port=6379,
-                 redis_db=0, db_host='192.168.11.195', db_port=5432, db_user='postgres',
+                 redis_db=0, db_host='192.168.11.195',
+                 db_port=5432, db_user='postgres',
                  db_password='titps4gg', db_base='test'):
         BasePipeline.__init__(self, namespace)
         try:
             redis_namespace = "%s:%s" % (namespace, "temp")
-            self._temp_redis_dict = RedisDict(redis_namespace, host=redis_host, port=redis_port, db=redis_db)
-            self._db = DB(host=db_host, port=db_port, user=db_user, password=db_password, database=db_base)
+            self._temp_redis_dict = RedisDict(redis_namespace,
+                                              host=redis_host,
+                                              port=redis_port,
+                                              db=redis_db)
+            self._db = DB(host=db_host, port=db_port, user=db_user,
+                          password=db_password, database=db_base)
         except RedisError, e:
             self.logger.error("init redis dict failed error:%s" % e)
             raise e
@@ -74,7 +80,8 @@ class WebItemPipeline(BasePipeline):
                     self._store_complete_item(activity_item, item)
 
             else:
-                self.logger.warn("redis dict not has activity item url:%s" % item.url)
+                self.logger.warn("redis dict not has activity item url:%s"
+                                 % item.url)
 
     def _store_complete_item(self, activity_item, web_item):
         """用于保存完整的item到数据库中
@@ -83,7 +90,8 @@ class WebItemPipeline(BasePipeline):
                 web_item: WebItem: 活动详情内容
         """
         #  转换格式
-        start_time, end_time, city_code, info, _type, url = _convert(activity_item, web_item)
+        start_time, end_time, city_code, info, _type, url = _convert(
+            activity_item, web_item)
         #  完整性验证
         if _check(info, start_time, url):
             # 存储
@@ -92,7 +100,8 @@ class WebItemPipeline(BasePipeline):
             except DBError, e:
                 self.logger.error("db error:%s" % e)
         else:
-            self.logger.warn("invalidate item info:%s, start_time:%s, url:%s" % (info, start_time, url))
+            self.logger.warn("invalidate item info:%s, start_time:%s, url:%s"
+                             % (info, start_time, url))
 
     def _store(self, url, city_code, start_time, end_time, info, _type):
         """保存数据
@@ -106,33 +115,43 @@ class WebItemPipeline(BasePipeline):
             Raise:
                 DBError
         """
-        selectsql = "SELECT * FROM rt_crawl WHERE url=%(url)s and source=%(source)s LIMIT 1"
+        selectsql = "SELECT * FROM rt_crawl WHERE url=%(url)s and " \
+                    "source=%(source)s LIMIT 1"
         info_str = json.dumps(info, ensure_ascii=False)
-        if len(self._db.execute_query(selectsql, {'url': url, 'source': '228com'})) >= 1:
+        if len(self._db.execute_query(
+                selectsql, {'url': url, 'source': '228com'})) >= 1:
             # update
-            updatesql = "UPDATE rt_crawl SET city_code=%(city_code)s, type=%(type)s," \
-                        " start_time=%(start_time)s, end_time=%(end_time)s, info=%(info)s," \
-                        " source=%(source)s, update_time=%(update_time)s WHERE url=%(url)s"
+            updatesql = "UPDATE rt_crawl SET city_code=%(city_code)s, " \
+                        "type=%(type)s," \
+                        " start_time=%(start_time)s, end_time=%(end_time)s, " \
+                        "info=%(info)s," \
+                        " source=%(source)s, update_time=%(update_time)s" \
+                        " WHERE url=%(url)s"
 
-            self._db.execute_update(updatesql, {'city_code': city_code, 'type': _type,
+            self._db.execute_update(updatesql, {'city_code': city_code,
+                                                'type': _type,
                                                 'start_time': start_time,
                                                 'end_time': end_time,
-                                                'info': info_str, 'source': '228com',
-                                                'update_time': datetime.datetime.now(),
+                                                'info': info_str,
+                                                'source': '228com',
+                                                'update_time':
+                                                    datetime.datetime.now(),
                                                 'url': url})
         else:
             insertsql = "INSERT INTO rt_crawl \
             (city_code, type, start_time, end_time, \
             info, url, source, update_time, add_time) \
             VALUES(%(city_code)s, %(type)s, %(start_time)s, %(end_time)s, " \
-                        "%(info)s, %(url)s, %(source)s, %(update_time)s, %(add_time)s)"
+                        "%(info)s, %(url)s, %(source)s, %(update_time)s," \
+                        " %(add_time)s)"
 
             self._db.execute_update(insertsql,
                                     {'city_code': city_code, 'type': _type,
                                      'start_time': start_time,
                                      'end_time': end_time,
                                      'info': info_str, 'url': url,
-                                     'source': '228com', 'update_time': datetime.datetime.now(),
+                                     'source': '228com',
+                                     'update_time': datetime.datetime.now(),
                                      'add_time': datetime.datetime.now()})
 
     def clear_all(self):
