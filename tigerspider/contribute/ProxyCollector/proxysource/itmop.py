@@ -5,9 +5,11 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import datetime
 import requests
-from lxml import etree
+from lxml import html, etree
+from StringIO import StringIO
 
-ITMOP_URL = "http://www.itmop.com/proxy/"
+ITMOP_URL = "http://www.56ads.com/proxyip/"
+ITMOP_HOST = "http://www.56ads.com"
 
 
 def get_proxys(start_date=None, end_date=None):
@@ -20,10 +22,13 @@ def get_proxys(start_date=None, end_date=None):
     """
     # 1. 获取主页
     print "get itmop homepage"
-    headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-               'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0',
-               'Host': 'www.itmop.com'}
+    headers = {'Accept': 'text/html,application/xhtml+xml,'
+                         'application/xml;q=0.9,*/*;q=0.8',
+               'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux '
+                             'x86_64; rv:25.0) Gecko/20100101 Firefox/25.0',
+               'Host': 'www.56ads.com'}
     r_homepage = requests.get(ITMOP_URL, headers=headers)
+    r_homepage.encoding = 'gb2312'
     content = r_homepage.text
 
     # 2. 解析主页，获取所需的日期对应的页面地址
@@ -33,6 +38,7 @@ def get_proxys(start_date=None, end_date=None):
     proxy_set = set()
     for url in urls:
         r_proxy = requests.get(url, headers=headers)
+        r_proxy.encoding = 'gb2312'
         proxys = _extract_proxy_from_itmop(r_proxy.text)
         print "get proxys:", len(proxys)
         proxy_set = proxy_set.union(set(proxys))
@@ -49,16 +55,20 @@ def _extract_entrance_url_from_itmop(body, start_date, end_date):
         Returns:
             urls: list: [str] 入口地址
     """
-    tree = etree.HTML(body)
-    new_list = tree.xpath('//div[@id="NEW_INFO_LIST"]//dt/a')
+    tree = html.parse(StringIO(body))
+    new_list = tree.xpath('//div[@class="listbox"]//ul/li/a')
 
     # 获取最新的日期
     def _get_date_strs():
         temp_date = start_date
         date_strs = []
         while temp_date <= end_date:
-            date_str = u"%d年%d月%d日" % (temp_date.year, temp_date.month, temp_date.day)
-            date_str2 = u"%d.%d.%d" % (temp_date.year, temp_date.month, temp_date.day)
+            date_str = u"%d年%d月%d日" % (temp_date.year,
+                                         temp_date.month,
+                                         temp_date.day)
+            date_str2 = u"%d.%d.%d" % (temp_date.year,
+                                       temp_date.month,
+                                       temp_date.day)
             date_strs.append(date_str)
             date_strs.append(date_str2)
             temp_date = temp_date + datetime.timedelta(days=1)
@@ -77,9 +87,9 @@ def _extract_entrance_url_from_itmop(body, start_date, end_date):
                 return False
         else:
             return False
-
     urls = [new_info.attrib['href'] for new_info in new_list
             if _is__http_proxy_elem(new_info)]
+    urls = [ITMOP_HOST+path for path in urls]
 
     return urls
 
@@ -91,20 +101,24 @@ def _extract_proxy_from_itmop(body):
         Returns:
             proxys: list, [(ip, port)]
     """
-    tree = etree.HTML(body)
-    proxy_strs = tree.xpath('//div[@class="NEW_CONTENT LEFT"]//p')
+    tree = html.parse(StringIO(body))
+    proxy_elems = tree.xpath('//div[@class="content"]//br')
 
     proxy_list = []
 
-    if proxy_strs is not None and len(proxy_strs) >= 1:
-        for proxy_str in proxy_strs[0].itertext():
-            if proxy_str:
-                try:
-                    host, port = _extract_str(proxy_str)
-                except Exception, e:
-                    pass
-                else:
-                    proxy_list.append((host, port))
+    for proxy_elem in proxy_elems:
+        proxy_str = etree.tounicode(proxy_elem, method='html')\
+            .replace(u"<br />", u"")\
+            .replace(u"<br/>", u"")\
+            .replace(u"<br>", u"")
+        if proxy_str:
+            print proxy_str
+            try:
+                host, port = _extract_str(proxy_str)
+            except Exception, e:
+                pass
+            else:
+                proxy_list.append((host, port))
     return proxy_list
 
 
@@ -116,12 +130,14 @@ def _extract_str(proxy_str):
             host, port: tuple, (str, int)
     """
     dot = proxy_str.index(u"@HTTP")
-    host_and_port = proxy_str[:dot].split(u":")
+    start_dot = proxy_str.index(u";")
+    host_and_port = proxy_str[start_dot+1:dot].split(u":")
     if len(host_and_port) == 2:
         port = int(host_and_port[1].strip())
         host = str(host_and_port[0].strip())
         return host, port
 
 if __name__ == "__main__":
-    for proxy in get_proxys(datetime.datetime(year=2014, month=2, day=26), datetime.datetime.now()):
+    for proxy in get_proxys(datetime.datetime.now(),
+                            datetime.datetime.now()):
         print proxy[0], proxy[1]
