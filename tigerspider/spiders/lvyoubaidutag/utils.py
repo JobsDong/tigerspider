@@ -62,7 +62,8 @@ def build_tag_list_ajax_url(tag, page, city_name):
             url: str, 下一页的url
     """
     timestamp = str(int(time.time())) + "000"
-    return "%s/destination/ajax/allview?surl=%s&format=ajax&cid=%s&pn=%s&t=%s" % (LVYOU_HOST, city_name, tag, page, timestamp)
+    return "%s/destination/ajax/allview?surl=%s&format=ajax&cid=%s&pn=%s&t=%s" \
+           % (LVYOU_HOST, city_name, tag, page, timestamp)
 
 
 def build_next_page_header(city_name):

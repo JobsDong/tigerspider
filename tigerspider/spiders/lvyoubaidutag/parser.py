@@ -9,7 +9,9 @@ from tigerspider.core.spider.parser import BaseParser
 from tigerspider.core.datastruct import HttpTask
 
 from tigerspider.spiders.lvyoubaidutag.items import TagItem
-from tigerspider.spiders.lvyoubaidutag.utils import (LVYOU_HOST, EVERY_PAGE_SCENE_COUNT, build_next_tag_page_request)
+from tigerspider.spiders.lvyoubaidutag.utils import (LVYOU_HOST,
+                                                     EVERY_PAGE_SCENE_COUNT,
+                                                     build_next_tag_page_request)
 
 
 class TagListParser(BaseParser):
@@ -45,11 +47,16 @@ class TagListParser(BaseParser):
             # 生成 下一页任务
             if current_page * EVERY_PAGE_SCENE_COUNT < total_scene:
                 # 有下一页, 生成下一个request请求
-                next_request = build_next_tag_page_request(current_cid, current_page + 1, city_name)
-                next_tag_task = HttpTask(next_request, callback="TagListParser", max_fail_count=5,
-                                         cookie_host=LVYOU_HOST, kwargs={'tag': tag})
+                next_request = build_next_tag_page_request(current_cid,
+                                                           current_page + 1,
+                                                           city_name)
+                next_tag_task = HttpTask(next_request, callback="TagListParser",
+                                         max_fail_count=5,
+                                         cookie_host=LVYOU_HOST,
+                                         kwargs={'tag': tag})
                 yield next_tag_task
 
         except Exception, e:
-            self.logger.info("json loads error:%s for url:%s" % (e, task.request.url))
+            self.logger.info("json loads error:%s for url:%s" %
+                             (e, task.request.url))
             raise e
