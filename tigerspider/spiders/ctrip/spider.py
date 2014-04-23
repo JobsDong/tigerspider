@@ -12,10 +12,13 @@ from tigerspider.core.spider.spider import BaseSpider
 from tigerspider.core.datastruct import FileTask
 from tigerspider.core.util import get_project_path
 
-from tigerspider.spiders.ctrip.parser import CityParser, HotelListParser, HotelParser
-from tigerspider.spiders.ctrip.pipeline import (CityItemPipeline, HotelCodeItemPipeline,
-                                    RoomInfoItemPipeline, HotelInfoItemPipeline,
-                                    ImageItemPipeline)
+from tigerspider.spiders.ctrip.parser import (CityParser, HotelListParser,
+                                              HotelParser)
+from tigerspider.spiders.ctrip.pipeline import (CityItemPipeline,
+                                                HotelCodeItemPipeline,
+                                                RoomInfoItemPipeline,
+                                                HotelInfoItemPipeline,
+                                                ImageItemPipeline)
 
 
 class CtripSpider(BaseSpider):

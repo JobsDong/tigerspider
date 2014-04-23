@@ -53,7 +53,8 @@ class HotelInfoItem(Item):
     """
 
     def __init__(self, hotel_code, city_code, hotel_name, brand_id, latitude,
-                 longitude, hotel_services, room_services, hotel_star, hotel_rate,
+                 longitude, hotel_services, room_services,
+                 hotel_star, hotel_rate,
                  image_list, hotel_preview, room_list, address):
         """init method
 
@@ -80,7 +81,8 @@ class RoomInfoItem(Item):
     """room information item
     """
 
-    def __init__(self, hotel_code, room_id, room_type, floor, net_service, net_service_fee,
+    def __init__(self, hotel_code, room_id, room_type, floor,
+                 net_service, net_service_fee,
                  bed_type, breakfast, area):
         """init method
 

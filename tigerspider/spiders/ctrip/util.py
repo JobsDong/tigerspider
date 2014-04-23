@@ -129,7 +129,8 @@ API_KEY = "823436C3-DEDE-4F3C-B20B-9CA6C2BC7BD"
 #     "huizhou": "441300",
 # }
 
-HOTEL_SERVICE_CODES = ('9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+HOTEL_SERVICE_CODES = ('9', '10', '11', '12', '13', '14', '15', '16', '17',
+                       '18', '19',
                        '38', '39', '40', '41',
                        '55',
                        '57', '58', '59', '60',
@@ -137,10 +138,13 @@ HOTEL_SERVICE_CODES = ('9', '10', '11', '12', '13', '14', '15', '16', '17', '18'
                        '99', '100', '101', '102',
                        '105')
 
-ROOM_SERVICE_CODES = ('75', '76', '77', '78', '79', '80', '81', '82', '83', '84',
-                      '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98',
+ROOM_SERVICE_CODES = ('75', '76', '77', '78', '79', '80', '81', '82', '83',
+                      '84',
+                      '86', '87', '88', '89', '90', '91', '92', '93', '94',
+                      '95', '96', '97', '98',
                       '103', '104',
-                      '106', '107', '108', '109', '110', '111', '112', '113', '114', '115')
+                      '106', '107', '108', '109', '110', '111', '112', '113',
+                      '114', '115')
 
 # def is_needed_for_city(english_name, chinese_name):
 #     """whether this city is needed
@@ -206,7 +210,8 @@ def _create_signature(timestamp, alliance, sid, request_type, api_key):
     return m.hexdigest().upper()
 
 
-def build_hotels_task_for_city(ctrip_code, city_code, chinese_name, avaliable="false"):
+def build_hotels_task_for_city(ctrip_code, city_code,
+                               chinese_name, avaliable="false"):
     """build task for hotel search
 
         Args:
@@ -243,16 +248,18 @@ def build_hotels_task_for_city(ctrip_code, city_code, chinese_name, avaliable="f
     <requestXML>%s</requestXML></Request></soap:Body></soap:Envelope>""" \
                % escape(request_xml)
 
-    http_request = HTTPRequest("http://%s/Hotel/OTA_HotelSearch.asmx" % API_URL, method="POST",
-                               body=post_xml, connect_timeout=20, request_timeout=240,
-                               headers={"SOAPAction": "http://ctrip.com/Request",
-                                        "Content-Type": "text/xml; charset=utf-8"})
+    http_request = HTTPRequest(
+        "http://%s/Hotel/OTA_HotelSearch.asmx" % API_URL, method="POST",
+         body=post_xml, connect_timeout=20, request_timeout=240,
+         headers={"SOAPAction": "http://ctrip.com/Request",
+                  "Content-Type": "text/xml; charset=utf-8"})
 
     return HttpTask(http_request, callback="HotelListParser", max_fail_count=5,
                     kwargs={"citycode": city_code, "chinesename": chinese_name})
 
 
-def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_addresses):
+def build_rooms_task_for_hotel(hotel_requests, city_code,
+                               chinese_name, hotel_addresses):
     """build room task for hotel
 
         Args:
@@ -265,14 +272,16 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_ad
     """
     timestamp = int(time.time())
 
-    request_info_xml = "".join(["""<HotelDescriptiveInfo HotelCode="%s" PositionTypeCode="502">
+    request_info_xml = "".join(["""<HotelDescriptiveInfo HotelCode="%s"
+    PositionTypeCode="502">
     <HotelInfo SendData="true"/><FacilityInfo SendGuestRooms="true"/>
     <AreaInfo SendAttractions="false" SendRecreations="false"/>
     <ContactInfo SendData="false"/><MultimediaObjects SendData="true"/>
     </HotelDescriptiveInfo>""" % hotel_code for hotel_code in hotel_requests])
 
     request_xml = """<?xml version="1.0" encoding="utf-8"?><Request>
-    <Header  AllianceID="%s" SID="%s" TimeStamp="%s"  RequestType="%s" Signature="%s" />
+    <Header  AllianceID="%s" SID="%s" TimeStamp="%s"  RequestType="%s"
+    Signature="%s" />
     <HotelRequest><RequestBody xmlns:ns="http://www.opentravel.org/OTA/2003/05"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -283,7 +292,8 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_ad
     <HotelDescriptiveInfos>%s</HotelDescriptiveInfos></OTA_HotelDescriptiveInfoRQ>
     </RequestBody></HotelRequest></Request>""" % (
         ALLIANCE_ID, SID, timestamp, "OTA_HotelDescriptiveInfo",
-        _create_signature(timestamp, ALLIANCE_ID, SID, "OTA_HotelDescriptiveInfo", API_KEY), request_info_xml)
+        _create_signature(timestamp, ALLIANCE_ID, SID,
+                          "OTA_HotelDescriptiveInfo", API_KEY), request_info_xml)
 
     post_xml = """<?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -293,10 +303,11 @@ def build_rooms_task_for_hotel(hotel_requests, city_code, chinese_name, hotel_ad
     <requestXML>%s</requestXML></Request></soap:Body></soap:Envelope>""" \
                % escape(request_xml)
 
-    http_request = HTTPRequest("http://%s/Hotel/OTA_HotelDescriptiveInfo.asmx" % API_URL,
-                               method="POST", body=post_xml, connect_timeout=20, request_timeout=360,
-                               headers={"SOAPAction": "http://ctrip.com/Request",
-                                        "Content-Type": "text/xml; charset=utf-8"})
+    http_request = HTTPRequest(
+        "http://%s/Hotel/OTA_HotelDescriptiveInfo.asmx" % API_URL,
+        method="POST", body=post_xml, connect_timeout=20, request_timeout=360,
+        headers={"SOAPAction": "http://ctrip.com/Request",
+                 "Content-Type": "text/xml; charset=utf-8"})
     return HttpTask(http_request, callback="HotelParser", max_fail_count=5,
                     kwargs={"citycode": city_code, "chinesename": chinese_name,
                             "address": hotel_addresses})

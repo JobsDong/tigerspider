@@ -19,10 +19,10 @@ from tigerspider.core.spider.pipeline import BasePipeline
 from tigerspider.core.db import DB, DBError
 
 from tigerspider.spiders.ctrip.items import (HotelCodeItem, RoomInfoItem,
-                                 HotelInfoItem, ImageItem)
+                                             HotelInfoItem, ImageItem)
 from tigerspider.spiders.ctrip.util import (convert_room_info_item_2_dict,
-                                convert_hotel_info_item_2_dict,
-                                build_hotel_url)
+                                            convert_hotel_info_item_2_dict,
+                                            build_hotel_url)
 
 
 class CityItemPipeline(BasePipeline):
@@ -88,14 +88,18 @@ class HotelCodeItemPipeline(BasePipeline):
                 e: Exception
         """
         try:
-            selectsql = "SELECT * FROM rthotel_ctrip_urllist WHERE shopurl=%(url)s LIMIT 1"
-            if len(self.item_db.execute_query(selectsql, {'url': item.hotel_url})) < 1:
+            selectsql = "SELECT * FROM rthotel_ctrip_urllist " \
+                        "WHERE shopurl=%(url)s LIMIT 1"
+            if len(self.item_db.execute_query(selectsql,
+                                              {'url': item.hotel_url})) < 1:
                 insertsql = """INSERT INTO rthotel_ctrip_urllist
                 (cityname, shopurl, addtime)
                 VALUES(%(cityname)s, %(shopurl)s, %(addtime)s)"""
 
-                self.item_db.execute_update(insertsql, {'cityname': city_chinese_name,
-                                                        'shopurl': item.hotel_url, 'addtime': datetime.datetime.now()})
+                self.item_db.execute_update(insertsql, {
+                    'cityname': city_chinese_name,
+                    'shopurl': item.hotel_url,
+                    'addtime': datetime.datetime.now()})
 
         except Exception, e:
             self.logger.warn("sql error:%s" % e)
@@ -138,7 +142,6 @@ class RoomInfoItemPipeline(BasePipeline):
         """
         if isinstance(item, RoomInfoItem):
             chinese_name = kwargs.get('chinesename')
-            # print "room:", item.hotel_code, item.room_id, chinese_name
             self._store_item(item, chinese_name)
 
     def _store_item(self, item, city_chinese_name):
@@ -153,10 +156,12 @@ class RoomInfoItemPipeline(BasePipeline):
         try:
             clone_dict = convert_room_info_item_2_dict(item)
             encodestr = json.dumps(clone_dict, ensure_ascii=False)
-            selectsql = "SELECT * FROM rthotel_ctrip_roomlist WHERE hotel_id=%(hotel_id)s " \
+            selectsql = "SELECT * FROM rthotel_ctrip_roomlist " \
+                        "WHERE hotel_id=%(hotel_id)s " \
                         "and room_id=%(room_id)s LIMIT 1"
             if len(self.item_db.execute_query(
-                    selectsql, {'hotel_id': item.hotel_code, 'room_id': item.room_id})) >= 1:
+                    selectsql, {'hotel_id': item.hotel_code,
+                                'room_id': item.room_id})) >= 1:
                 updatesql = "UPDATE rthotel_ctrip_roomlist \
                             SET cityname=%(cityname)s, hotel_id=%(hotel_id)s, \
                             room_id=%(room_id)s, roominfo=%(roominfo)s, \
@@ -164,9 +169,12 @@ class RoomInfoItemPipeline(BasePipeline):
                             WHERE hotel_id=%(hotel_id)s and room_id=%(room_id)s"
 
                 self.item_db.execute_update(updatesql,
-                                            {'cityname': city_chinese_name, 'hotel_id': item.hotel_code,
-                                            'room_id': item.room_id, 'roominfo': encodestr,
-                                            'rateinfo': "", 'addtime': datetime.datetime.now()})
+                                            {'cityname': city_chinese_name,
+                                             'hotel_id': item.hotel_code,
+                                            'room_id': item.room_id,
+                                            'roominfo': encodestr,
+                                            'rateinfo': "",
+                                            'addtime': datetime.datetime.now()})
 
             else:
                 insertsql = "INSERT INTO rthotel_ctrip_roomlist \
@@ -236,7 +244,8 @@ class HotelInfoItemPipeline(BasePipeline):
         try:
             clone_dict = convert_hotel_info_item_2_dict(item)
             encodestr = json.dumps(clone_dict, ensure_ascii=False)
-            selectsql = "SELECT * FROM rthotel_ctrip_hotel WHERE url=%(url)s LIMIT 1"
+            selectsql = "SELECT * FROM rthotel_ctrip_hotel " \
+                        "WHERE url=%(url)s LIMIT 1"
             if len(self.item_db.execute_query(
                     selectsql, {'url': build_hotel_url(item.hotel_code), })) >= 1:
                 updatesql = "UPDATE rthotel_ctrip_hotel \
@@ -245,11 +254,14 @@ class HotelInfoItemPipeline(BasePipeline):
                             add_time=%(add_time)s  \
                             WHERE url=%(url)s"
 
-                self.item_db.execute_update(updatesql, {'city_code': item.city_code,
-                                                        'hotel_id': item.hotel_code,
-                                                        'url': build_hotel_url(item.hotel_code),
-                                                        'info': encodestr,
-                                                        'add_time': datetime.datetime.now()})
+                self.item_db.execute_update(updatesql,
+                                            {'city_code': item.city_code,
+                                             'hotel_id': item.hotel_code,
+                                             'url': build_hotel_url(item
+                                             .hotel_code),
+                                             'info': encodestr,
+                                             'add_time': datetime.datetime
+                                             .now()})
 
             else:
                 insertsql = "INSERT INTO rthotel_ctrip_hotel \
@@ -258,9 +270,13 @@ class HotelInfoItemPipeline(BasePipeline):
                 %(add_time)s)"
 
                 self.item_db.execute_update(insertsql,
-                                            {'city_code': item.city_code, 'hotel_id': item.hotel_code,
-                                             'url': build_hotel_url(item.hotel_code),
-                                             'info': encodestr, 'add_time': datetime.datetime.now()})
+                                            {'city_code': item.city_code,
+                                             'hotel_id': item.hotel_code,
+                                             'url': build_hotel_url(item.
+                                             hotel_code),
+                                             'info': encodestr,
+                                             'add_time': datetime.datetime.
+                                             now()})
         except Exception, e:
             self.logger.warn("sql error:%s" % e)
             raise e
@@ -277,7 +293,8 @@ class HotelInfoItemPipeline(BasePipeline):
 
 class ImageItemPipeline(BasePipeline):
 
-    def __init__(self, namespace, db_host="127.0.0.1", db_port=5432, db_user="postgres",
+    def __init__(self, namespace, db_host="127.0.0.1",
+                 db_port=5432, db_user="postgres",
                  db_password="titps4gg", db_base="swift"):
         BasePipeline.__init__(self, namespace)
         self.logger.debug("init image item pipeline")
@@ -295,14 +312,20 @@ class ImageItemPipeline(BasePipeline):
         try:
             selectsql = """SELECT * FROM rthotel_ctrip_image WHERE
                 image_url=%(image_url)s LIMIT 1"""
-            if len(self.item_db.execute_query(selectsql, {'image_url': item.image_url})) < 1:
+            if len(self.item_db.execute_query(
+                    selectsql, {'image_url': item.image_url})) < 1:
                 insertsql = """INSERT INTO rthotel_ctrip_image
                 (siteid, image_type, image_text, image_url, addtime)
-                VALUES(%(siteid)s, %(image_type)s, %(image_text)s, %(image_url)s, %(addtime)s)"""
+                VALUES(%(siteid)s, %(image_type)s, %(image_text)s,
+                 %(image_url)s, %(addtime)s)"""
 
-                self.item_db.execute_update(insertsql, {'siteid': item.hotel_code, 'image_type': item.image_type,
-                                                        'image_text': item.image_text, 'image_url': item.image_url,
-                                                        'addtime': datetime.datetime.now()})
+                self.item_db.execute_update(insertsql,
+                                            {'siteid': item.hotel_code,
+                                             'image_type': item.image_type,
+                                             'image_text': item.image_text,
+                                             'image_url': item.image_url,
+                                             'addtime': datetime.datetime
+                                             .now()})
 
         except Exception, e:
             self.logger.warn("sql error:%s" % e)
