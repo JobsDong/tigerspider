@@ -112,7 +112,6 @@ def _extract_proxy_from_itmop(body):
             .replace(u"<br/>", u"")\
             .replace(u"<br>", u"")
         if proxy_str:
-            print proxy_str
             try:
                 host, port = _extract_str(proxy_str)
             except Exception, e:
