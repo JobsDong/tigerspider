@@ -43,7 +43,8 @@ def build_comment_list_ajax_url(sid, num=10):
             ajax_url: unicode, ajax_url
     """
     timestamp = str(int(time.time())) + "000"
-    return "%s/user/ajax/remark/getsceneremarklist?xid=%s&score=0&pn=0&rn=%s&format=ajax&t=%s&style=hot" % \
+    return "%s/user/ajax/remark/getsceneremarklist?xid=%s&score=0" \
+           "&pn=0&rn=%s&format=ajax&t=%s&style=hot" % \
            (LVYOU_HOST, sid, num, timestamp)
 
 
@@ -55,7 +56,8 @@ def build_comment_list_header(scene_relate_path):
             headers: dict, http header
     """
     headers = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept": "text/html,application/xhtml+xml,application/xml;"
+                  "q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.5",
         "Referer": "%s/%s" % (LVYOU_HOST, scene_relate_path),
         "X-Requested-With": "XMLHttpRequest",
@@ -70,7 +72,8 @@ def build_next_page_header(city_name):
             city_name: unicode, 城市名
     """
     headers = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept": "text/html,application/xhtml+xml,application/xml;"
+                  "q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.5",
         "Referer": "%s/%s/jingdian/" % (LVYOU_HOST, city_name),
         "X-Requested-With": "XMLHttpRequest",
@@ -103,5 +106,7 @@ def build_comment_list_request(sid, scene_relate_path):
     """
     comment_list_request = HTTPRequest(build_comment_list_ajax_url(sid, 10),
                                        connect_timeout=5, request_timeout=10,
-                                       headers=build_comment_list_header(scene_relate_path))
+                                       headers=
+                                       build_comment_list_header(
+                                           scene_relate_path))
     return comment_list_request

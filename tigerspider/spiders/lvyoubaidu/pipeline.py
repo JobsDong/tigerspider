@@ -14,11 +14,14 @@ from tigerspider.spiders.lvyoubaidu.items import AttractionItem, CommentListItem
 class AttractionItemPipeline(BasePipeline):
     """处理景点信息的pipeline
     """
-    def __init__(self, namespace, redis_host="127.0.0.1", redis_port=6379, redis_db=0):
+    def __init__(self, namespace, redis_host="127.0.0.1",
+                 redis_port=6379, redis_db=0):
         BasePipeline.__init__(self, namespace)
         try:
             temp_namespace = "%s:%s" % (namespace, "temp")
-            self.temp_item_dict = RedisDict(temp_namespace, host=redis_host, port=redis_port, db=redis_db)
+            self.temp_item_dict = RedisDict(temp_namespace,
+                                            host=redis_host,
+                                            port=redis_port, db=redis_db)
         except RedisError, e:
             self.logger.error("redis error %s" % e)
 
@@ -44,13 +47,17 @@ class CommentListItemPipeline(BasePipeline):
         self._csv_writer = csv.writer(self._out_file, delimiter=',', quotechar='"',
                                       quoting=csv.QUOTE_ALL, lineterminator='\n')
         # 写标题拦
-        self._csv_writer.writerow(["Sid", "Name", "BLon", "BLat", "PlaySpend", "PlaySpendUnit", "Address",
-                                   "Tel", "OpenTime", "Rating", "TicketInfo", "ZipCode", "Description", "Comments",
-                                   "CommentsNumber", "SortSequence", "Traffic", "Tips"])
+        self._csv_writer.writerow(["Sid", "Name", "BLon", "BLat",
+                                   "PlaySpend", "PlaySpendUnit", "Address",
+                                   "Tel", "OpenTime", "Rating", "TicketInfo",
+                                   "ZipCode", "Description", "Comments",
+                                   "CommentsNumber", "SortSequence",
+                                   "Traffic", "Tips"])
 
         try:
             temp_namespace = "%s:%s" % (namespace, "temp")
-            self.temp_item_dict = RedisDict(temp_namespace, host=redis_host, port=redis_port, db=redis_db)
+            self.temp_item_dict = RedisDict(temp_namespace, host=redis_host,
+                                            port=redis_port, db=redis_db)
         except RedisError, e:
             self.logger.error("redis error %s" % e)
             raise e
@@ -81,21 +88,29 @@ class CommentListItemPipeline(BasePipeline):
         for comment_item in comment_list_item.comment_list:
             comment_dict = {
                 "user": comment_item.comment_user.encode('utf-8'),
-                "time": datetime.datetime.fromtimestamp(comment_item.comment_time).strftime("%Y-%m-%d %H:%M:%S"),
+                "time": datetime.datetime.
+                fromtimestamp(comment_item.comment_time).
+                strftime("%Y-%m-%d %H:%M:%S"),
                 "score": comment_item.comment_score,
                 "content": comment_item.comment_content.encode('utf-8'),
             }
             comments.append(comment_dict)
 
-        row = [attraction_item.sid, attraction_item.name, attraction_item.longitude, attraction_item.latitude, attraction_item.play_spend,
+        row = [attraction_item.sid, attraction_item.name,
+               attraction_item.longitude, attraction_item.latitude,
+               attraction_item.play_spend,
                attraction_item.play_spend_unit,
-               attraction_item.address, attraction_item.tel_phone, attraction_item.open_time,
-               attraction_item.total_score, attraction_item.ticket_info, "", attraction_item.preview,
+               attraction_item.address, attraction_item.tel_phone,
+               attraction_item.open_time,
+               attraction_item.total_score, attraction_item.ticket_info,
+               "", attraction_item.preview,
                json.dumps(comments, ensure_ascii=False),
-               attraction_item.hot, attraction_item.seq_sort, attraction_item.traffic, attraction_item.tips,
+               attraction_item.hot, attraction_item.seq_sort,
+               attraction_item.traffic, attraction_item.tips,
                ]
 
-        row = [item_str.encode('utf-8') if isinstance(item_str, unicode) else item_str for item_str in row]
+        row = [item_str.encode('utf-8') if isinstance(item_str, unicode)
+               else item_str for item_str in row]
         self._csv_writer.writerow(row)
 
     def clear_all(self):

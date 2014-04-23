@@ -15,9 +15,13 @@ from tigerspider.core.spider.parser import BaseParser
 from tigerspider.core.datastruct import HttpTask
 from tigerspider.core.util import flist
 
-from tigerspider.spiders.lvyoubaidu.items import AttractionItem, CommentItem, CommentListItem
-from tigerspider.spiders.lvyoubaidu.utils import (build_scene_url, build_next_page_request, build_comment_list_request,
-                                      LVYOU_HOST, EVERY_PAGE_SCENE_COUNT)
+from tigerspider.spiders.lvyoubaidu.items import (AttractionItem,
+                                                  CommentItem, CommentListItem)
+from tigerspider.spiders.lvyoubaidu.utils import (build_scene_url,
+                                                  build_next_page_request,
+                                                  build_comment_list_request,
+                                                  LVYOU_HOST,
+                                                  EVERY_PAGE_SCENE_COUNT)
 
 
 class AttractionListParser(BaseParser):
@@ -48,20 +52,28 @@ class AttractionListParser(BaseParser):
                 relate_path = scene['surl']
                 sid = scene['sid']
                 map_info = scene['ext']['map_info']
-                seq_sort = (current_page - 1) * EVERY_PAGE_SCENE_COUNT + index + 1
+                seq_sort = \
+                    (current_page - 1) * EVERY_PAGE_SCENE_COUNT + index + 1
                 # 生成景点request
                 http_request = HTTPRequest(build_scene_url(relate_path),
                                            connect_timeout=5, request_timeout=10)
-                scene_task = HttpTask(http_request, callback="AttractionParser", max_fail_count=3,
-                                      cookie_host=LVYOU_HOST, kwargs={"map_info": map_info, "seq_sort": seq_sort,
-                                                                      "sid": sid, "relate_path": relate_path})
+                scene_task = HttpTask(
+                    http_request, callback="AttractionParser", max_fail_count=3,
+                    cookie_host=LVYOU_HOST, kwargs={"map_info": map_info,
+                                                    "seq_sort": seq_sort,
+                                                    "sid": sid,
+                                                    "relate_path":
+                                                        relate_path})
                 yield scene_task
 
             # 生成 下一页任务
             if current_page * EVERY_PAGE_SCENE_COUNT < total_scene:
                 # 有下一页, 生成下一个request请求
-                next_request = build_next_page_request(city_name, current_page + 1)
-                next_page_task = HttpTask(next_request, callback="AttractionListParser", max_fail_count=5,
+                next_request = build_next_page_request(
+                    city_name, current_page + 1)
+                next_page_task = HttpTask(next_request,
+                                          callback="AttractionListParser",
+                                          max_fail_count=5,
                                           cookie_host=LVYOU_HOST)
                 yield next_page_task
 
@@ -93,22 +105,29 @@ class AttractionParser(BaseParser):
             name = flist(tree.xpath("//header[@class='title-head']/a/p/text()"), u"")
             play_spend, play_spend_unit = _extract_play_spend(tree)
             address = flist(tree.xpath("//div[@id='J-aside-info-address']"
-                                       "/span[@class='val address-value']/text()"), u"")
+                                       "/span[@class='val address-value']"
+                                       "/text()"), u"")
             tel_phone = flist(tree.xpath("//div[@id='J-aside-info-phone']"
-                                         "/span[@class='val phone-value']/text()"), u"")
+                                         "/span[@class='val phone-value']"
+                                         "/text()"), u"")
             time_elems = tree.xpath("//div[@id='J-aside-info-opening_hours']"
                                     "/div[@class='val opening_hours-value']/p")
             time_list = []
             for time_elem in time_elems:
                 time_list.append(time_elem.text)
             open_time = "".join(time_list)
-            total_score = flist(tree.xpath("//div[@class='scene-rating']/div/@content"), u"")
-            ticket_info = flist(tree.xpath("//div[@id='J-aside-info-price']/div[@class='val price-value']/p/text()"), u"")
+            total_score = flist(tree.xpath("//div[@class='scene-rating']"
+                                           "/div/@content"), u"")
+            ticket_info = flist(tree.xpath("//div[@id='J-aside-info-price']"
+                                           "/div[@class='val price-value']"
+                                           "/p/text()"), u"")
             preview = _extract_preview(tree)
             traffic = _extract_traffic(tree)
             tips = _extract_tips(tree)
-            hot = flist(tree.xpath("//section[@id='remark-container']/div[@class='remark-overall-rating']"
-                                   "/span[@class='remark-all-counts']/text()"), u"")
+            hot = flist(tree.xpath("//section[@id='remark-container']"
+                                   "/div[@class='remark-overall-rating']"
+                                   "/span[@class='remark-all-counts']"
+                                   "/text()"), u"")
             lon_lat = task.kwargs['map_info'].split(",")
             if len(lon_lat) <= 1:
                 lon, lat = u"", u""
@@ -116,18 +135,27 @@ class AttractionParser(BaseParser):
                 lon, lat = lon_lat[0], lon_lat[1]
             seq_sort = task.kwargs['seq_sort']
             sid = task.kwargs['sid']
-            attraction_item = AttractionItem(unicode(sid), unicode(name), unicode(play_spend), unicode(play_spend_unit),
-                                             unicode(address), unicode(tel_phone),
-                                             unicode(open_time), unicode(total_score), unicode(ticket_info),
+            attraction_item = AttractionItem(unicode(sid), unicode(name),
+                                             unicode(play_spend),
+                                             unicode(play_spend_unit),
+                                             unicode(address),
+                                             unicode(tel_phone),
+                                             unicode(open_time),
+                                             unicode(total_score),
+                                             unicode(ticket_info),
                                              unicode(preview), unicode(hot),
-                                             unicode(lon), unicode(lat), unicode(seq_sort),
+                                             unicode(lon), unicode(lat),
+                                             unicode(seq_sort),
                                              unicode(traffic), unicode(tips))
             yield attraction_item
 
             # yield comment list task
-            comments_request = build_comment_list_request(sid, task.kwargs['relate_path'])
-            comments_task = HttpTask(comments_request, callback="CommentListParser", max_fail_count=3,
-                                     cookie_host=LVYOU_HOST, kwargs={'sid': sid})
+            comments_request = build_comment_list_request(
+                sid, task.kwargs['relate_path'])
+            comments_task = HttpTask(
+                comments_request, callback="CommentListParser",
+                max_fail_count=3,
+                cookie_host=LVYOU_HOST, kwargs={'sid': sid})
             yield comments_task
         except Exception, e:
             self.logger.error("extract Attraction failed error:%s" % e)
@@ -144,7 +172,8 @@ def _extract_traffic(tree):
         Returns:
             traffic: unicode
     """
-    elem = flist(tree.xpath("//div[@id='mod-traffic']/article[@class='content-article']"), None)
+    elem = flist(tree.xpath("//div[@id='mod-traffic']/"
+                            "article[@class='content-article']"), None)
     if elem is None:
         return u""
     else:
@@ -161,7 +190,8 @@ def _extract_tips(tree):
         Returns:
             tips: unicode
     """
-    elem = flist(tree.xpath("//div[@id='mod-attention']/article[@class='content-article']"), None)
+    elem = flist(tree.xpath("//div[@id='mod-attention']/"
+                            "article[@class='content-article']"), None)
     if elem is None:
         return u""
     else:
@@ -179,7 +209,8 @@ def _extract_preview(tree):
             previe: unicode,
     """
     # 第一类型网页
-    preview_elems = tree.xpath("//div[@class='sidebar-mod-inner']/article/div[@class='']/p")
+    preview_elems = tree.xpath("//div[@class='sidebar-mod-inner']/"
+                               "article/div[@class='']/p")
     preview_list = []
     for preview_elem in preview_elems:
         preview_list.append(preview_elem.text)
@@ -188,7 +219,8 @@ def _extract_preview(tree):
     # 第二类型网页
     if len(preview) == 0:
         preview = flist(tree.xpath("//div[@class='view-mod-desc-main']"
-                                   "/div[@id='view-mod-abstract']/div[@class='desc-all-holder']"
+                                   "/div[@id='view-mod-abstract']/"
+                                   "div[@class='desc-all-holder']"
                                    "/text()"), u"")
     return preview
 
@@ -236,8 +268,9 @@ class CommentListParser(BaseParser):
 def _extract_play_spend(tree):
     """提取play spend和unit
     """
-    play_spend = flist(tree.xpath("//div[@id='J-aside-info-recommend_visit_time']"
-                                  "/span[@class='val recommend_visit_time-value']/text()"), u"")
+    play_spend = flist(tree.xpath(
+        "//div[@id='J-aside-info-recommend_visit_time']"
+        "/span[@class='val recommend_visit_time-value']/text()"), u"")
     if play_spend.find(u"天") != -1:
         play_spend_unit = u"天"
     elif play_spend.find(u"小时") != -1:
