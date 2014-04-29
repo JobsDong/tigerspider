@@ -13,7 +13,7 @@ import traceback
 import json
 from tornado import gen
 
-from tigerspider.core.datastruct import HttpTask
+from core.datastruct import HttpTask
 
 logger = logging.getLogger("core-util")
 
@@ -230,7 +230,7 @@ def walk_settings(path='settings.registersettings'):
     except Exception, e:
         raise SettingError("load object :%s, error:%s" % (path + ".spiders", e))
     else:
-        from tigerspider.core.spider.spider import add_spider_class
+        from core.spider.spider import add_spider_class
         for spider_path in spiders:
             try:
                 spider = load_object(spider_path)
@@ -245,7 +245,7 @@ def walk_settings(path='settings.registersettings'):
         raise SettingError("load object :%s, error:%s" %
                            (path + ".schedules", e))
     else:
-        from tigerspider.core.schedule import add_schedule_class
+        from core.schedule import add_schedule_class
         for schedule_path in schedules:
             try:
                 schedule = load_object(schedule_path)

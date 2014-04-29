@@ -8,17 +8,17 @@
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from tigerspider.core.spider.spider import BaseSpider
-from tigerspider.core.datastruct import FileTask
-from tigerspider.core.util import get_project_path
+from core.spider.spider import BaseSpider
+from core.datastruct import FileTask
+from core.util import get_project_path
 
-from tigerspider.spiders.ctrip.parser import (CityParser, HotelListParser,
-                                              HotelParser)
-from tigerspider.spiders.ctrip.pipeline import (CityItemPipeline,
-                                                HotelCodeItemPipeline,
-                                                RoomInfoItemPipeline,
-                                                HotelInfoItemPipeline,
-                                                ImageItemPipeline)
+from spiders.ctrip.parser import (CityParser, HotelListParser,
+                                  HotelParser)
+from spiders.ctrip.pipeline import (CityItemPipeline,
+                                    HotelCodeItemPipeline,
+                                    RoomInfoItemPipeline,
+                                    HotelInfoItemPipeline,
+                                    ImageItemPipeline)
 
 
 class CtripSpider(BaseSpider):

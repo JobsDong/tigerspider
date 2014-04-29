@@ -15,8 +15,8 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import uuid
 import logging
 
-from tigerspider.core.spider.parser import ParserError
-from tigerspider.core.spider.pipeline import PipelineError
+from core.spider.parser import ParserError
+from core.spider.pipeline import PipelineError
 
 
 class SpiderError(Exception):

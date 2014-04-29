@@ -21,9 +21,11 @@ def get_proxys(start_date=None, end_date=None):
     """
     # 1. 获取主页
     print "get youdaili homepage"
-    headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;'
+                         'q=0.9,*/*;q=0.8',
                'Cookie': '',
-               'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0'}
+               'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:25.0)'
+                             ' Gecko/20100101 Firefox/25.0'}
     r_homepage = requests.get(YOUDAILI_URL, headers=headers)
     r_homepage.encoding='utf-8'
     content = r_homepage.text
@@ -125,5 +127,6 @@ def _extract_str(proxy_str):
         return host, port
 
 if __name__ == "__main__":
-    for proxy in get_proxys(datetime.datetime(year=2014, month=2, day=26), datetime.datetime.now()):
+    for proxy in get_proxys(datetime.datetime(year=2014, month=2, day=26),
+                            datetime.datetime.now()):
         print proxy[0], proxy[1]

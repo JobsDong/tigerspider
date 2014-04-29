@@ -6,13 +6,12 @@
     RedisError: 表示redis内部错误
     RedisQueue: 使用redis创建的队列
     RedisDict: 使用redis创建的字典
-    RedisSet: 使用redis创建的集合
 """
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import redis
-from tigerspider.core.util import PickleDeocoder, PickleEncoder
+from core.util import PickleDeocoder, PickleEncoder
 
 
 class RedisError(Exception):

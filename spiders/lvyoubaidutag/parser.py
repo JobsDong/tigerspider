@@ -5,13 +5,13 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import json
 
-from tigerspider.core.spider.parser import BaseParser
-from tigerspider.core.datastruct import HttpTask
+from core.spider.parser import BaseParser
+from core.datastruct import HttpTask
 
-from tigerspider.spiders.lvyoubaidutag.items import TagItem
-from tigerspider.spiders.lvyoubaidutag.utils import (LVYOU_HOST,
-                                                     EVERY_PAGE_SCENE_COUNT,
-                                                     build_next_tag_page_request)
+from spiders.lvyoubaidutag.items import TagItem
+from spiders.lvyoubaidutag.utils import (LVYOU_HOST,
+                                         EVERY_PAGE_SCENE_COUNT,
+                                         build_next_tag_page_request)
 
 
 class TagListParser(BaseParser):

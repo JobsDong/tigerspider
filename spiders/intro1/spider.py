@@ -5,10 +5,10 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from tornado.httpclient import HTTPRequest
 
-from tigerspider.core.spider.spider import BaseSpider
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.spiders.intro1.parser import ActivityParser
-from tigerspider.spiders.intro1.pipeline import WebItemPipeline
+from core.spider.spider import BaseSpider
+from core.datastruct import HttpTask
+from spiders.intro1.parser import ActivityParser
+from spiders.intro1.pipeline import WebItemPipeline
 
 
 class Intro1Spider(BaseSpider):

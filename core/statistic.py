@@ -14,7 +14,7 @@ import datetime
 import logging
 import json
 import csv
-from tigerspider.core.datastruct import HttpTask
+from core.datastruct import HttpTask
 
 WORKER_STATISTIC_PATH = "data/worker_statistic.dat"
 WORKER_FAIL_PATH = "data/fails/"

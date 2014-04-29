@@ -3,11 +3,11 @@
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from tigerspider.core.spider.spider import BaseSpider
-from tigerspider.spiders.lvyoubaidutag.parser import TagListParser
-from tigerspider.spiders.lvyoubaidutag.pipeline import TagItemPipeline
+from core.spider.spider import BaseSpider
+from spiders.lvyoubaidutag.parser import TagListParser
+from spiders.lvyoubaidutag.pipeline import TagItemPipeline
 
-from tigerspider.spiders.lvyoubaidutag.utils import build_tag_tasks
+from spiders.lvyoubaidutag.utils import build_tag_tasks
 
 
 class LvYouBaiDuTagSpider(BaseSpider):

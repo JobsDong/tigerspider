@@ -26,7 +26,8 @@ DEFAULT_HEADER = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Encoding": "gzip, deflate",
     "Accept-Language": "en-US,en;q=0.5",
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:25.0) "
+                  "Gecko/20100101 Firefox/25.0",
 }
 
 # 最大连接数

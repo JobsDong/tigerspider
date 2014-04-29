@@ -6,7 +6,7 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import time
 from tornado.httpclient import HTTPRequest
-from tigerspider.core.datastruct import HttpTask
+from core.datastruct import HttpTask
 
 
 LVYOU_HOST = u"http://lvyou.baidu.com"

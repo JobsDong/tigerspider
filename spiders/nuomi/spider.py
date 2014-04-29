@@ -10,14 +10,14 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from tornado.httpclient import HTTPRequest
 
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.core.spider.spider import BaseSpider
-from tigerspider.core.spider.pipeline import EmptyPipeline
+from core.datastruct import HttpTask
+from core.spider.spider import BaseSpider
+from core.spider.pipeline import EmptyPipeline
 
-from tigerspider.spiders.nuomi.parser import (CityParser, DealParser,
-                                              PictureParser)
-from tigerspider.spiders.nuomi.pipeline import (DealItemPipeline,
-                                                PictureItemPipeline)
+from spiders.nuomi.parser import (CityParser, DealParser,
+                                  PictureParser)
+from spiders.nuomi.pipeline import (DealItemPipeline,
+                                    PictureItemPipeline)
 
 
 class NuomiSpider(BaseSpider):

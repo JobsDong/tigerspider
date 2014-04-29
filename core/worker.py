@@ -24,17 +24,15 @@ import StringIO
 import logging
 from tornado import ioloop, gen
 
-from tigerspider.core.util import get_class_path, log_exception_wrap
-from tigerspider.core.spider.parser import ParserError
-from tigerspider.core.schedule import ScheduleError
-from tigerspider.core.spider.pipeline import PipelineError
-from tigerspider.core.download import fetch
-from tigerspider.core.datastruct import HttpTask, FileTask, Item
-from tigerspider.core.statistic import (WorkerStatistic, output_statistic_file,
-                                        WORKER_STATISTIC_PATH,
-                                        output_fail_http_task_file,
-                                        WORKER_FAIL_PATH)
-from tigerspider.core.record import record, RecorderManager
+from core.util import get_class_path, log_exception_wrap
+from core.spider.parser import ParserError
+from core.schedule import ScheduleError
+from core.spider.pipeline import PipelineError
+from core.download import fetch
+from core.datastruct import HttpTask, FileTask, Item
+from core.statistic import (WorkerStatistic, output_statistic_file,
+                            WORKER_FAIL_PATH)
+from core.record import record, RecorderManager
 
 MAX_EMPTY_TASK_COUNT = 10  # worker最大能够获取的空Task个数
 logger = logging.getLogger("worker")

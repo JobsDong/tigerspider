@@ -8,12 +8,12 @@ import datetime
 import json
 from lxml import html
 from tornado.httpclient import HTTPRequest
-from tigerspider.core.util import flist
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.core.spider.parser import BaseParser
-from tigerspider.spiders.com228.items import ActivityItem, WebItem, PictureItem
-from tigerspider.spiders.com228.util import (create_product_url,
-                                             create_city_type_task)
+from core.util import flist
+from core.datastruct import HttpTask
+from core.spider.parser import BaseParser
+from spiders.com228.items import ActivityItem, WebItem, PictureItem
+from spiders.com228.util import (create_product_url,
+                                 create_city_type_task)
 
 
 DEFAULT_PICTURE_DIR = u"/opt/swift_crawler/"

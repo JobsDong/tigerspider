@@ -11,17 +11,17 @@ from lxml import html
 import traceback
 from tornado.httpclient import HTTPRequest
 
-from tigerspider.core.spider.parser import BaseParser
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.core.util import flist
+from core.spider.parser import BaseParser
+from core.datastruct import HttpTask
+from core.util import flist
 
-from tigerspider.spiders.lvyoubaidu.items import (AttractionItem,
-                                                  CommentItem, CommentListItem)
-from tigerspider.spiders.lvyoubaidu.utils import (build_scene_url,
-                                                  build_next_page_request,
-                                                  build_comment_list_request,
-                                                  LVYOU_HOST,
-                                                  EVERY_PAGE_SCENE_COUNT)
+from spiders.lvyoubaidu.items import (AttractionItem,
+                                      CommentItem, CommentListItem)
+from spiders.lvyoubaidu.utils import (build_scene_url,
+                                      build_next_page_request,
+                                      build_comment_list_request,
+                                      LVYOU_HOST,
+                                      EVERY_PAGE_SCENE_COUNT)
 
 
 class AttractionListParser(BaseParser):

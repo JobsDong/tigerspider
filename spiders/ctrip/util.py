@@ -25,8 +25,8 @@ import time
 from xml.sax.saxutils import escape
 from tornado.httpclient import HTTPRequest
 
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.core.util import get_project_path
+from core.datastruct import HttpTask
+from core.util import get_project_path
 
 #(fake alliance id)
 ALLIANCE_ID = 543534

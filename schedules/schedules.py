@@ -11,10 +11,11 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import uuid
 
-from tigerspider.core.schedule import BaseSchedule, ScheduleError
-from tigerspider.core.redistools import RedisQueue, RedisSet, RedisError
-from tigerspider.core.util import check_http_task_integrity
-from tigerspider.core.datastruct import FileTask, HttpTask
+from core.schedule import BaseSchedule, ScheduleError
+from core.redistools import RedisQueue, RedisSet, RedisError
+from core.util import check_http_task_integrity
+from core.datastruct import FileTask, HttpTask
+
 
 class RedisSchedule(BaseSchedule):
     """RedisSchedule是独享式的基于redis生成的schedule

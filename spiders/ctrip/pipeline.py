@@ -15,14 +15,14 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import json
 import datetime
 
-from tigerspider.core.spider.pipeline import BasePipeline
-from tigerspider.core.db import DB, DBError
+from core.spider.pipeline import BasePipeline
+from core.db import DB, DBError
 
-from tigerspider.spiders.ctrip.items import (HotelCodeItem, RoomInfoItem,
-                                             HotelInfoItem, ImageItem)
-from tigerspider.spiders.ctrip.util import (convert_room_info_item_2_dict,
-                                            convert_hotel_info_item_2_dict,
-                                            build_hotel_url)
+from spiders.ctrip.items import (HotelCodeItem, RoomInfoItem,
+                                 HotelInfoItem, ImageItem)
+from spiders.ctrip.util import (convert_room_info_item_2_dict,
+                                convert_hotel_info_item_2_dict,
+                                build_hotel_url)
 
 
 class CityItemPipeline(BasePipeline):

@@ -6,10 +6,10 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import os
 import json
 import datetime
-from tigerspider.core.redistools import RedisDict, RedisError
-from tigerspider.core.db import DB, DBError
-from tigerspider.core.spider.pipeline import BasePipeline
-from tigerspider.spiders.com228.items import PictureItem, ActivityItem, WebItem
+from core.redistools import RedisDict, RedisError
+from core.db import DB, DBError
+from core.spider.pipeline import BasePipeline
+from spiders.com228.items import PictureItem, ActivityItem, WebItem
 
 
 class ActivityItemPipeline(BasePipeline):

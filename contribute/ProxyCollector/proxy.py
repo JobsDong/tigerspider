@@ -27,14 +27,16 @@ def validate_proxy():
     """
     # 获取本地代理
     proxy_dat_file_path = main_config.PROXY_DAT_FILE_PATH
-    history_proxys = util.read_proxys(proxy_dat_file_path) if os.path.exists(proxy_dat_file_path) else set()
+    history_proxys = util.read_proxys(proxy_dat_file_path) \
+        if os.path.exists(proxy_dat_file_path) else set()
     print "read history proxy:", len(history_proxys)
 
     # 验证代理
     proxy_list = list(history_proxys)
     print "start to validate proxys"
-    success_pers = validate.validate_proxys(proxy_list, max_clients=main_config.MAX_CLIENTS,
-                                            interval=main_config.INTERVAL)
+    success_pers = validate.validate_proxys(
+        proxy_list, max_clients=main_config.MAX_CLIENTS,
+        interval=main_config.INTERVAL)
     print "end to validate proxys:", len(proxy_list)
 
     # 持久化代理
@@ -57,7 +59,8 @@ def update_proxy(start_date, end_date):
 
     # 历史
     proxy_dat_file_path = main_config.PROXY_DAT_FILE_PATH
-    history_proxys = util.read_proxys(proxy_dat_file_path) if os.path.exists(proxy_dat_file_path) else set()
+    history_proxys = util.read_proxys(proxy_dat_file_path) \
+        if os.path.exists(proxy_dat_file_path) else set()
     print "read history proxy:", len(history_proxys)
 
     # 合并
@@ -66,8 +69,9 @@ def update_proxy(start_date, end_date):
 
     # 验证
     print "start to validate proxys"
-    success_pers = validate.validate_proxys(proxy_list, max_clients=main_config.MAX_CLIENTS,
-                                            interval=main_config.INTERVAL)
+    success_pers = validate.validate_proxys(
+        proxy_list, max_clients=main_config.MAX_CLIENTS,
+        interval=main_config.INTERVAL)
     print "end to validate proxys"
 
     # 持久化代理

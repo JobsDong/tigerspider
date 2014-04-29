@@ -7,17 +7,17 @@ import traceback
 from StringIO import StringIO
 import re
 from lxml import html
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.core.spider.parser import BaseParser
-from tigerspider.core.util import flist
+from core.datastruct import HttpTask
+from core.spider.parser import BaseParser
+from core.util import flist
 
-from tigerspider.spiders.lvyoudaodao.utils import (build_attraction_request,
-                                                   LVYOU_HOST,
-                                                   build_next_page_request,
-                                                   build_description_request)
-from tigerspider.spiders.lvyoudaodao.items import (AttractionItem,
-                                                   DescriptionItem,
-                                                   CommentItem)
+from spiders.lvyoudaodao.utils import (build_attraction_request,
+                                       LVYOU_HOST,
+                                       build_next_page_request,
+                                       build_description_request)
+from spiders.lvyoudaodao.items import (AttractionItem,
+                                       DescriptionItem,
+                                       CommentItem)
 
 
 class AttractionListParser(BaseParser):

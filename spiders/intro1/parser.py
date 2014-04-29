@@ -5,9 +5,9 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from lxml import html
 
-from tigerspider.core.util import flist
-from tigerspider.core.spider.parser import BaseParser
-from tigerspider.spiders.intro1.items import WebItem
+from core.util import flist
+from core.spider.parser import BaseParser
+from spiders.intro1.items import WebItem
 
 
 class ActivityParser(BaseParser):

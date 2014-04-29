@@ -8,11 +8,11 @@ import datetime
 import os
 import json
 
-from tigerspider.core.spider.pipeline import BasePipeline
-from tigerspider.core.db import DB, DBError
+from core.spider.pipeline import BasePipeline
+from core.db import DB, DBError
 
-from tigerspider.spiders.nuomi.items import DealItem, PictureItem
-from tigerspider.spiders.nuomi.util import item2dict
+from spiders.nuomi.items import DealItem, PictureItem
+from spiders.nuomi.util import item2dict
 
 
 class DealItemPipeline(BasePipeline):

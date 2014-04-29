@@ -6,9 +6,9 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import csv
 import datetime
 import json
-from tigerspider.core.spider.pipeline import BasePipeline
-from tigerspider.core.redistools import RedisDict, RedisError
-from tigerspider.spiders.lvyoubaidu.items import AttractionItem, CommentListItem
+from core.spider.pipeline import BasePipeline
+from core.redistools import RedisDict, RedisError
+from spiders.lvyoubaidu.items import AttractionItem, CommentListItem
 
 
 class AttractionItemPipeline(BasePipeline):

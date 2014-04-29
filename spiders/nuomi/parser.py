@@ -15,12 +15,12 @@ import re
 from tornado.httpclient import HTTPRequest
 from lxml import etree, html
 
-from tigerspider.core.spider.parser import BaseParser, ParserError
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.core.util import remove_white
+from core.spider.parser import BaseParser, ParserError
+from core.datastruct import HttpTask
+from core.util import remove_white
 
-from tigerspider.spiders.nuomi.items import CityItem, DealItem, PictureItem
-from tigerspider.spiders.nuomi.util import (get_city_code, build_url_by_city_name,
+from spiders.nuomi.items import CityItem, DealItem, PictureItem
+from spiders.nuomi.util import (get_city_code, build_url_by_city_name,
                                 get_subcate_by_category)
 
 DEFAULT_PICTURE_DIR = u"/opt/swift_crawler/"

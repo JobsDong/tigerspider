@@ -14,9 +14,9 @@ import logging
 from tornado import gen, httpclient
 from tornado.httpclient import HTTPRequest
 
-from tigerspider.core.datastruct import HttpTask
-from tigerspider.core.resolver import DNSResolver, ResolveError
-from tigerspider.core.proxy import get_proxy
+from core.datastruct import HttpTask
+from core.resolver import DNSResolver, ResolveError
+from core.proxy import get_proxy
 
 httpclient.AsyncHTTPClient.configure(
     "tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=50)

@@ -3,16 +3,16 @@
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from tigerspider.core.spider.spider import BaseSpider
-from tigerspider.core.datastruct import HttpTask
+from core.spider.spider import BaseSpider
+from core.datastruct import HttpTask
 
-from tigerspider.spiders.lvyoubaidu.parser import (AttractionListParser,
-                                                   AttractionParser,
-                                                   CommentListParser)
-from tigerspider.spiders.lvyoubaidu.pipeline import (AttractionItemPipeline,
-                                                     CommentListItemPipeline)
-from tigerspider.spiders.lvyoubaidu.utils import (build_next_page_request,
-                                                  LVYOU_HOST)
+from spiders.lvyoubaidu.parser import (AttractionListParser,
+                                       AttractionParser,
+                                       CommentListParser)
+from spiders.lvyoubaidu.pipeline import (AttractionItemPipeline,
+                                         CommentListItemPipeline)
+from spiders.lvyoubaidu.utils import (build_next_page_request,
+                                      LVYOU_HOST)
 
 
 class LvYouBaiDuSpider(BaseSpider):

@@ -10,7 +10,7 @@
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from tigerspider.core.datastruct import Item
+from core.datastruct import Item
 
 
 class CityItem(Item):

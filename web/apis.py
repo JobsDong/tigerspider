@@ -22,19 +22,19 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import json
 
-from tigerspider.core.spider.spider import (get_all_spider_class,
-                                            get_spider_class, SpiderError)
-from tigerspider.core.schedule import (get_all_schedule_class,
-                                       get_schedule_class, ScheduleError)
-from tigerspider.core.worker import (start_worker, stop_worker,
-                                     suspend_worker, WorkerError,
-                                     rouse_worker, get_worker_statistic,
-                                     get_all_workers, recover_worker,
-                                     suspend_all_worker,
-                                     rouse_all_worker)
-from tigerspider.core.statistic import output_statistic_dict
-from tigerspider.core.record import RecorderManager
-from tigerspider.core.proxy import reload_proxy
+from core.spider.spider import (get_all_spider_class,
+                                get_spider_class, SpiderError)
+from core.schedule import (get_all_schedule_class,
+                           get_schedule_class, ScheduleError)
+from core.worker import (start_worker, stop_worker,
+                         suspend_worker, WorkerError,
+                         rouse_worker, get_worker_statistic,
+                         get_all_workers, recover_worker,
+                         suspend_all_worker,
+                         rouse_all_worker)
+from core.statistic import output_statistic_dict
+from core.record import RecorderManager
+from core.proxy import reload_proxy
 
 
 class api_route(object):

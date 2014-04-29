@@ -5,7 +5,7 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 
 from tornado.httpclient import HTTPRequest
-from tigerspider.core.datastruct import HttpTask
+from core.datastruct import HttpTask
 
 _entrance_city = {
     u"北京": {

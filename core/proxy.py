@@ -7,7 +7,7 @@
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import csv
-from tigerspider.core.util import get_project_path
+from core.util import get_project_path
 
 
 PROXY_FILE_PATH = "data/proxy.dat"

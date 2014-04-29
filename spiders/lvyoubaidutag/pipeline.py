@@ -4,8 +4,8 @@
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import csv
-from tigerspider.core.spider.pipeline import BasePipeline
-from tigerspider.spiders.lvyoubaidutag.items import TagItem
+from core.spider.pipeline import BasePipeline
+from spiders.lvyoubaidutag.items import TagItem
 
 
 class TagItemPipeline(BasePipeline):

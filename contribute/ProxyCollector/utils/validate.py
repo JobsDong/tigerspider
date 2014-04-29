@@ -97,16 +97,19 @@ def validate_proxys(proxys=None, max_clients=50, interval=500):
                 except Exception, e:
                     print e
                 # 加入下一次循环
-                ioloop.IOLoop.instance().add_timeout(datetime.timedelta(milliseconds=interval), _fetch)
+                ioloop.IOLoop.instance().add_timeout(
+                    datetime.timedelta(milliseconds=interval), _fetch)
 
             # 当最大并发度已经饱和了
             else:
-                ioloop.IOLoop.instance().add_timeout(datetime.timedelta(milliseconds=interval), _fetch)
+                ioloop.IOLoop.instance().add_timeout(
+                    datetime.timedelta(milliseconds=interval), _fetch)
 
         else:
             print counters['current_client']
             if counters['current_client'] > 0:
-                ioloop.IOLoop.instance().add_timeout(datetime.timedelta(milliseconds=interval), _fetch)
+                ioloop.IOLoop.instance().add_timeout(
+                    datetime.timedelta(milliseconds=interval), _fetch)
             else:
                 ioloop.IOLoop.instance().stop()
 
@@ -118,7 +121,8 @@ def validate_proxys(proxys=None, max_clients=50, interval=500):
     success_percentages = []
     for proxy_host, proxy_port in proxys:
         result = results[(proxy_host, proxy_port)]
-        success_percentage = float(result['success']) / (result['success'] + result['fail'])
+        success_percentage = float(result['success']) / \
+                             (result['success'] + result['fail'])
         success_percentages.append(success_percentage)
 
     return success_percentages
@@ -141,9 +145,11 @@ def _build_request_list(proxys):
             connect_timeout = test_web['connect_timeout']
             request_timeout = test_web['request_timeout']
             headers = main_config.DEFAULT_HEADER
-            http_request = httpclient.HTTPRequest(url, proxy_host=proxy_host, proxy_port=proxy_port,
-                                                  connect_timeout=connect_timeout, request_timeout=request_timeout,
-                                                  headers=headers)
+            http_request = httpclient.HTTPRequest(
+                url, proxy_host=proxy_host, proxy_port=proxy_port,
+                connect_timeout=connect_timeout,
+                request_timeout=request_timeout,
+                headers=headers)
             http_requests.append(http_request)
 
     return http_requests

@@ -12,18 +12,17 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 from lxml import etree
 
-from tigerspider.core.spider.parser import BaseParser
-from tigerspider.core.util import remove_white, xpath_namespace, flist
-from tigerspider.core.spider.parser import ParserError
+from core.spider.parser import BaseParser
+from core.util import remove_white, xpath_namespace, flist
+from core.spider.parser import ParserError
 
-from tigerspider.spiders.ctrip.util import (HOTEL_SERVICE_CODES,
-                                            ROOM_SERVICE_CODES,
-                                            build_hotels_task_for_city,
-                                            build_rooms_task_for_hotel,
-                                            build_hotel_url, get_city_code)
-from tigerspider.spiders.ctrip.items import (CityItem, RoomInfoItem,
-                                             HotelInfoItem, HotelCodeItem,
-                                             ImageItem)
+from spiders.ctrip.util import (HOTEL_SERVICE_CODES,
+                                ROOM_SERVICE_CODES,
+                                build_hotels_task_for_city,
+                                build_rooms_task_for_hotel,
+                                build_hotel_url, get_city_code)
+from spiders.ctrip.items import (CityItem, RoomInfoItem,
+                                 ImageItem)
 
 
 class CityParser(BaseParser):
