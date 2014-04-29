@@ -5,12 +5,14 @@
 """定义schedule，及控制抓取策略的模块
     ScheduleError: 描述schedule发生内部错误
     BaseSchedule: schedule的基类
+
     add_schedule_class: 将schedule的类加入
 """
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import inspect
+import traceback
 import logging
 
 UUID_INDEPENDENT = 1
@@ -145,11 +147,12 @@ def get_schedule_class(path):
 def get_all_schedule_class():
     """ 返回所有schedule的类路径
         Returns:
-            schedules:list, [{'path': path, 'description':description, 'args':{...}}]
+            schedules:list, [{'path': path, 'description':description,
+            'args':{...}}]
     """
     schedules = []
     for key, value in BaseSchedule.schedule_classes.iteritems():
-        temp_dict = {}
+        temp_dict = dict()
         temp_dict['path'] = key
         temp_dict['description'] = value.__doc__
         temp_dict['args'] = {}
@@ -158,7 +161,10 @@ def get_all_schedule_class():
             for index in xrange(len(args.defaults)):
                 temp_dict['args'][args.args[index + 1]] = args.defaults[index]
         except Exception, e:
-            logger.warn("get_all_schedule_class error:%s" % e)
+            logger.warn("get_all_schedule_class error:%s traceback:%s" % (
+                e, traceback.format_exc()))
         else:
             schedules.append(temp_dict)
+
+    schedules = sorted(schedules, key=lambda t: t['path'])
     return schedules

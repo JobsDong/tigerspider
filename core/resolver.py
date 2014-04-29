@@ -108,8 +108,9 @@ class DNSResolver(object):
                 _, _, _, _, sockaddr = addr_info[0]
                 self._cache[key] = sockaddr[0]
             except Exception, e:
-                raise ResolveError("dns resovel failed,host:%s, port:%s error:%s"
-                                   % (host, port, e,))
+                raise ResolveError(
+                    "dns resovel failed,host:%s, port:%s error:%s" %
+                    (host, port, e,))
         return urlparse.urlunsplit((schema, self._cache[key], path, query, ''))
 
     def close(self):

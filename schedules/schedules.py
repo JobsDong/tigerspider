@@ -11,11 +11,10 @@ __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import uuid
 
-from core.schedule import BaseSchedule, ScheduleError
-from core.redistools import RedisQueue, RedisSet, RedisError
-from core.util import check_http_task_integrity
-from core.datastruct import FileTask, HttpTask
-
+from tigerspider.core.schedule import BaseSchedule, ScheduleError
+from tigerspider.core.redistools import RedisQueue, RedisSet, RedisError
+from tigerspider.core.util import check_http_task_integrity
+from tigerspider.core.datastruct import FileTask, HttpTask
 
 class RedisSchedule(BaseSchedule):
     """RedisSchedule是独享式的基于redis生成的schedule
@@ -41,13 +40,18 @@ class RedisSchedule(BaseSchedule):
         BaseSchedule.__init__(self, interval, max_number)
         self._namespace = str(uuid.uuid4()) if not namespace else namespace
         try:
-            self._prepare_to_process_queue = RedisQueue("%s:%s" % (self._namespace, "prepare",),
-                                                        host=host, port=port, db=db)
-            self._processed_queue = RedisQueue("%s:%s" % (self._namespace, "processed",),
+            self._prepare_to_process_queue = RedisQueue("%s:%s" %
+                                                        (self._namespace,
+                                                         "prepare",),
+                                                        host=host, port=port,
+                                                        db=db)
+            self._processed_queue = RedisQueue("%s:%s" % (
+                self._namespace, "processed",),
                                                host=host, port=port, db=db)
             self._fail_queue = RedisQueue("%s:%s" % (self._namespace, "fail",),
                                           host=host, port=port, db=db)
-            self._processed_url_set = RedisSet("%s:%s" % (self._namespace, "urlprocessed"),
+            self._processed_url_set = RedisSet("%s:%s" %
+                                               (self._namespace, "urlprocessed"),
                                                host=host, port=port, db=db)
         except RedisError, e:
             self.logger.error("init redis schedule failed error:%s" % e)
@@ -56,6 +60,8 @@ class RedisSchedule(BaseSchedule):
         self._kwargs = {'namespace': self._namespace, "host": host,
                         "port": port, "db": db, "interval":interval,
                         "max_number": max_number,}
+
+
 
     @property
     def schedule_kwargs(self):
@@ -139,7 +145,8 @@ class RedisSchedule(BaseSchedule):
 
         try:
             if isinstance(task, HttpTask):
-                if task.reason.rfind("unsupported") != -1 or task.reason.rfind("handle error") != -1:
+                if task.reason.rfind("unsupported") != -1 or \
+                                task.reason.rfind("handle error") != -1:
                     self._fail_queue.push(task)
                     return True
                 else:
@@ -156,6 +163,7 @@ class RedisSchedule(BaseSchedule):
         except RedisError, e:
             raise ScheduleError("fail queue push failed error:%s" % e)
 
+
     def fail_task_size(self):
         """get fail task size
 
@@ -163,6 +171,7 @@ class RedisSchedule(BaseSchedule):
                 size: int, fail task size
         """
         return self._fail_queue.size()
+
 
     #TODO opt ability
     def dumps_all_fail_task(self):

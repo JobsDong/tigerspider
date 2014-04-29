@@ -2,7 +2,8 @@
 #-*- coding=utf-8 -*-
 
 
-"""主要用于记录历史记录，以及还原失败的worker，同时肩负着失败信息的记录(这个后面处理，可能使用到fs)
+"""主要用于记录历史记录，以及还原失败的worker，
+   同时肩负着失败信息的记录(这个后面处理，可能使用到fs)
 """
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
@@ -74,7 +75,8 @@ class RecorderManager(object):
         """持久化worker数据
         """
         import core.util
-        with open(core.util.get_project_path() + WORKER_RECORD_PATH, "wb") as out_file:
+        with open(core.util.get_project_path() + WORKER_RECORD_PATH, "wb") \
+            as out_file:
             new_dict = {}
             new_dict.update(self._last_fail_workers)
             new_dict.update(self._now_workers)
@@ -86,7 +88,8 @@ class RecorderManager(object):
         import core.util
         records = {}
         try:
-            with open(core.util.get_project_path() + WORKER_RECORD_PATH, "rb") as in_file:
+            with open(core.util.get_project_path() + WORKER_RECORD_PATH, "rb") \
+                as in_file:
                 records_str = in_file.read()
                 records.update(json.loads(records_str))
         except Exception:
@@ -104,4 +107,6 @@ class RecorderManager(object):
     def get_last_fail_worker(self):
         """获得上一次失败的worker的状态
         """
-        return self._last_fail_workers.values()
+        workers = self._last_fail_workers.values()
+        workers = sorted(workers, key=lambda t: t['start_time'])
+        return workers

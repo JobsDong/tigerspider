@@ -1,6 +1,8 @@
 #!/usr/bin/python2.7
 #-*- coding=utf-8 -*-
 
+from tigerspider.web import apis, pages
+
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
@@ -9,9 +11,8 @@ import json
 import os
 from tornado import ioloop, web
 
-from core.util import unicode2str_for_dict
+from tigerspider.core.util import unicode2str_for_dict
 
-from web import pages, apis
 
 class WebService(object):
     _instance_lock = threading.Lock()

@@ -1,1 +1,2 @@
-__author__ = 'aaa'
+#!/usr/bin/python
+#-*- coding=utf-8 -*-

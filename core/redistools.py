@@ -12,7 +12,7 @@
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 import redis
-from core.util import PickleDeocoder, PickleEncoder
+from tigerspider.core.util import PickleDeocoder, PickleEncoder
 
 
 class RedisError(Exception):
@@ -131,7 +131,8 @@ class RedisDict(object):
             raise RedisError("redis error:%s" % e)
 
         try:
-            decoded_value = None if item is None else PickleDeocoder().decode(item)
+            decoded_value = None if item is None else\
+                PickleDeocoder().decode(item)
             return decoded_value
         except Exception, e:
             raise RedisError("decode error:%s" % e)
@@ -283,7 +284,8 @@ class RedisSet(object):
             raise RedisError("redis error:%s" % e)
 
         try:
-            decoded_value = None if value is None else PickleDeocoder().decode(value)
+            decoded_value = None if value is None else \
+                PickleDeocoder().decode(value)
             return decoded_value
         except Exception, e:
             raise RedisError("decode error:%s" % e)

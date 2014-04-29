@@ -3,10 +3,13 @@
 
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from core.spider.spider import BaseSpider
-from spiders.com228.util import create_city_type_tasks
-from spiders.com228.parser import DealParser, ActivityParser, PictureParser
-from spiders.com228.pipeline import ActivityItemPipeline, WebItemPipeline, PictureItemPipeline
+from tigerspider.core.spider.spider import BaseSpider
+from tigerspider.spiders.com228.util import create_city_type_tasks
+from tigerspider.spiders.com228.parser import (DealParser, ActivityParser,
+                                               PictureParser)
+from tigerspider.spiders.com228.pipeline import (ActivityItemPipeline,
+                                                 WebItemPipeline,
+                                                 PictureItemPipeline)
 
 
 class Com228Spider(BaseSpider):

@@ -15,8 +15,8 @@ __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 import uuid
 import logging
 
-from core.spider.parser import ParserError
-from core.spider.pipeline import PipelineError
+from tigerspider.core.spider.parser import ParserError
+from tigerspider.core.spider.pipeline import PipelineError
 
 
 class SpiderError(Exception):
@@ -56,14 +56,16 @@ class BaseSpider(object):
                               in kwargs.iteritems()
                               if arg_name.startswith(parser_name + "_")])
 
-            self._clone_parsers[parser_name] = parser_claz(self._namespace, **parser_kwargs)
+            self._clone_parsers[parser_name] = parser_claz(self._namespace,
+                                                           **parser_kwargs)
 
         for pipeline_name, pipeline_claz in self.pipelines.iteritems():
-            pipeline_kwargs =  dict([(arg_name[len(pipeline_name) + 1:], arg_value)
-                              for arg_name, arg_value
-                              in kwargs.iteritems()
-                              if arg_name.startswith(pipeline_name + "_")])
-            self._clone_pipelines[pipeline_name] = pipeline_claz(self._namespace, **pipeline_kwargs)
+            pipeline_kwargs = dict(
+                [(arg_name[len(pipeline_name) + 1:], arg_value)
+                 for arg_name, arg_value in kwargs.iteritems()
+                 if arg_name.startswith(pipeline_name + "_")])
+            self._clone_pipelines[pipeline_name] = pipeline_claz(
+                self._namespace, **pipeline_kwargs)
 
     @property
     def spider_kwargs(self):
@@ -90,7 +92,8 @@ class BaseSpider(object):
 
         if self._clone_parsers.has_key(task.callback):
             try:
-                item_or_task_iterator = self._clone_parsers[task.callback].parse(task, input_file)
+                item_or_task_iterator = \
+                    self._clone_parsers[task.callback].parse(task, input_file)
             except ParserError, e:
                 raise e
             except Exception, e:
@@ -99,7 +102,8 @@ class BaseSpider(object):
                 return item_or_task_iterator
         else:
             self.logger.error("has no callback:%s" % task.callback)
-            raise Exception("parser error:%s, callback:%s" % ("not exists callback", task.callback))
+            raise Exception("parser error:%s, callback:%s" %
+                            ("not exists callback", task.callback))
 
     def handle_item(self, item, kwargs):
         """处理item的函数
@@ -114,13 +118,17 @@ class BaseSpider(object):
 
         if self._clone_pipelines.has_key(item.__class__.__name__):
             try:
-                self._clone_pipelines[item.__class__.__name__].process_item(item, kwargs)
+                self._clone_pipelines[item.__class__.__name__].\
+                    process_item(item, kwargs)
             except Exception, e:
                 self.logger.error("process item error, %s" % e)
-                raise PipelineError("process item error:%s, item:%s" % (e, item))
+                raise PipelineError("process item error:%s, item:%s" %
+                                    (e, item))
         else:
-            self.logger.error("has not this pipeline:%s" % item.__class__.__name__)
-            raise PipelineError("process item error:%s, item:%s" % ("not exists pipeline", item))
+            self.logger.error("has not this pipeline:%s" %
+                              item.__class__.__name__)
+            raise PipelineError("process item error:%s, item:%s" %
+                                ("not exists pipeline", item))
 
     def clear_all(self):
         """释放spider中的资源
@@ -130,13 +138,15 @@ class BaseSpider(object):
             try:
                 parser.clear_all()
             except Exception, e:
-                self.logger.warn("clear parser:%s resource error:%s" % (parser.__name__, e))
+                self.logger.warn("clear parser:%s resource error:%s" %
+                                 (parser.__name__, e))
 
         for _, pipeline in self._clone_pipelines.iteritems():
             try:
                 pipeline.clear_all()
             except Exception, e:
-                self.logger.warn("clear pipeline:%s resource error:%s" % (pipeline.__name__, e))
+                self.logger.warn("clear pipeline:%s resource error:%s" %
+                                 (pipeline.__name__, e))
         try:
             self._crawl_schedule.clear_all()
         except Exception, e:
@@ -168,6 +178,8 @@ def get_all_spider_class():
         temp_dict['path'] = key
         temp_dict['description'] = clz.__doc__
         spiders.append(temp_dict)
+
+    spiders = sorted(spiders, key=lambda t: t['path'])
 
     return spiders
 

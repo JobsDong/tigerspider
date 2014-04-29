@@ -4,7 +4,7 @@
 __author__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
 
-from core.datastruct import Item
+from tigerspider.core.datastruct import Item
 
 
 class ActivityItem(Item):
@@ -24,7 +24,8 @@ class ActivityItem(Item):
 class WebItem(Item):
     """描述活动详情页提取出来的数据
     """
-    def __init__(self, url, order, description, picture_path, time_info, price, contact):
+    def __init__(self, url, order, description, picture_path,
+                 time_info, price, contact):
         self.url = url
         self.order = order
         self.description = description

@@ -7,10 +7,10 @@
 
 __authors__ = ['"wuyadong" <wuyadong@tigerknows.com>']
 
-from core.schedule import get_all_schedule_class
-from core.spider.spider import get_all_spider_class
-from core.worker import get_all_workers, get_worker_statistic
-from core.record import RecorderManager
+from tigerspider.core.schedule import get_all_schedule_class
+from tigerspider.core.spider.spider import get_all_spider_class
+from tigerspider.core.worker import get_all_workers, get_worker_statistic
+from tigerspider.core.record import RecorderManager
 
 
 class page_route(object):

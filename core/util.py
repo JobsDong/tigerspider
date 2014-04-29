@@ -9,10 +9,11 @@ import sys
 import re
 import logging
 import cPickle as pickle
+import traceback
 import json
 from tornado import gen
 
-from core.datastruct import HttpTask
+from tigerspider.core.datastruct import HttpTask
 
 logger = logging.getLogger("core-util")
 
@@ -40,7 +41,7 @@ def remove_white(sentence):
             new_sentence: str, 处理后的句子
     """
     stripped_sentence = sentence.strip()
-    new_sentence = re.sub(u'[\r\n\t]', '', stripped_sentence)
+    new_sentence = re.sub(ur'[\r\n\t]', '', stripped_sentence)
     return new_sentence
 
 
@@ -69,8 +70,8 @@ def log_exception_wrap(func):
         try:
             result = func(*args, **kwargs)
         except Exception, e:
-            logger.error("unexceptted error:%s in %s" % (e, func.__name__))
-            print "unexcepted error:%s in %s" % (e, func.__name__)
+            logger.error("unexceptted error:%s in %s, traceback:%s" % (
+                e, func.__name__, traceback.format_exc()))
         else:
             return result
     return _wrap
@@ -97,7 +98,8 @@ def coroutine_wrap(func, *args, **kwargs):
 def xpath_namespace(tree, expr):
     """xpath with namespace
 
-        can't be used in "tree = etree.parser(), just can be used in etree.fromstring()"
+        can't be used in "tree = etree.parser(),
+        just can be used in etree.fromstring()"
         can't have function in expr
         Args:
             tree: Etree, element tree
@@ -105,8 +107,8 @@ def xpath_namespace(tree, expr):
         Return:
             elems: list, list of _Element
     """
-    handle_elem = lambda elem: elem if not elem or ":" in elem\
-        else "*[local-name()='%s']" % elem
+    handle_elem = lambda e: e if not e or ":" in e\
+        else "*[local-name()='%s']" % e
 
     new_expr = "/".join([handle_elem(elem) for elem in expr.split("/")])
     nsmap = dict((k, v) for k, v in tree.nsmap.items() if k)
@@ -154,6 +156,7 @@ class ObjectEncoder(json.JSONEncoder):
 
 
 class ObjectDecoder(json.JSONDecoder):
+
     def __init__(self):
         json.JSONDecoder.__init__(self, object_hook=self.dict_to_object)
 
@@ -163,7 +166,8 @@ class ObjectDecoder(json.JSONDecoder):
             module_name = d.pop('__module__')
             module = __import__(module_name, {}, {}, [''])
             clazz = getattr(module, class_name)
-            args = dict((key.encode('ascii'), value) for key, value in d.items())
+            args = dict((key.encode('ascii'), value)
+                        for key, value in d.items())
             inst = clazz(**args)
         else:
             inst = d
@@ -200,18 +204,19 @@ def load_object(path):
     try:
         dot = path.rindex('.')
     except ValueError:
-        raise ValueError, "Error loading object '%s': not a full path" % path
+        raise ValueError("Error loading object '%s': not a full path" % path)
 
     module, name = path[:dot], path[dot+1:]
     try:
         mod = __import__(module, {}, {}, [''])
     except ImportError, e:
-        raise ImportError, "Error loading object '%s': %s" % (path, e)
+        raise ImportError("Error loading object '%s': %s" % (path, e))
 
     try:
         obj = getattr(mod, name)
     except AttributeError:
-        raise NameError, "Module '%s' doesn't define any object named '%s'" % (module, name)
+        raise NameError("Module '%s' doesn't define any object named '%s'"
+                        % (module, name))
 
     return obj
 
@@ -223,33 +228,59 @@ def walk_settings(path='settings.registersettings'):
     try:
         spiders = load_object(path + ".spiders")
     except Exception, e:
-        raise SettingError, "load object :%s, error:%s" % (path + ".spiders", e)
+        raise SettingError("load object :%s, error:%s" % (path + ".spiders", e))
     else:
-        from core.spider.spider import add_spider_class
+        from tigerspider.core.spider.spider import add_spider_class
         for spider_path in spiders:
             try:
                 spider = load_object(spider_path)
             except Exception, e:
-                raise SettingError, "%s load spider error:%s" % (spider_path, e)
+                raise SettingError("%s load spider error:%s" % (spider_path, e))
             else:
                 add_spider_class(spider_path, spider)
 
     try:
         schedules = load_object(path + ".schedules")
     except Exception, e:
-        raise SettingError, "load object :%s, error:%s" % (path + ".schedules", e)
+        raise SettingError("load object :%s, error:%s" %
+                           (path + ".schedules", e))
     else:
-        from core.schedule import add_schedule_class
+        from tigerspider.core.schedule import add_schedule_class
         for schedule_path in schedules:
             try:
                 schedule = load_object(schedule_path)
             except Exception, e:
-                raise SettingError, "load schedule error:%s" % e
+                raise SettingError("load schedule error:%s" % e)
             else:
                 add_schedule_class(schedule_path, schedule)
 
 # lambda
-flist = lambda elems, default="": default if len(elems) <= 0 else elems[0]
+flist = lambda elems, default=u"": default if len(elems) <= 0 else elems[0]
+
+
+def full_text(elems, default=u""):
+    """提取出元素中的文本
+        Args:
+            elems: list: [_Element]
+            default: str: default value
+    """
+    if len(elems) == 0:
+        return default
+    else:
+        texts = []
+        for elem in elems:
+            if isinstance(elem, basestring):
+                elem_unicode = unicode(elem)
+                if len(elem_unicode.strip()) != 0:
+                    texts.append(u" ")
+                texts.append(elem_unicode)
+            else:
+                for child_text in elem.itertext():
+                    unicode_text = unicode(child_text)
+                    if len(unicode_text.strip()) != 0:
+                        texts.append(u" ")
+                    texts.append(unicode_text)
+        return u"".join(texts).strip()
 
 
 def gcd(*args):
