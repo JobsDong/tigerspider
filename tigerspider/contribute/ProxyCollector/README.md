@@ -1,4 +1,0 @@
-ProxyCollector
-==============
-
-Proxy collector
