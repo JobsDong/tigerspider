@@ -61,7 +61,9 @@ def _extract_entrance_url_from_youdaili(body, start_date, end_date):
         temp_date = start_date
         date_strs = []
         while temp_date <= end_date:
-            date_str = u"%d月%d日" % (temp_date.month, temp_date.day)
+            month = temp_date.strftime("%m")
+            day = temp_date.strftime("%d")
+            date_str = u"%s月%s日" % (month, day)
             date_strs.append(date_str)
             temp_date = temp_date + datetime.timedelta(days=1)
         return date_strs
