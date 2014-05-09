@@ -31,7 +31,8 @@ from core.spider.pipeline import PipelineError
 from core.download import fetch
 from core.datastruct import HttpTask, FileTask, Item
 from core.statistic import (WorkerStatistic, output_statistic_file,
-                            WORKER_FAIL_PATH)
+                            WORKER_FAIL_PATH, WORKER_STATISTIC_PATH,
+                            output_fail_http_task_file)
 from core.record import record, RecorderManager
 
 MAX_EMPTY_TASK_COUNT = 10  # worker最大能够获取的空Task个数
